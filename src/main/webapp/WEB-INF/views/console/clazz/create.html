@@ -1,0 +1,145 @@
+<!DOCTYPE html><#import "/lib/console.html" as console>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>后台管理系统</title>
+
+<@console.css />
+
+<style type="text/css">
+
+</style>
+</head>
+<body>
+
+<@console.topbar />
+
+<@console.sidebar active="school"/>
+
+<#import "/lib/spring.ftl" as spring>
+
+
+
+
+
+
+
+<div class="main">
+	<div class="main-head clearfix">
+        <ol class="breadcrumb float-left">
+            <li><i class="fa fa-cubes"></i> <a href="/console/clazz/list">班级管理</a></li>
+            <#if clazz.id ??>
+            <li class="active">修改班级</li>
+            <#else>
+            <li class="active">新建班级</li>
+            </#if>
+        </ol>
+    </div>
+    
+    <form id="clazz" action="<#if clazz.id??>/console/class/update/${clazz.id}<#else>/console/class/create</#if>" method="post" class="form-horizontal main-form" role="form">
+		
+		<@spring.formHiddenInput "clazz.id" />
+		<@spring.formHiddenInput "clazz.schoolId" />
+		<div class="form-group">
+		    <label for="schoolName" class="col-sm-2 control-label">学校名称</label>
+		    <div class="col-sm-10">
+		        <input id="schoolName" name="schoolName" value="${(clazz.schoolName)!}" placeholder="必填" type="text" class="form-control main-form-input" required  readOnly>
+		        <#if clazz??><@spring.bind "clazz.schoolName" /><@spring.showErrors /></#if>
+		    </div>
+		</div>
+		<div class="form-group">
+		    <label for="name" class="col-sm-2 control-label">班级名称</label>
+		    <div class="col-sm-10">
+		        <input id="name" name="name" value="${(clazz.name)!}" placeholder="必填" type="text" class="form-control main-form-input" required>
+		        <#if clazz??><@spring.bind "clazz.name" /><@spring.showErrors /></#if>
+		    </div>
+		</div>
+		<div class="form-group">
+		    <label for="code" class="col-sm-2 control-label">年级</label>
+		    <div class="col-sm-10">
+		        <input id="grade" name="grade" value="${(clazz.grade)!}" placeholder="必填" type="text" class="form-control main-form-input checkInt" required autofocus>
+		        <#if clazz??><@spring.bind "clazz.grade" /><@spring.showErrors /></#if>
+		    </div>
+		</div>
+		<div class="form-group">
+		    <label for="code" class="col-sm-2 control-label">学生人数</label>
+		    <div class="col-sm-10">
+		        <input id="schoolYear" name="studentCount" value="${clazz.studentCount!0}" placeholder="必填" type="text" class="form-control main-form-input  checkInt" required autofocus>
+		        <#if clazz??><@spring.bind "clazz.studentCount" /><@spring.showErrors /></#if>
+		    </div>
+		</div>
+		<div class="form-group">
+		    <label for="code" class="col-sm-2 control-label">入学年份</label>
+		    <div class="col-sm-10">
+		        <input id="schoolYear" name="schoolYear" value="${(clazz.schoolYear)!}" placeholder="必填" type="text" class="form-control main-form-input checkInt" required autofocus>
+		        <#if clazz??><@spring.bind "clazz.schoolYear" /><@spring.showErrors /></#if>
+		    </div>
+		</div>
+	
+
+        <hr>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button id="button" type="submit" class="btn btn-success main-form-submit" onclick="classSubmit()">提 交</button>
+            </div>
+        </div>
+	</form>
+    
+</div><!-- main -->
+
+
+<@console.js />
+<#if errorMessage ??>
+
+	
+	<div class="modal" id="mymodal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="title">提示</h4>
+			</div>
+			<div class="modal-body">
+				<p id="message">操作失败：${errorMessage!''}</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+			
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div>
+
+		<script type="text/javascript">
+		$("#mymodal").modal("show");		
+		</script>
+</#if>
+
+
+<script src="../../../lib/jquery/1.11.3/jquery.validate.js"></script>
+<script src="../../lib/jquery/1.11.3/messages_zh.js"></script>
+<script type="text/javascript">
+jQuery(function($) {
+	jQuery.validator.addMethod("checkInt", function(value, element) {
+	    var reg = /^\+?(0|[1-9][0-9]*)$/;  //update by ruijie.chen 2010-03-01
+		return this.optional(element) || reg.test(value);
+	}, "请输入正确数字");
+});
+
+	
+	function classSubmit(){
+		
+		var validators = $('#student').validate();
+			
+		 if (!validators.form()) {			 
+			 return;			
+			} 
+		 $("#student").submit();
+
+	}
+</script>
+
+</body>
+</html>

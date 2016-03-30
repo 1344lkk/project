@@ -1,0 +1,104 @@
+<!DOCTYPE html><#import "/lib/console.html" as console>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>后台管理系统</title>
+
+<@console.css />
+
+<style type="text/css">
+
+</style>
+</head>
+<body>
+
+<@console.topbar />
+
+<@console.sidebar active="question"/>
+
+<#import "/lib/spring.ftl" as spring>
+
+<div class="main">
+	<div class="main-head clearfix">
+        <ol class="breadcrumb float-left">
+            <li><i class="fa fa-cubes"></i> <a href="/console/question/list">试题管理</a></li>
+            <#if question.id??>
+            <li class="active">修改试题</li>
+            <#else>
+            <li class="active">新建试题</li>
+            </#if>
+        </ol>
+    </div>
+    
+    <form id="question" action="<#if question.id ??>/console/question/update/<#else>/console/question/create</#if>" method="post" class="form-horizontal main-form" role="form">
+		<div class="form-group">
+		    <label for="code" class="col-sm-2 control-label">试题名称</label>
+		    <div class="col-sm-10">
+		        <input id="name" name="name" value="${(question.name)!}" placeholder="必填，请填写试题名称" type="text" class="form-control main-form-input" required autofocus>
+		        <#if question??><@spring.bind "question.name" /><@spring.showErrors /></#if>
+		    </div>
+		</div>
+		<@spring.formHiddenInput "question.id" />
+		<div class="form-group">
+		    <label for="name" class="col-sm-2 control-label">试题说明</label>
+		    <div class="col-sm-10">
+		        <input id="note" name="note" value="${(question.note)!}" placeholder="必填" type="text" class="form-control main-form-input" required>
+		        <#if question??><@spring.bind "question.note" /><@spring.showErrors /></#if>
+		    </div>
+		</div>
+		<div class="form-group">
+		    <label for="code" class="col-sm-2 control-label">分值</label>
+		    <div class="col-sm-10">
+		        <input id="points" name="points" value="${(question.points)!}" type="text" class="form-control main-form-input" required autofocus>
+		        <#if question??><@spring.bind "question.points" /><@spring.showErrors /></#if>
+		    </div>
+		</div>
+		<div class="form-group">
+		    <label for="note" class="col-sm-2 control-label">是否必做</label>
+		   
+		    <div class="col-sm-10">
+		        <select class="form-control main-form-input" id="required" name="required">
+                <option value="1"<#if question.required >selected="selected" </#if>>是</option>
+                <option value="0"<#if !question.required >selected="selected" </#if>>否</option>
+              
+                </select>
+		       
+		        <#if question??><@spring.bind "question.required" /><@spring.showErrors /></#if>
+		    </div>
+		</div>
+		 <#if !question.id??><div class="form-group">
+			<label for="grade" class="col-sm-2 control-label">试题类型</label>
+            <div class="col-sm-10">
+                <select class="form-control main-form-input" id="type" name="type">
+               <option value="0">单选</option>
+               <option value="1">多选</option>
+               <option value="3">简答</option>
+                </select>
+		        <#if question??><@spring.bind "question.type" /><@spring.showErrors /></#if>
+            </div>
+        </div>
+        </#if>
+        
+         <div class="form-group">
+		    <label for="name" class="col-sm-2 control-label">答案</label>
+		    <div class="col-sm-10">
+		        <input id="answer" name="answer" value="${(question.answer)!}" placeholder="必填" type="text" class="form-control main-form-input" required>
+		        <#if question??><@spring.bind "question.answer" /><@spring.showErrors /></#if>
+		    </div>
+		</div>
+        <hr>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button id="submit" type="submit" class="btn btn-success main-form-submit">提 交</button>
+            </div>
+        </div>
+	</form>
+    
+</div><!-- main -->
+
+<@console.js />
+
+</body>
+</html>

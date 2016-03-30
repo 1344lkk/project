@@ -1,0 +1,21 @@
+<div ng-controller="QuestionCtrl" ng-if="questions != null">
+
+ <span>客观题已得分<span>{{choseScore}}</span></span>
+	
+		<div ng-repeat="question in questions">
+	<div>
+	</div>
+	<div class="panel panel-default" >
+		<div class="panel-heading">试题名称：{{question.name}}<span class="pull-right "><div ng-switch="question.type" style="display: inline;"><span ng-switch-when="1">单选</span><span ng-switch-when="2">多选</span><span ng-switch-when="3">简答</span></div>/<div ng-switch="question.required" style="display: inline;"><span ng-switch-when="true">必做</span><span ng-switch-when="false">选做</span></div>（{{question.points}}分）</span></div>
+		<div class="panel-body" >
+		试题内容：<div  ng-bind-html="question.note|to_trusted"></div><br>
+		<div ng-repeat="option in question.options">
+		选项{{order[$index]}}：    {{option.name}} <span ng-if="question.studentAnswer==option.id" class="label label-info">该生所选答案 <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span> <span ng-if="option.correct"class="label label-danger">正确答案 <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span>
+		</div>
+		
+		</div>
+	</div>
+	</div>
+	
+	</div>
+	

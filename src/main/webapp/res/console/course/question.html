@@ -1,0 +1,27 @@
+<div ng-controller="QuestionCtrl" ng-if="questions != null">
+
+ 
+	<a class=" btn btn-primary btn-xs"  ng-click="newQuestion()" style="margin-right: 8px;">
+            <span class="glyphicon glyphicon-plus"></span>增加试题</a>
+	<div ng-repeat="question in questions">
+	<div>
+	  
+		<a class="pull-right btn btn-primary btn-xs"
+			ng-click="editQueston(question)" style="margin-right: 8px;"> <span
+			class="glyphicon glyphicon-pencil"></span>修改
+		</a>
+		<a class="pull-right btn btn-danger btn-xs" id="{{question.id}}"  ng-click="removeQuestion(question.id)">
+            <span class="glyphicon glyphicon-remove"></span></a>
+	</div>
+	<div class="panel panel-default" >
+		<div class="panel-heading">试题名称：{{question.name}}<span class="pull-right "><div ng-switch="question.type" style="display: inline;"><span ng-switch-when="1">单选</span><span ng-switch-when="2">多选</span><span ng-switch-when="3">简答</span></div>/<div ng-switch="question.required" style="display: inline;"><span ng-switch-when="true">必做</span><span ng-switch-when="false">选做</span></div>（{{question.points}}分）</span></div>
+		<div class="panel-body" >
+		<!-- 试题内容：<div  ng-bind-html="question.note|to_trusted"></div><br> -->
+		<div ng-repeat="option in question.options">
+		选项{{order[$index]}}：    {{option.name}} <span ng-if="option.correct"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span>
+		</div>
+		
+		</div>
+	</div>
+	</div>
+	</div>

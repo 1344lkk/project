@@ -1,0 +1,182 @@
+<!DOCTYPE html><#import "/lib/common.html" as common>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${user.user.truename!''}的主页</title>
+
+<@common.css />
+<link rel="stylesheet" type="text/css" href="/res/student/common.css">
+<link rel="stylesheet" type="text/css" href="/res/student/commo.css">
+</head>
+<body   ng-app="myApp" ng-controller="indexCtrl"  ng-init="studentId=${user.userId}">
+<@common.topbar />
+
+<div class="top-holder"></div>
+
+<div class="container banner-container">
+    <div class="banner">
+        <div class="banner-left">
+            <div class="student-icon"><img src="/res/student/images/student_1.jpg"></div>
+        </div>
+        <div class="banner-right">
+            <h3 class="student-name">${user.user.truename!''}</h3>
+            <div class="student-school">${user.clazz.schoolName!''}(${user.clazz.name!''})</div>
+            <div class="student-note"><i class="fa fa-quote-left"></i> 黄瓜太好吃了，么么哒~~ <i class="fa fa-quote-right"></i></div>
+        </div>
+    </div>
+
+    <div class="menu">
+        <ul>
+         
+            <li ><a href="/student/${user.user.id}">我的主页</a></li>
+            <li ><a href="/student/${user.user.id}/learning">我的学习</a></li>
+            <li ><a href="/student/${user.user.id}/work">我的成果</a></li>
+            <li class="active"><a href="/student/${user.user.id}/class">班级动态</a></li>
+           
+          </ul>
+    </div>
+</div>
+
+
+
+<div class="container1" >
+    <div class="row">
+    	<!-- <div class="col-sm-4">
+        
+               <div class="panel panel-default">
+                <div class="panel-heading">
+                  
+                    <h3 class="panel-title">系统推荐</h3>
+                  
+                     
+                                
+                </div>
+                <#list recommendNotes as recommendNote>
+                <div class="panel-body">
+                    <div><a href="/student/${recommendNote.userId}">${recommendNote.content}</div>
+                    <div><a  class="note-tool-like"><i class="fa fa-thumbs-o-up"></i><span>${recommendNote.likeCount}</span></a></div>
+                 </div>
+                </#list>
+            </div>          
+        </div> -->
+     <div class="col-sm-8">            
+         <#list notes as note>
+            <div class="panel panel-note">
+                <div class="panel-body">
+                    <div class="note-user"></div>
+                     <div class="note-note">
+                       ${note.content}
+                    </div>
+                 
+                    <#if (note.noteImage?size>0)>
+                    <div class="row">
+                    <#list note.noteImage as item>
+                    <div class="note-image col-md-6">
+                     <img src="${item.path}" width="100%">
+                    </div> 
+                    </#list>
+                    </div>
+                    </#if> 
+                    <div class="note-time"> ${note.createTime}</div>
+                </div>
+              
+                <div class="panel-footer">
+                    <div class="note-tool">
+                        <a  class="note-tool-comment" onmouseup="showCreateUser()" style="cursor:pointer"><span>评论</span></a>
+                        <a  class="note-tool-like" style="cursor:pointer"onclick="likeThisNoteclass(${note.id})"><span><i id="like${note.id}" <#if note.likeUserId?? && note.likeUserId?index_of(currentId)!=-1>style='color:#ff5800'</#if> class="fa fa-thumbs-o-up"></i><span id="counts${note.id}" <#if  note.likeUserId?? && note.likeUserId?index_of(currentId)!=-1>style='color:#ff5800'</#if>>${note.likeCount}</span></span></a>
+ 				   </div>
+                    <div class="note-comments">
+                        <div class="commnet-input">
+                           <div class="commnet-input">
+	                            <form action="/student/insert" method="POST" id="comment_form${note.id}" >
+		                            <input type="text" name="content" id="comment${note.id}" class="form-control"><span id="message${note.id}" class="hide" style="color:red">请填写评论</span>
+		                            <input type="hidden" name="noteId" value="${note.id}">
+		                            <input type="hidden" name="createUserId" value="${currentId}">
+		                            <input type="hidden" name="userId" value="${note.userId}">
+	                            </form>
+                                <button class=" btn btn-success btn-sm " onclick="subCommentData(${note.id})">发布</button>
+                           </div>
+                        </div>
+                       
+                        <ul class="comment-list">
+                        <#if note.noteComments??>
+                         <#list note.noteComments as comment>
+                            <li class="comment">
+                                <div class="comment-head"><img src="/res/student/images/student_1.jpg"></div>
+                                <div class="comment-body">
+                                  <#if comment.replyUserId == comment.createUserId>
+                                     <span class="comment-user"><a <#if comment.userRole == 4> href="/student/${comment.createUserId}"</#if>>${comment.createName}：</a></span>
+                                  </#if>
+                                  <#if comment.replyUserId != comment.createUserId>
+                                     <span class="comment-user"><a <#if comment.userRole == 4> href="/student/${comment.replyUserId}"</#if>>${comment.replyUserName}：</a></span><font color="#ff5800">回复</font>
+                                     <span class="comment-text"><a <#if comment.userRole == 4> href="/student/${comment.createUserId}"</#if>>${comment.createName}：</a></span>
+                                  </#if>
+                                  <span class="comment-text">${comment.content}</span>
+                                </div>
+                                <div class="comment-foot">
+                                    <span class="comment-time">${comment.createTime}</span>
+                                    <div class="comment-tool">
+                                      <#if currentId != (comment.replyUserId+"")>
+                                        <a class="comment_reply" style="cursor:pointer;">回复</a>
+                                      </#if>  
+                                        <a href="#"><i class="fa fa-thumbs-o-up"></i>3</a>
+                                    </div>
+                                    
+                                    <div class="commnet-input" style="display:none;">
+			                            <form action="/student/insert" method="POST" id="reply_form${comment.id}" >
+				                            <input type="text" placeholder="回复${comment.replyUserName}" name="content" id="reply${comment.id}" class="form-control"><span id="mess${comment.id}" class="hide" style="color:red">请填写回复</span>
+				                            <input type="hidden" name="noteId" value="${note.id}">
+				                            <input type="hidden" name="createUserId" value="${comment.replyUserId}">
+				                            <input type="hidden" name="userId" value="${note.userId}">
+			                            </form>
+                                        <button class=" btn btn-success btn-sm " onclick="subReplyData(${comment.id})">发送</button>
+                                    </div>
+                                </div>
+                             </li>
+                            </#list>
+                            </#if>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+         </#list>
+        </div>
+    </div>
+</div>
+
+<@common.footer />
+
+
+<@common.js />
+<script src="/lib/angular/1.4.8/angular.min.js"></script>
+<script src="/res/student/student.js"></script>
+<script src="/res/student/index.js"></script>
+<script src="/lib/angular/1.4.8/angular-route.min.js"></script>
+<script src="/lib/angular-ui-bootstrap/0.14.3/ui-bootstrap-tpls.min.js"></script>
+<script src="/res/student/index/index.js"></script>
+<script type="text/javascript">
+
+
+function subCommentData(id){
+    if($("#comment"+id).val()!=""){
+		$("#comment_form"+id).submit();
+    }
+    else{
+        $("#message"+id).removeClass("hide");
+        return;
+    }
+}
+function subReplyData(id){
+    if($("#reply"+id).val()!=""){
+		$("#reply_form"+id).submit();
+    }
+    else{
+        $("#mess"+id).removeClass("hide");
+        return;
+    }
+}
+</script>
+</body>
+</html>

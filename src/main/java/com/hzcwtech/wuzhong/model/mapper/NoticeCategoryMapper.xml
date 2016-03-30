@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzcwtech.wuzhong.model.mapper.NoticeCategoryMapper">
+
+	<resultMap type="NoticeCategory" id="NoticeCategory" autoMapping="true">
+		<id column="id" property="id" />
+	</resultMap>
+	<select id="searchNoticeCategoryList" resultMap="NoticeCategory">
+		SELECT *
+		FROM notice_category
+		<if test="q != null">WHERE  name LIKE #{q}</if>
+	</select>
+	
+	
+	<insert id="addNoticeCategory" parameterType="NoticeCategory">
+		INSERT INTO notice_category(id,name,note)
+		VALUES (#{id},#{name},#{note})
+	</insert>
+	
+	<update id="updateNoticeCategory" parameterType="NoticeCategory">
+		UPDATE notice_category SET
+	    name=#{name}, note=#{note}
+		WHERE id = #{id}
+	</update>
+</mapper>

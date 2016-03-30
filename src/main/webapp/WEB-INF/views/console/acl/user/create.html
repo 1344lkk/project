@@ -1,0 +1,124 @@
+<!DOCTYPE html><#import "/lib/console.html" as console>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>后台管理系统</title>
+
+<@console.css />
+
+<style type="text/css">
+
+</style>
+</head>
+<body>
+
+<@console.topbar />
+
+<@console.sidebar active="user"/>
+
+<#import "/lib/spring.ftl" as spring>
+
+<div class="main">
+	<div class="main-head clearfix">
+        <ol class="breadcrumb float-left">
+            <li><i class="fa fa-cubes"></i> <a href="/console/acl/user/list">用户管理</a></li>
+            <#if user.id??>
+            <li class="active">修改用户</li>
+            <#else>
+            <li class="active">新建用户</li>
+            </#if>
+        </ol>
+    </div>
+    
+    <form id="user" action="<#if user.id??>/console/acl/user/update/${user.id}<#else>/console/acl/user/create</#if>" method="post" class="form-horizontal main-form" role="form">
+		<div class="form-group">
+		    <label for="code" class="col-sm-2 control-label">用户名</label>
+		    <div class="col-sm-10">
+		        <input id="username" name="username" value="${(user.username)!}" type="text" class="form-control main-form-input" required >
+		        <#if user??><@spring.bind "user.username" /><@spring.showErrors /></#if>
+		    </div>
+		</div>
+		<@spring.formHiddenInput "user.id" />
+		<div class="form-group">
+		    <label for="truename" class="col-sm-2 control-label">真实姓名</label>
+		    <div class="col-sm-10">
+		        <input id="truename" name="truename" value="${(user.truename)!}" placeholder="必填" type="text" class="form-control main-form-input">
+		        <#if user??><@spring.bind "user.truename" /><@spring.showErrors /></#if>
+		    </div>
+		</div>
+		<div class="form-group">
+		    <label for="password" class="col-sm-2 control-label">密码</label>
+		    <div class="col-sm-10">
+		        <input id="password" name="password" value="${(user.clearPassword)!}" placeholder="必填" type="password" class="form-control main-form-input">
+		        <#if user??><@spring.bind "user.password" /><@spring.showErrors /></#if>
+		    </div>
+		</div>
+		
+		<div class="form-group">
+		    <label for="nickname" class="col-sm-2 control-label">昵称</label>
+		    <div class="col-sm-10">
+		        <input id="nickname" name="nickname" value="${(user.nickname)!}" placeholder="必填" type="text" class="form-control main-form-input">
+		        <#if user??><@spring.bind "user.nickname" /><@spring.showErrors /></#if>
+		    </div>
+		</div>
+		<div class="form-group">
+		    <label for="nickname" class="col-sm-2 control-label">状态</label>
+		    <div class="col-sm-10">
+		        <input id="status" name="status" value="${(user.status)!}" placeholder="必填" type="text" class="form-control main-form-input">
+		        <#if user??><@spring.bind "user.status" /><@spring.showErrors /></#if>
+		    </div>
+		</div>
+		<div class="form-group">
+		    <label for="sex" class="col-sm-2 control-label">性别</label>
+		    <div class="col-sm-10">
+		   <input type="radio" name="sex" value="1" <#if user.sex?? && user.sex == 1>checked="checked"</#if>/>男    <input type="radio" name="sex" value="0" <#if user.sex?? &&  user.sex == 0>checked="checked"</#if>/>女
+		       
+		    </div>
+		</div>
+		<div class="form-group">
+			<label for="role" class="col-sm-2 control-label">角色</label>
+            <div class="col-sm-10">
+                <select class="form-control main-form-input" id="role" name="role">
+                <#list roles as role>
+                  
+                    <option value="${role.id}"  <#if user.role??><#if role.id == user.role>selected</#if></#if>>${role.name}</option>
+                    
+                  </#list> 
+                </select>
+		        <#if user??><@spring.bind "user.role" /><@spring.showErrors /></#if>
+            </div>
+        </div>
+         <div class="form-group">
+		    <label for="birthday" class="col-sm-2 control-label">生日</label>
+		    <div class="col-sm-10">
+		       	<input onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"value="${user.birthday!}" name="birthday" class="form-control main-form-input" required >
+		        <#if user??><@spring.bind "user.birthday" /><@spring.showErrors /></#if>
+		    </div>
+		</div>
+      
+		<div class="form-group">
+			<label for="enabled" class="col-sm-2 control-label">是否启用</label>
+            <div class="col-sm-10">
+                <div class="checkbox">
+                    <label><@spring.formCheckbox "user.enabled" /> 启用 <span class="field-note">(如不启用，则用户不可登录)</span></label>
+                </div>
+            </div>
+        </div>
+        
+
+        <hr>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button id="submit" type="submit" class="btn btn-success main-form-submit">提 交</button>
+            </div>
+        </div>
+	</form>
+    
+</div><!-- main -->
+
+<@console.js />
+<script type="text/javascript" src="/lib/laydate/laydate.js" ></script>
+</body>
+</html>

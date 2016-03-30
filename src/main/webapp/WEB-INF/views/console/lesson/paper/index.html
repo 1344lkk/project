@@ -1,0 +1,169 @@
+<!DOCTYPE html><#import "/lib/console.html" as console>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>后台管理系统</title>
+
+<@console.css />
+<link rel="stylesheet" type="text/css" href="/res/console/course/course.css">
+
+</head>
+<body>
+<style>
+  th,td{
+    border:1px solid #DDDDDD;
+}
+ img{
+width:100%;
+}
+
+</style>
+ 
+<@console.topbar />
+
+<@console.sidebar active="lesson"/>
+
+<div class="main" ng-app="myApp" ng-controller="CourseCtrl" ng-init="courseId=${courseId};lessonId=${lessonId}">
+
+  <div id="stages" class="panel panel-default text-center" style="margin-top: 40px">
+        <div class="panel-body">
+            <div class="stages">
+                <a data-stage="1" class="tab tab1 current" href="javascript:;"ng-click="choseStage($event)">前导学习</a>
+                <i class="link  fa fa-2x fa-arrow-right"></i>
+                <a data-stage="2" class="tab tab2 current" href="javascript:;"ng-click="choseStage($event)">感知体验</a>
+                <i class="link fa fa-2x fa-arrow-right"></i>
+                <a data-stage="3" class="tab tab3 current" href="javascript:;" ng-click="choseStage($event)">观察反思</a>
+                <i class="link fa fa-2x fa-arrow-right"></i>
+                <a data-stage="4" class="tab tab4 current" href="javascript:;"ng-click="choseStage($event)">抽象概念</a>
+                 <i class="link fa fa-2x fa-arrow-right"></i>
+                <a data-stage="5" class="tab tab5 current" href="javascript:;"ng-click="choseStage($event)">积极实验</a>
+            </div>
+          
+        </div>
+    </div>
+    
+    <div class="row">
+    
+     <div class="col-md-2">
+    <div ng-if="tasks != null"><a>学生名单</a> 
+    </div>
+     <table class="table table-hover" style="border:0">
+        <tbody>
+       <!--  <#list students as student>
+        <tr>
+        <td ng-click="choseStudent(${student.user.id})" ng-class="{active: ${student.user.id} == studentId}">${student.user.truename}
+        </td>
+        </tr>
+        </#list> -->
+         <tr ng-repeat="item in students">
+        <td  style="border:0"ng-click="choseStudent(item.id)" ng-class="{active: item.id == studentId}">{{item.truename}} <span ng-if="item.work.points">（<span class="glyphicon glyphicon-ok" aria-hidden="true" >已阅</span>）</span>
+       
+        </td>
+        </tr>
+        </tbody>
+    </table>
+    </div>
+    <div class="col-md-2">
+    <div ng-if="tasks != null"><a>任务</a> 
+     </div>
+     <table class="table table-hover">
+        <tbody>
+        <tr ng-repeat="item in tasks">
+        <td  style="border:0"ng-click="showQuestion(item.id)" ng-class="{active: item.id == taskId}">{{item.name}} 
+       
+        </td>
+        </tr>
+       
+        </tbody>
+    </table>
+    </div>
+    <div class="col-md-8" >
+    
+      <uib-tabset ng-if="tasks != null">
+        <uib-tab ng-repeat="tab in tabs"   heading="{{tab.title}}" active="tab.active" disable="tab.disabled">
+            <div ng-include="tab.template" style="margin-top: 10px;"></div>
+        </uib-tab>
+        <div ng-if="task.id!= null&&studentId!=null&&stageId!=1"><button class="pull-right  btn btn-success btn-sm" onclick="gradePaper()">评分</button><span class="pull-right  btn btn-danger btn-sm" ng-if="work.points!=null">最终评分<span id="totalScore">{{work.points}}</span></span></div>
+    </uib-tabset>
+     
+    </div>
+    </div>
+    <div class="modal fade" id="ResultModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">温馨提示</h4>
+				</div>
+				<div class="modal-body">
+				<input type="text" name="score" id="score" style="width: 100%" ng-model="score">
+				</div>
+				<div class="modal-footer">
+				
+					<button type="button" id="cancel" class="btn btn-default"
+						data-dismiss="modal">取消</button>
+					<button type="button" id="goon" ng-click="subGrade()" onclick="hideModel()"class="btn btn-primary">确定</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<@console.js />
+<script src="/lib/angular/1.4.8/angular.min.js"></script>
+<script src="/lib/angular/1.4.8/angular-route.min.js"></script>
+<script src="/lib/angular-ui-bootstrap/0.14.3/ui-bootstrap-tpls.min.js"></script>
+<script type="text/javascript" src="/res/console/course/paper/course.js"></script>
+<script type="text/javascript" charset="utf-8" src="/lib/ue/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="/lib/ue/ueditor.all.min.js"> </script>
+<script src="/lib/ui-tree/angular-ueditor.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	
+   $(".tab").each(function() {
+       $(this).on('click', function() {
+           var a = $(this);
+           var stage = a.data("stage");
+           var activeClass = "stage-a" + stage;
+           var body = $("#stages");
+           body.removeClass("stage-a1");
+           body.removeClass("stage-a2");
+           body.removeClass("stage-a3");
+           body.removeClass("stage-a4");
+           body.removeClass("stage-a5");
+           body.addClass(activeClass);
+       });
+   });
+});
+function gradePaper(){
+	
+	$('#ResultModal').modal();
+}
+function hideModel(){
+	$('#ResultModal').modal('hide');
+}
+/* function subGrade(){
+	//alert(studentId);
+	
+	$('#ResultModal').modal('hide');
+	$.ajax({
+		type : 'POST',
+		url: "/console/lesson/paper/grade/"+$('#studentId').val()+"/"+$('#taskId').val()+"/"+$('#score').val(),
+		success: function(code){
+			$("#totalScore").html($('#score').val());
+	    
+	      }});
+	
+} */
+
+
+</script>
+
+</body>
+</html>

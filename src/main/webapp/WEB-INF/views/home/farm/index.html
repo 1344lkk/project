@@ -1,0 +1,348 @@
+<!DOCTYPE html><#import "/lib/common.html" as common>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>农场介绍</title>
+
+<@common.css />
+<link rel="stylesheet" type="text/css" href="/lib/swiper/3.1.0/css/swiper.min.css">
+<link rel="stylesheet" type="text/css" href="/res/home/farm/common.css">
+</head>
+<body>
+
+<@common.topbar />
+
+	
+	 <div class="container">
+     <div class="row">
+     <div class="col-sm-2" >
+     <div class="sidebar" >
+	<ul class="sidemenu">
+	<li onclick="loadData(1)"><a >环境温度</a></li>
+	<li onclick="loadData(2)"><a>环境湿度</a></li>
+	<li onclick="loadData(3)"><a>土壤温度</a></li>
+	<li onclick="loadData(4)"><a>土壤湿度</a></li>
+	<li onclick="loadData(5)"><a>PH</a></li>
+	<li onclick="loadData(6)"><a>二氧化碳</a></li>
+	<li onclick="loadData(7)"><a>风力</a></li>
+	<li onclick="loadData(8)"><a>光照</a></li>
+	
+	</ul>
+	</div>
+     </div>
+     <div id="EnvironTimpCharts" class="col-sm-10"style="height: 300px" ></div>
+     <div id="EnvironHumidityCharts" class="col-sm-10"style="height: 300px"></div>
+     <div id="SoilTimpCharts" class="col-sm-10"style="height: 300px"></div>
+     <div id="SoilHumidityCharts" class="col-sm-10"style="height: 300px"></div>
+     <div id="PHCharts" class="col-sm-10"style="height: 300px"></div>
+     <div id="CO2Charts" class="col-sm-10"style="height: 300px"></div>
+     <div id="WindCharts" class="col-sm-10"style="height: 300px"></div>
+     <div id="SunCharts" class="col-sm-10"style="height: 300px"></div>
+    </div>
+    </div>
+		
+			
+
+	
+	
+    <script src="/lib/jquery/1.11.3/jquery.min.js"></script>
+    <script src="/lib/bootstrap/3.3.5/js/bootstrap.min.js"></script> 
+	<script src="/lib/echart/echarts.min.js"></script>
+	<script type="text/javascript">
+	var EnvironTimpCharts = echarts.init(document.getElementById('EnvironTimpCharts'));
+	var EnvironHumidityCharts = echarts.init(document.getElementById('EnvironHumidityCharts'));
+	var SoilTimpCharts = echarts.init(document.getElementById('SoilTimpCharts'));
+	var SoilHumidityCharts = echarts.init(document.getElementById('SoilHumidityCharts'));
+	var PHCharts = echarts.init(document.getElementById('PHCharts'));
+	var CO2Charts = echarts.init(document.getElementById('CO2Charts'));
+	var WindCharts = echarts.init(document.getElementById('WindCharts'));
+	var SunCharts = echarts.init(document.getElementById('SunCharts'));
+	//公用option
+	var options = {
+			 tooltip : {
+			        trigger: 'axis'
+			    },
+	        legend: {
+	           // data:['棚内温度','棚外温度']
+	        },
+	        toolbox: {
+	            show : true,
+	            feature : {
+	                magicType : {show: true, type: ['line', 'bar']},
+	                restore : {show: true},
+	                saveAsImage : {show: true}
+	            }
+	        },
+	        calculable : true,
+	        dataZoom : {
+    	        show : true,
+    	        realtime: true,
+    	        start : 0,
+    	        end : 100,
+    	        fillerColor:'rgba(144,197,237,0.8)'
+    	    },
+		    xAxis : [
+		        {
+		            type : 'category',
+		            
+		            data : ['1:00','2:00','3:00','4:00','5:00','6:00','7:00','8:00','9:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','8:00','9:00','10:00','11:00','12:00']
+		        }
+		    ],
+		    yAxis : [
+		        {
+		        	  type : 'value',
+			           
+		           
+		        }
+		    ],
+		     series : [
+		        {
+		           
+		           // type:'bar',
+		            //yAxisIndex: 0,
+		            
+		        },
+		        {
+		          
+		            //type:'bar',
+		           // yAxisIndex: 0,
+		           
+		        }
+		    ] 
+		};
+
+	
+	//EnvironTimpChrts.setOption(options);
+	//EnvironHumidityCharts.setOption(humidityOptions);
+	loadData(1);
+	var url;
+	function loadData(i){
+		$(".sidemenu li").each(function(i,element){
+		    $(this).removeClass("active");
+		  });
+		  $(".sidemenu li").eq(i-1).addClass("active");
+		switch (i)
+		{
+		case 1:
+			url="/farm/data/1/9";
+			$('#EnvironTimpCharts').show();
+			$("#EnvironHumidityCharts").hide();
+			$("#SoilTimpCharts").hide();
+			$("#SoilHumidityCharts").hide();
+			$("#PHCharts").hide();
+			$("#CO2Charts").hide();
+			$("#WindCharts").hide();
+			$("#SunCharts").hide();
+		
+		  break;
+		case 2:
+			url="/farm/data/2/10";
+			$('#EnvironTimpCharts').hide();
+			$("#EnvironHumidityCharts").show();
+			$("#SoilTimpCharts").hide();
+			$("#SoilHumidityCharts").hide();
+			$("#PHCharts").hide();
+			$("#CO2Charts").hide();
+			$("#WindCharts").hide();
+			$("#SunCharts").hide();
+		  break;
+		case 3:
+			url="/farm/data/3/11";
+			$('#EnvironTimpCharts').hide();
+			$("#EnvironHumidityCharts").hide();
+			$("#SoilTimpCharts").show();
+			$("#SoilHumidityCharts").hide();
+			$("#PHCharts").hide();
+			$("#CO2Charts").hide();
+			$("#WindCharts").hide();
+			$("#SunCharts").hide();
+		  break;
+		case 4:
+			url="/farm/data/4/12";
+			$('#EnvironTimpCharts').hide();
+			$("#EnvironHumidityCharts").hide();
+			$("#SoilTimpCharts").hide();
+			$("#SoilHumidityCharts").show();
+			$("#PHCharts").hide();
+			$("#CO2Charts").hide();
+			$("#WindCharts").hide();
+			$("#SunCharts").hide();
+		  break;
+		case 5:
+			url="/farm/data/5/13";
+			$('#EnvironTimpCharts').hide();
+			$("#EnvironHumidityCharts").hide();
+			$("#SoilTimpCharts").hide();
+			$("#SoilHumidityCharts").hide();
+			$("#PHCharts").show();
+			$("#CO2Charts").hide();
+			$("#WindCharts").hide();
+			$("#SunCharts").hide();
+		  break;
+		case 6:
+			url="/farm/data/6/14";
+			$('#EnvironTimpCharts').hide();
+			$("#EnvironHumidityCharts").hide();
+			$("#SoilTimpCharts").hide();
+			$("#SoilHumidityCharts").hide();
+			$("#PHCharts").hide();
+			$("#CO2Charts").show();
+			$("#WindCharts").hide();
+			$("#SunCharts").hide();
+		  break;
+		case 7:
+			url="/farm/data/7/15";
+			$('#EnvironTimpCharts').hide();
+			$("#EnvironHumidityCharts").hide();
+			$("#SoilTimpCharts").hide();
+			$("#SoilHumidityCharts").hide();
+			$("#PHCharts").hide();
+			$("#CO2Charts").hide();
+			$("#WindCharts").show();
+			$("#SunCharts").hide();
+		  break;
+		case 8:
+			url="/farm/data/8/16";
+			$('#EnvironTimpCharts').hide();
+			$("#EnvironHumidityCharts").hide();
+			$("#SoilTimpCharts").hide();
+			$("#SoilHumidityCharts").hide();
+			$("#PHCharts").hide();
+			$("#CO2Charts").hide();
+			$("#WindCharts").hide();
+			$("#SunCharts").show();
+		  break;
+		}
+		
+		showDatas(i);
+		var t=  setInterval("showDatas("+i+")",60000);
+		}
+	
+	function showDatas(i){
+		$.ajax({
+			type : "GET",
+			dataType : "json",
+			url : url,
+			
+		success : function(result) {
+					switch (i) {
+					case 1:
+						options.xAxis[0].name = "时间";
+					    options.yAxis[0].name = "温度(°C)";
+					    options.legend.data=["棚内温度","棚外温度"];
+						options.xAxis[0].data = result.xaxis;
+						options.series[0].name="棚内温度";
+						options.series[0].type="line";
+						options.series[0].data = result.yaxis[1];
+						options.series[1].name="棚外温度";
+						options.series[1].type="line";
+						options.series[1].data = result.yaxis[0];
+						
+						EnvironTimpCharts.setOption(options);
+						break;
+					case 2:
+						options.xAxis[0].name = "时间";
+					    options.yAxis[0].name = "湿度(%)";
+					    options.legend.data=["棚内湿度","棚外湿度"];
+						options.xAxis[0].data = result.xaxis;
+						options.series[0].name="棚内湿度";
+						options.series[0].type="line";
+						options.series[0].data = result.yaxis[1];
+						options.series[1].name="棚外湿度";
+						options.series[1].type="line";
+						options.series[1].data = result.yaxis[0];
+						EnvironHumidityCharts.setOption(options);
+						break;
+					case 3:
+						options.xAxis[0].name = "时间";
+					    options.yAxis[0].name = "温度(°C)";
+					    options.legend.data=["棚内土壤温度","棚外土壤温度"];
+						options.xAxis[0].data = result.xaxis;
+						options.series[0].name="棚内土壤温度";
+						options.series[0].type="line";
+						options.series[0].data = result.yaxis[1];
+						options.series[1].name="棚外土壤温度";
+						options.series[1].type="line";
+						options.series[1].data = result.yaxis[0];
+						
+						SoilTimpCharts.setOption(options);
+						break;
+					case 4:
+						options.xAxis[0].name = "时间";
+					    options.yAxis[0].name = "湿度(%)";
+					    options.legend.data=["棚内土壤湿度","棚外土壤湿度"];
+						options.xAxis[0].data = result.xaxis;
+						options.series[0].name="棚内土壤湿度";
+						options.series[0].type="line";
+						options.series[0].data = result.yaxis[1];
+						options.series[1].name="棚外土壤湿度";
+						options.series[1].type="line";
+						options.series[1].data = result.yaxis[0];
+						SoilHumidityCharts.setOption(options);
+						break;
+					case 5:
+						options.xAxis[0].name = "时间";
+					    options.yAxis[0].name = "PH值";
+					    options.legend.data=["棚内PH","棚外PH"];
+						options.xAxis[0].data = result.xaxis;
+						options.series[0].name="棚内PH";
+						options.series[0].type="line";
+						options.series[0].data = result.yaxis[1];
+						options.series[1].name="棚外PH";
+						options.series[1].type="line";
+						options.series[1].data = result.yaxis[0];
+						PHCharts.setOption(options);
+						break;
+					case 6:
+						options.xAxis[0].name = "时间";
+					    options.yAxis[0].name = "CO2浓度";
+					    options.legend.data=["棚内CO2浓度","棚外CO2浓度"];
+						options.xAxis[0].data = result.xaxis;
+						options.series[0].name="棚内CO2浓度";
+						options.series[0].type="line";
+						options.series[0].data = result.yaxis[1];
+						options.series[1].name="棚外CO2浓度";
+						options.series[1].type="line";
+						options.series[1].data = result.yaxis[0];
+						CO2Charts.setOption(options);
+						break;
+					case 7:
+						options.xAxis[0].name = "时间";
+					    options.yAxis[0].name = "风力";
+					    options.legend.data=["棚内风力","棚外风力"];
+						options.xAxis[0].data = result.xaxis;
+						options.series[0].name="棚内风力";
+						options.series[0].type="line";
+						options.series[0].data = result.yaxis[1];
+						options.series[1].name="棚外风力";
+						options.series[1].type="line";
+						options.series[1].data = result.yaxis[0];
+						WindCharts.setOption(options);
+						break;
+					case 8:
+						options.xAxis[0].name = "时间";
+					    options.yAxis[0].name = "光照强度";
+					    options.legend.data=["棚内光照强度","棚外光照强度"];
+						options.xAxis[0].data = result.xaxis;
+						options.series[0].name="棚内光照强度";
+						options.series[0].type="line";
+						options.series[0].data = result.yaxis[1];
+						options.series[1].name="棚外光照强度";
+						options.series[1].type="line";
+						options.series[1].data = result.yaxis[0];
+						SunCharts.setOption(options);
+						break;
+					}
+
+				},
+				error : function(result) {
+					alert("加载数据失败！");
+				}
+			});
+		}
+	</script>
+
+</body>
+</html>

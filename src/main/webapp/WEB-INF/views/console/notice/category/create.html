@@ -1,0 +1,65 @@
+<!DOCTYPE html><#import "/lib/console.html" as console>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>后台管理系统</title>
+
+<@console.css />
+
+<style type="text/css">
+
+</style>
+</head>
+<body>
+
+<@console.topbar />
+
+<@console.sidebar active="noticeCategory"/>
+
+<#import "/lib/spring.ftl" as spring>
+
+<div class="main">
+	<div class="main-head clearfix">
+        <ol class="breadcrumb float-left">
+            <li><i class="fa fa-cubes"></i> <a href="/console/notice/category/list">公告分类管理</a></li>
+            <#if noticeCategory.id??>
+            <li class="active">修改公告分类</li>
+            <#else>
+            <li class="active">新建公告分类</li>
+            </#if>
+        </ol>
+    </div>
+   
+    <form id="noticeCategory" action="<#if noticeCategory.id ??>/console/notice/category/update/${noticeCategory.id}<#else>/console/notice/category/create</#if>" method="post" class="form-horizontal main-form" role="form">
+		<div class="form-group">
+		    <label for="code" class="col-sm-2 control-label">分类名称</label>
+		    <div class="col-sm-10">
+		        <input id="name" name="name" value="${(noticeCategory.name)!}" placeholder="必填，请填写公告分类名称" type="text" class="form-control main-form-input" required autofocus>
+		        <#if noticeCategory??><@spring.bind "noticeCategory.name" /><@spring.showErrors /></#if>
+		    </div>
+		</div>
+		<@spring.formHiddenInput "noticeCategory.id" />
+		<div class="form-group">
+		    <label for="name" class="col-sm-2 control-label">分类描述</label>
+		    <div class="col-sm-10">
+		        <input id="note" name="note" value="${(noticeCategory.note)!}" placeholder="必填" type="text" class="form-control main-form-input" required>
+		        <#if noticeCategory??><@spring.bind "noticeCategory.note" /><@spring.showErrors /></#if>
+		    </div>
+		</div>
+		
+        <hr>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button id="submit" type="submit" class="btn btn-success main-form-submit">提 交</button>
+            </div>
+        </div>
+	</form>
+    
+</div><!-- main -->
+
+<@console.js />
+
+</body>
+</html>

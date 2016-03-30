@@ -1,0 +1,146 @@
+<!DOCTYPE html><#import "/lib/console.html" as console>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>后台管理系统</title>
+
+<@console.css />
+<link rel="stylesheet" type="text/css" href="/lib/laydate/need/laydate.css">
+
+<style type="text/css">
+
+</style>
+</head>
+<body>
+
+<@console.topbar />
+
+<@console.sidebar active="teacher"/>
+
+<#import "/lib/spring.ftl" as spring>
+
+<div class="main">
+	<div class="main-head clearfix">
+        <ol class="breadcrumb float-left">
+            <li><i class="fa fa-cubes"></i> <a href="/console/teacher/list">教师管理</a></li>
+            <#if teacher.userId ??>
+            <li class="active">修改老师</li>
+            <#else>
+            <li class="active">新建老师</li>
+            </#if>
+        </ol>
+    </div>
+    
+    <form id="teacher" action="<#if teacher.userId??>/console/teacher/update/${teacher.userId}<#else>/console/teacher/create</#if>" method="post" class="form-horizontal main-form" role="form">
+		
+		<@spring.formHiddenInput "teacher.userId" />
+		<div class="form-group">
+		    <label for="name" class="col-sm-2 control-label">用户名</label>
+		    <div class="col-sm-10">
+		        <input id="username" name="user.username" value="${(teacher.user.username)!}" placeholder="必填" type="text" class="form-control main-form-input" required>
+		        <#if teacher??><@spring.bind "teacher.user.username" /><@spring.showErrors /></#if>
+		    </div>
+		</div>
+		<input type="hidden" value="${(teacher.user.id)!}" name="user.id" />
+		<input type="hidden" value="${(grantedUser.id)!}" name="user.createUserId" id="dd"/>
+		
+		<div class="form-group">
+		    <label for="note" class="col-sm-2 control-label">登录密码</label>
+		    <div class="col-sm-10">
+		           <input id="password" name="user.password" value="${(teacher.user.clearPassword)!}" placeholder="必填" type="text" class="form-control main-form-input" required>
+		        <#if teacher??><@spring.bind "teacher.user.password" /><@spring.showErrors /></#if>
+	    </div>
+		</div>
+		
+		
+		<div class="form-group">
+		    <label for="code" class="col-sm-2 control-label">真实姓名</label>
+		    <div class="col-sm-10">
+		        <input id="truename" name="user.truename" value="${(teacher.user.truename)!}" placeholder="必填" type="text" class="form-control main-form-input" required autofocus >
+		        <#if teacher??><@spring.bind "teacher.user.truename" /><@spring.showErrors /></#if>
+		    </div>
+		</div>
+		<div class="form-group">
+		    <label for="code" class="col-sm-2 control-label">昵称</label>
+		    <div class="col-sm-10">
+		        <input id="nickname" name="user.nickname" value="${(teacher.user.nickname)!}" placeholder="必填" type="text" class="form-control main-form-input" required autofocus >
+		        <#if teacher??><@spring.bind "teacher.user.nickname" /><@spring.showErrors /></#if>
+		    </div>
+		</div>
+		<div class="form-group">
+		    <label for="code" class="col-sm-2 control-label">性别</label>
+		    <div class="col-sm-10">
+                          		  <select class="form-control main-form-input" id="sex" name="user.sex" required>
+                          		  <#if teacher.user.sex ??>
+                          		  <#if teacher.user.sex != 0>
+             							<option value="1"  selected="selected">女</option>
+             							<option value="0" class="">男</option>
+             						<#else>
+             							<option value="0" selected="selected">男</option>
+             							<option value="1"  >女</option>
+             					</#if>
+             					<#else>
+             						<option value="1"  selected="selected">女</option>
+             						<option value="0" class="">男</option>
+             					</#if>
+								</select>
+                                     
+            </div> 
+		</div>
+		<div class="form-group">
+		    <label for="code" class="col-sm-2 control-label">签名</label>
+		    <div class="col-sm-10">
+		        <input id="note" name="note" value="${(teacher.note)!}" placeholder="必填" type="text" class="form-control main-form-input  " required autofocus >
+		        <#if teacher??><@spring.bind "teacher.note" /><@spring.showErrors /></#if>
+		    </div>
+		</div>
+		<div class="form-group">
+		    <label for="code" class="col-sm-2 control-label">生日</label>
+		    <div class="col-sm-10">
+		        <input id="user.birthday" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" name="user.birthday" value="${(teacher.user.birthday)!}" placeholder="必填" type="text" class="form-control main-form-input " required autofocus >
+		        <#if teacher??><@spring.bind "teacher.user.birthday" /><@spring.showErrors /></#if>
+		    </div>
+		</div>
+	
+
+        <hr>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button id="button" type="submit" class="btn btn-success main-form-submit" onclick="teacherSubmit()">提 交</button>
+            </div>
+        </div>
+	</form>
+    
+</div><!-- main -->
+
+
+
+<@console.js />
+<script src="../../lib/jquery/1.11.3/jquery.validate.js"></script>
+<script src="../../lib/jquery/1.11.3/messages_zh.js"></script>
+<script type="text/javascript" src="/lib/laydate/laydate.js" ></script>
+<script type="text/javascript">
+		
+	jQuery(function($) {
+			jQuery.validator.addMethod("checkDouble", function(value, element) {
+			    var reg = /^(([1-9]\d*(\.\d*[1-9])?)|(0\.\d*[1-9]))$/;  //update by ruijie.chen 2010-03-01
+				return this.optional(element) || reg.test(value);
+			}, "请输入正确的数值");
+	});
+	
+
+	function teacherSubmit(){
+		var validators = $('#teacher').validate();
+		 if (!validators.form()) {			 
+			 return;			
+			} 
+		 $("#teacher").submit();
+	}
+
+
+</script>
+
+</body>
+</html>

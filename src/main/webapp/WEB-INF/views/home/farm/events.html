@@ -1,0 +1,162 @@
+<!DOCTYPE html><#import "/lib/common.html" as common>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>活动回顾</title>
+
+<@common.css />
+<link rel="stylesheet" type="text/css" href="/lib/swiper/3.1.0/css/swiper.min.css">
+<link rel="stylesheet" type="text/css" href="/res/home/index/index.css">
+</head>
+<body ng-app="myApp" ng-controller="EventCtrl">
+
+<@common.topbar />
+
+<style type="text/css">
+.list-group a {
+    font-size: 13px;
+}
+
+.student-list {
+    padding:0;
+    margin:0;
+    list-style-type: none;
+}
+
+.student-list li {
+    float: left;
+    margin: 10px;
+}
+
+.student-list li a {
+    display: block;
+    color: #333;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+.student-list li a:hover {
+    color: #ff5800;
+}
+
+.student-list li a img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid #FFFFFF;
+    box-shadow: 0 0 2px rgba(0,0,0,.3);
+}
+
+.student-list li a:hover img {
+    border-color: #ff5800;
+}
+
+.student-list li a span {
+    display: block;
+    margin-top: 4px;
+    text-align: center;
+}
+</style>
+
+<div class="container banner-container"" style="margin-top: 10px">
+     <div class="banner swiper-container">
+        <div class="swiper-wrapper">
+
+            <a href="#" class="swiper-slide" style="background-image:url(/res/home/index/banner1.jpg);background-position-x: 35%">
+                <div class="banner-info banner-info0">
+                    <div>综合实践学习平台</div>
+                    <div>体验式学习，多维度发展</div>
+                </div>
+            </a>
+            <a href="#" class="swiper-slide" style="background-image:url(/res/home/index/banner2.jpg)">
+                <div class="banner-info">
+                    <span>体验式学习四阶段图示</span>
+                </div>
+            </a>
+            <a href="#" class="swiper-slide" style="background-image:url(/res/home/index/banner3.jpg)">
+                <div class="banner-info">
+                    <span>领导参观和关怀</span>
+                </div>
+            </a>
+
+            <a href="#" class="swiper-slide" style="background-image:url(/res/home/index/banner4.jpg)">
+                <div class="banner-info">
+                    <span>优秀作品展示</span>
+                </div>
+            </a>
+
+        </div>
+        <div class="swiper-pagination banner-pagination"></div>
+    </div><!-- swiper -->
+
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title">2016年</h3></div>
+                <div class="list-group" ng-repeat="item in events">
+                    <span class="list-group-item " ng-class="{active: item.classId == classId}" ng-click="showStudents(item.classId)">{{item.name}}</span>
+                    
+                </div>
+            </div>
+           
+        </div>
+        <div class="col-sm-8">
+            <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title">本期学员</h3></div>
+                <div class="panel-body">
+                    <div class="text-center" style="color:#FF5800;border-bottom: 1px solid #ddd; margin-bottom:15px;padding-bottom:15px">{{students[0].clazz.schoolName}}{{students[0].clazz.name}}</div>
+                    <ul class="student-list clearfix" >
+                       
+                        <li ng-repeat="item in students"><a href="/student/{{ item.userId }}"><img src="{{item.user.avatar}}" ng-if="item.user.avatar"><img src="/res/student/images/student_1.jpg" ng-if="!item.user.avatar"><span>{{ item.user.truename }}</span></a></li>
+                       
+                    </ul>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title">精彩作品</h3></div>
+                <div class="panel-body">
+                    <div ng-repeat="item in works"><img alt="" src="{{item.image}}" width="100%"></div>
+                    
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title">本期主题</h3></div>
+                <div class="panel-body">
+                    <p>黄瓜，（学名Cucumis sativus Linn，英文名Cucumber），葫芦科黄瓜属植物。也称胡瓜、青瓜。果实颜色呈油绿或翠绿，表面有柔软的小刺。</p>
+                    <p>中国各地普遍栽培，现广泛种植于温带和热带地区。黄瓜喜温暖，不耐寒冷，为主要的温室产品之一。</p>
+                    <p>黄瓜是西汉时期张骞出使西域带回中原的，称为胡瓜。五胡十六国时后赵皇帝石勒忌讳“胡”字，汉臣襄国郡守樊坦将其改为“黄瓜”。</p>
+                    <p>一年生蔓生或攀援草本；茎、枝伸长，有棱沟，被白色的糙硬毛。卷须细，不分歧，具白色柔毛。</p>
+                    <p>叶柄稍粗糙，有糙硬毛，长10-16 (-20) 厘米；叶片宽卵状心形，膜质，长、宽均7-20厘米，两面甚粗糙，被糙硬毛，3-5个角或浅裂，裂片三角形，有齿，有时边缘有缘毛，先端急尖或渐尖，基部弯缺半圆形，宽2-3厘米，深2-2.5厘米，有时基部向后靠合。雌雄同株。</p>
+                    <div style="text-align:center;font-size:2em"><i class="fa fa-angle-double-down"></i></div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title">本期任务</h3></div>
+                <div class="panel-body">
+                    <div ng-repeat="item in tasks">{{item.name}}</div>
+                    
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<@common.footer />
+
+<@common.js />
+<script src="/lib/swiper/3.1.0/js/swiper.jquery.min.js"></script>
+<script src="/res/home/index/index.js"></script>
+<script src="/lib/angular/1.4.8/angular.min.js"></script>
+<script src="/lib/angular/1.4.8/angular-route.min.js"></script>
+<script src="/lib/angular-ui-bootstrap/0.14.3/ui-bootstrap-tpls.min.js"></script>
+<script type="text/javascript" src="/res/home/event/event.js"></script>
+
+</body>
+</html>

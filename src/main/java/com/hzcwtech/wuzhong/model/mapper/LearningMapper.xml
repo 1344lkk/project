@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzcwtech.wuzhong.model.mapper.LearningMapper">
+
+	<resultMap type="Learning" id="Learning" autoMapping="true">
+		<id column="id" property="id" />
+		<association property="lesson" javaType="Lesson" columnPrefix="lesson_" autoMapping="true">
+			<id column="id" property="id" />
+		</association>
+	</resultMap>
+
+	
+	<select id="getLearingByStudentId" resultMap="Learning">
+		SELECT l.*,
+		 le.courseId as lesson_courseId,
+		 le.name as lesson_name,
+		 le.startTime as lesson_startTime,
+		 le.endTime as lesson_endTime,
+		 le.note as lesson_note
+		 FROM learning l, lesson le 
+		 WHERE studentId = #{studentId}  AND l.lessonId= le.id
+	   
+	</select>
+	
+	<insert id="insertLearning" parameterType="Learning" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO learning (lessonId, stageId, id, studentId) 
+		VALUES( #{lessonId}, #{stageId}, #{id}, #{studentId})
+	</insert>
+	
+	<update id="updateLearning" parameterType="Learning">
+		UPDATE learning SET 
+		   lessonId=#{lessonId},  stageId=#{ stageId}, studentId=#{studentId}
+		WHERE id = #{id}
+	</update>
+	
+	
+	
+</mapper>

@@ -1,0 +1,49 @@
+<div ng-controller="QuestionCtrl" ng-if="questions != null">
+   <span ng-if="score">考试已得分数{{score}}</span>
+ 
+	<form id="answer_form"  method="POST" ng-if="!score||(score<60&&stageId==1)">
+	
+	
+	<div ng-repeat="question in questions">
+	<div>
+	 
+	</div>
+	<div class="panel panel-default" ng-if="question.type==1">
+		<div class="panel-heading">试题名称：{{question.name}}<span class="pull-right "><div ng-switch="question.type" style="display: inline;"><span ng-switch-when="1">单选</span><span ng-switch-when="2">多选</span><span ng-switch-when="3">简答</span></div>/<div ng-switch="question.required" style="display: inline;"><span ng-switch-when="true">必做</span><span ng-switch-when="false">选做</span></div>（{{question.points}}分）</span></div>
+		<div class="panel-body" >
+		<!-- 试题内容:<div  ng-bind-html="question.note|to_trusted"></div><br> -->
+		<div ng-repeat="option in question.options">
+		<input type="radio" name="question{{question.id}}"   ng-model="formData.question[question.id]" value="{{option.id}} ">
+		选项{{order[$index]}}：    {{option.name}}  
+		</div>
+		
+		</div>
+	</div>
+	<div class="panel panel-default" ng-if="question.type==2">
+		<div class="panel-heading">试题名称：{{question.name}}<span class="pull-right "><div ng-switch="question.type" style="display: inline;"><span ng-switch-when="1">单选</span><span ng-switch-when="2">多选</span><span ng-switch-when="3">简答</span></div>/<div ng-switch="question.required" style="display: inline;"><span ng-switch-when="true">必做</span><span ng-switch-when="false">选做</span></div>（{{question.points}}分）</span></div>
+		<div class="panel-body" >
+		试题内容:<div  ng-bind-html="question.note|to_trusted"></div><br>
+		<div ng-repeat="option in question.options">
+		<input type="checkbox" name="question{{question.id}}"   ng-model="formData.question[question.id][option.id]" value="{{option.id}} ">
+		选项{{order[$index]}}：    {{option.name}}  
+		</div>
+		
+		</div>
+	</div>
+	<div class="panel panel-default" ng-if="question.type==3">
+		<div class="panel-heading">试题名称：{{question.name}}<span class="pull-right "><div ng-switch="question.type" style="display: inline;"><span ng-switch-when="1">单选</span><span ng-switch-when="2">多选</span><span ng-switch-when="3">简答</span></div>/<div ng-switch="question.required" style="display: inline;"><span ng-switch-when="true">必做</span><span ng-switch-when="false">选做</span></div>（{{question.points}}分）</span></div>
+		<div class="panel-body" >
+		你的答案:<textarea rows="" cols=""  ng-model="formData.question[question.id]"></textarea>
+		
+		</div>
+	</div>
+	 
+	</div>
+	<button  ng-click="subAnswer()"  class="btn btn-success btn-sm " ng-if="questions!=''">提交答案</button>
+	</form>
+	
+	
+	
+	</div>
+	
+	

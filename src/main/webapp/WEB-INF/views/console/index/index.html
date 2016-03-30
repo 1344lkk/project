@@ -1,0 +1,30 @@
+<!DOCTYPE html><#import "/lib/console.html" as console>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>后台管理系统</title>
+
+<@console.css />
+
+<style type="text/css">
+
+</style>
+</head>
+<body>
+
+<@console.topbar />
+
+<@console.sidebar />
+
+<div class="main">
+	<p><label>用户: </label><span>${grantedUser.username}</span></p>
+	<p><label>姓名: </label><span>${grantedUser.truename}</span></p>
+	<p><label>昵称: </label><span>${grantedUser.nickname}</span></p>
+</div>
+
+<@console.js />
+
+</body>
+</html>

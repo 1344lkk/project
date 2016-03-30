@@ -1,0 +1,33 @@
+<div ng-controller="QuestionCtrl" ng-if="task.name != null">
+    <div id="taskDetail">
+	<div>
+		
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">任务名称{{task.name}}</div>
+		<div class="panel-body" ng-bind-html="task.note|to_trusted" >
+			</div>
+	</div>
+	</div>
+   <div>
+   
+   <form action="/student/addWork" method="post" enctype="multipart/form-data"ng-if="stageId!=1">  
+  <input name="file"  type="file" /> 
+  
+  <input name="taskId" id="taskId" type="hidden" value = "{{task.id}}"/>     
+  <input type="submit"class="btn btn-success" value="提交">
+</form> 
+   
+</div>
+<script>
+function showEditTask(){
+	$("#task_form").show();
+	$("#taskDetail").hide();
+	$("#task_form").removeClass("hide");
+}
+function showTaskDetail(){
+	$("#taskDetail").show();
+	$("#task_form").hide();
+}
+
+</script>

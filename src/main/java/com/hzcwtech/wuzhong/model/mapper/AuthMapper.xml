@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzcwtech.wuzhong.model.mapper.AuthMapper">
+
+	<resultMap type="ACLResource" id="ACLResource" autoMapping="true">
+		<id column="id" property="id" />
+	</resultMap>
+	
+	<resultMap type="ACLRole" id="ACLRole" autoMapping="true">
+		<id column="id" property="id" />
+	</resultMap>
+	
+	<update id="onAuthenticationSuccess">
+		UPDATE user SET signinCount = signinCount + 1, signinTime = NOW(), signinAddr = #{ip}
+		WHERE id = #{userId}
+	</update>
+	
+	<select id="getRolesByUserId" parameterType="int" resultMap="ACLRole">
+		SELECT r.id, r.code, r.name
+		FROM acl_role_user ru
+		INNER JOIN user u ON u.id = ru.userId
+		INNER JOIN acl_role r ON r.id = ru.roleId
+		WHERE ru.userId = #{userId} and ru.enabled = 1 and r.enabled = 1 and u.enabled = 1 and u.deleted != 1
+	</select>
+	
+	<select id="getRolesByAuthority" parameterType="int" resultMap="ACLRole">
+		SELECT r.id, r.code, r.name
+		FROM acl_role_auth ra
+		INNER JOIN acl_role r ON r.id = ra.roleId
+		WHERE ra.authId = #{authId}
+	</select>
+	
+	<select id="searchResourceList" resultMap="ACLResource">
+		SELECT id, parentId, code, name, note, enabled, security, sort
+		FROM acl_resource
+		<if test="q != null">WHERE code LIKE #{q} OR name LIKE #{q}</if>
+	</select>
+	
+	<insert id="insertResource" parameterType="ACLResource">
+		INSERT INTO acl_resource (parentId, code, name, note, enabled, security, sort) 
+		VALUES(#{parentId}, #{code}, #{name}, #{note}, #{enabled}, #{security}, #{sort})
+	</insert>
+	
+	<insert id="updateResource" parameterType="ACLResource">
+		UPDATE acl_resource SET 
+		  parentId=#{parentId}, code=#{code}, name=#{name}, note=#{note}, 
+		  enabled=#{enabled}, security=#{security}, sort=#{sort} 
+		WHERE id = #{id}
+	</insert>
+	
+	<select id="searchRoleList" resultMap="ACLRole">
+		SELECT id, code, name, note, enabled, sort
+		FROM acl_role
+		WHERE (1=1)
+		<if test="enabled != null"> AND (enabled = #{enabled})</if>
+		<if test="q != null"> AND (code LIKE #{q} OR name LIKE #{q}) </if>
+	</select>
+	
+	<insert id="insertRole" parameterType="ACLRole">
+		INSERT INTO acl_role (code, name, note, enabled, sort)
+		VALUES (#{code},#{name},#{note},#{enabled},#{sort})
+	</insert>
+	
+	<update id="updateRole" parameterType="ACLRole">
+		UPDATE acl_role SET
+		code=#{code}, name=#{name}, note=#{note}, enabled=#{enabled}, sort=#{sort}
+		WHERE id = #{id}
+	</update>
+</mapper>

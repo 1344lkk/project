@@ -1,0 +1,68 @@
+<!DOCTYPE html><#import "/lib/console.html" as console>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>后台管理系统</title>
+
+<@console.css />
+
+<style type="text/css">
+
+</style>
+</head>
+<body>
+
+<@console.topbar />
+
+<@console.sidebar active="lesson"/>
+
+<div class="main">
+	<div class="main-head clearfix">
+        <ol class="breadcrumb float-left">
+             <li><i class="fa fa-cubes"></i><a href="/console/lesson/list">课程设计</a></li>
+            <li> 授课计划</li>
+        </ol>
+    </div>
+    <div class="main-tool btn-toolbar" role="toolbar" aria-label="...">
+      <#if enable>
+       <a href="/console/lesson/plan/create/${lessonId}" class="btn btn-primary">新增计划</a>
+       <#else>
+         <a class="btn btn-success">计划已完成</a>
+        </#if>
+    </div>
+    
+	<table class="table table-hover table-bordered">
+	<thead>
+		<tr>
+			<th>课程名称</th>
+			<th>阶段</th>
+			<th>开始时间</th>
+			<th>结束时间</th>
+			<th>操作</th>
+		</tr>
+	</thead>
+	<tbody>
+	
+		<#list lessonPlans as plan>
+		<tr>
+		    <td>${plan.lessonName}</td>
+			<td>${plan.stageName}</td>
+			<td>${plan.startTime}</td>
+			<td>${plan.endTime}</td>
+			<td>
+				<a href="/console/lesson/plan/update/${plan.lessonId}/${plan.stageId}">修改</a> /
+				<a href="/console/lesson/plan/delete/${plan.lessonId}/${plan.stageId}">删除</a> 
+			</td>
+		</tr>
+		</#list>
+		
+	</tbody>
+	</table>
+</div>
+
+<@console.js />
+
+</body>
+</html>

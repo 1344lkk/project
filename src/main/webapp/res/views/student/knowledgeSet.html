@@ -1,0 +1,65 @@
+<div>
+
+
+	
+
+	<table class="table table-hover table-bordered">
+	<thead>
+		<tr>
+			<th width="42">ID</th>
+			<th> 标题</th>
+			
+			<th>操作</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="x in cataDatas">
+		    <td>{{ x.id }}</td>
+			<td>{{ x.name }}</td>
+			
+			<td><a href="#/showknowledge/{{ x.id }}/{{id}}">查看本条知识</a> </td>
+		</tr>
+		</tbody>
+	</table>
+</div>
+<div class="modal fade" id="addKnowledgeModal" tabindex="-1"
+	role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">填写内容</h4>
+			</div>
+			<div class="modal-body">
+				<form >
+				<div class="form-group">
+					 <input type="hidden" class="form-control" ng-model="id" >
+					</div>
+				  <div class="form-group">
+						<label> 标题</label> <input type="text" ng-model ="title"class="form-control">
+					</div>
+					
+					<div class="form-group">
+						<label>内容</label> <script id="container" name="content" type="text/plain" ng-model ="note">
+       
+           </script>
+					</div>
+					
+					<div class="form-group">
+						<label>序号</label> <input type="text" ng-model ="list" class="form-control">
+					</div>
+
+				</form>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" id="cancel" class="btn btn-default"
+					data-dismiss="modal">取消</button>
+				<button type="button" id="goon" class="btn btn-primary"ng-click="addKnowledge()">保存</button>
+			</div>
+		</div>
+	</div>
+</div>

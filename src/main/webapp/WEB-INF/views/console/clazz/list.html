@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<#import "/lib/console.html" as console>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,user-scalable=no">
+<title>后台管理系统</title> <@console.css />
+
+<style type="text/css">
+</style>
+</head>
+<body>
+
+	<@console.topbar /> <@console.sidebar active="school"/>
+
+
+	<div class="modal" id="mymodal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="title">提示</h4>
+			</div>
+			<div class="modal-body">
+				<p id="message"></p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				<button type="button" class="btn btn-primary" id="JustDoIt">确认</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+<div class="main">
+	<div class="main-head clearfix">
+        <ol class="breadcrumb float-left">
+        	<#if schoolName ??>
+            <li class="active"><i class="fa fa-cubes"></i>${schoolName} 班级管理</li>
+            </#if>
+        </ol>
+    </div>
+    <div class="main-tool btn-toolbar" role="toolbar" aria-label="...">
+        <a href="<#if schoolId ??>/console/class/create/${schoolId}<#else>/console/class/create/</#if>" class="btn btn-primary">新建班级</a>
+
+        <form method="get" class="input-group" action="/console/clazz/search" style="width:220px">
+            <input type="text" name="q" value="${q!}" class="form-control" placeholder="搜索代码/名称">
+            <#if schoolId ??>
+                <input type="hidden" name="schoolId" value="${schoolId!}" class="form-control">     
+          
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+            </span>
+            </#if>
+        </form>
+    </div>
+    
+	<table class="table table-hover table-bordered">
+	<thead>
+		<tr>
+			<th width="42">ID</th>
+			<th>名称</th>
+			<th>描述</th>
+			<th>年级</th>
+			<th>操作</th>
+		</tr>
+	</thead>
+	<tbody>
+	<#if clazzes ??>
+		<#list clazzes as clz>
+		<tr>
+			<td>${clz.id!''}</td>
+			<td>${clz.name!''}</td>
+			<td>${clz.note!''}</td>
+			<td>${clz.grade!''}</td>
+			<td>
+				<a href="/console/student/list/${clz.id}">学生列表</a> / 
+				<a href="/console/class/update/${clz.id}">修改</a> /
+				<a href="#" onclick="clickDel(${clz.id})">删除</a>
+				
+			</td>
+		</tr>
+		</#list>
+		</#if>
+	</tbody>
+	</table>
+</div>
+
+<@console.js />
+
+<script type="text/javascript">
+
+		function clickDel(classId){
+			
+		$("#message").html("确定删除此班级吗");
+		$("#mymodal").modal("show");
+		
+		$("#JustDoIt").click(function(){
+		
+			window.location="/console/class/delete/"+classId;			
+			
+		});
+		
+		
+		}
+
+
+
+
+</script>
+
+
+
+
+</body>
+</html>

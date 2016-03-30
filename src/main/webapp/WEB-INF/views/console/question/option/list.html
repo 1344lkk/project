@@ -1,0 +1,66 @@
+<!DOCTYPE html><#import "/lib/console.html" as console>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>后台管理系统</title>
+
+<@console.css />
+
+<style type="text/css">
+
+</style>
+</head>
+<body>
+
+<@console.topbar />
+
+<@console.sidebar active="option"/>
+
+<div class="main">
+	<div class="main-head clearfix">
+        <ol class="breadcrumb float-left">
+            <li class="active"><i class="fa fa-cubes"></i> 试题选项管理</li>
+        </ol>
+    </div>
+    <div class="main-tool btn-toolbar" role="toolbar" aria-label="...">
+        <a href="/console/question/option/create/${questionId}" class="btn btn-primary">增加试题选项</a>
+        
+    </div>
+    
+	<table class="table table-hover table-bordered">
+	<thead>
+		<tr>
+			<th width="42">ID</th>
+			<th>内容</th>
+			<th>是否正确答案</th>
+			<th>操作</th>
+		</tr>
+	</thead>
+	<tbody>
+		<#list options as option>
+		<tr>
+			<td>${option.id}</td>
+			<td>${option.name}</td>
+			<td>
+			<#if option.correct>
+			 <div style="color:#0a0">是</div>
+		
+			<#else>
+			<div style="color:#0a0">否</div>
+			</#if></td>
+			<td>	
+				<a href="/console/question/option/update/${questionId}/${option.id}">修改</a> /
+				<a href="/console/question/option/delete/${questionId}/${option.id}">删除</a> 
+			</td>
+		</tr>
+		</#list>
+	</tbody>
+	</table>
+</div>
+
+<@console.js />
+
+</body>
+</html>

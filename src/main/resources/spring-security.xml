@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation=" 
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd  
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd ">
+    
+    <http pattern="/res/**" security="none" />
+    <http pattern="/upload/**" security="none" />
+    <http pattern="/lib/**" security="none" />
+    <http pattern="/static/**" security="none" />
+     <http pattern="/console/student/students/**" security="none" />
+    <http pattern="/ueditor/**" security="none" />
+	<http auto-config="false"
+		entry-point-ref="CustomLoginUrlAuthenticationEntryPoint" 
+		disable-url-rewriting="true" 
+		use-expressions="false">
+		<!-- 如果以 security="none" 定义，则无法获取Authentication，登录用户的菜单显示需要AJAX -->
+		<intercept-url pattern="/" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/farm/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/library/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/index/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/favicon.ico" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/auth/info" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/auth/signin" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/auth/signout" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		
+		<intercept-url pattern="/**" access="ROLE_USER" />
+		
+		<access-denied-handler error-page="/403" />
+		
+		<custom-filter position="FORM_LOGIN_FILTER" ref="CustomUsernamePasswordAuthenticationFilter"/>
+		<custom-filter before="FILTER_SECURITY_INTERCEPTOR" ref="CustomSecurityInterceptor" />
+		
+		<logout logout-url="/auth/signout" logout-success-url="/" invalidate-session="true" />
+		
+		<anonymous username="anonymous" granted-authority="ROLE_ANONYMOUS" />
+		
+		<csrf disabled="true"/>
+		
+		<remember-me services-ref="CustomRememberMeServices" />
+	</http>
+	
+	<beans:bean id="CustomSecurityInterceptor" class="com.hzcwtech.wuzhong.web.security.CustomSecurityInterceptor">
+		<beans:property name="accessDecisionManager" ref="CustomAccessDecisionManager" />  
+        <beans:property name="authenticationManager" ref="CustomAuthenticationManager" />  
+        <beans:property name="securityMetadataSource" ref="CustomSecurityMetadataSource" />
+	</beans:bean>
+	
+	<!-- org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices -->
+	 <beans:bean id="CustomRememberMeServices" class="com.hzcwtech.wuzhong.web.security.CustomRememberMeServices">  
+        <beans:constructor-arg value="myAppKey"/>
+        <beans:constructor-arg ref="CustomUserDetailsService"/>
+        <beans:constructor-arg ref="CustomTokenRepository"/><!-- 
+        <beans:property name="cookieName" value="remember-me"/>
+        <beans:property name="tokenLength" value="32"/>
+        <beans:property name="parameter" value="remember-me-parameter"/> -->
+    </beans:bean>
+
+    <beans:bean id="CustomTokenRepository"
+          class="org.springframework.security.web.authentication.rememberme.InMemoryTokenRepositoryImpl">
+    </beans:bean>
+    
+    <beans:bean id="rememberMeAuthenticationProvider" class="org.springframework.security.authentication.RememberMeAuthenticationProvider">
+	  	<beans:constructor-arg value="myAppKey"/>
+	</beans:bean>
+
+  	<authentication-manager alias="CustomAuthenticationManager">
+		<authentication-provider user-service-ref="CustomUserDetailsService">
+			<password-encoder ref="passwordEncoder" />
+		</authentication-provider>
+		<authentication-provider ref="rememberMeAuthenticationProvider" />
+	</authentication-manager>
+	
+	<beans:bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.ShaPasswordEncoder">
+     	<beans:constructor-arg value="1"/>
+ 	</beans:bean>
+	
+    <beans:bean id="CustomAccessDecisionManager" class="com.hzcwtech.wuzhong.web.security.CustomAccessDecisionManager" />
+    <beans:bean id="CustomSecurityMetadataSource" class="com.hzcwtech.wuzhong.web.security.CustomInvocationSecurityMetadataSource" />
+    
+    <beans:bean id="CustomUserDetailsService" class="com.hzcwtech.wuzhong.web.security.CustomUserDetailsService" />
+
+	<beans:bean id="CustomLoginUrlAuthenticationEntryPoint" class="com.hzcwtech.wuzhong.web.security.CustomLoginUrlAuthenticationEntryPoint">
+		<beans:constructor-arg type="java.lang.String" value="/auth/signin" />
+  	</beans:bean>
+  	
+  	<beans:bean id="CustomUsernamePasswordAuthenticationFilter" class="com.hzcwtech.wuzhong.web.security.CustomUsernamePasswordAuthenticationFilter">
+  		<beans:constructor-arg type="java.lang.String" value="/auth/signin" />
+  		<beans:property name="authenticationManager" ref="CustomAuthenticationManager"/>
+  		<beans:property name="authenticationSuccessHandler">
+  			<!-- <beans:bean class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler"> -->
+  			<beans:bean class="com.hzcwtech.wuzhong.web.security.CustomAuthenticationSuccessHandler">
+  				<beans:property name="defaultTargetUrl" value="/" />
+  				<beans:property name="alwaysUseDefaultTargetUrl" value="false" />
+  			</beans:bean>
+  		</beans:property>
+  		<beans:property name="authenticationFailureHandler">
+        	<beans:bean class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+            	<beans:property name="defaultFailureUrl" value="/auth/signin?error=true"/>       
+        	</beans:bean>
+    	</beans:property>
+    	<beans:property name="rememberMeServices" ref="CustomRememberMeServices" />
+  	</beans:bean>
+  	
+
+</beans:beans>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzcwtech.wuzhong.model.mapper.ClazzMapper">
+
+	<resultMap type="Clazz" id="Clazz" autoMapping="true">
+		<id column="id" property="id" />
+	</resultMap>
+
+	<insert id="insertClazz" parameterType="Clazz">
+		INSERT INTO school_class (
+		schoolId, name, schoolYear,grade,studentCount)
+		VALUES( #{schoolId}, #{name},#{schoolYear} ,#{grade},#{studentCount})
+	</insert>
+
+	<insert id="updateClazz" parameterType="Clazz">
+		UPDATE school_class SET
+		schoolId=#{schoolId}, name=#{name},schoolYear=#{schoolYear}, grade=#{grade},studentCount=#{studentCount}
+		WHERE id = #{id}
+	</insert>
+
+	<select id="getClazzList" resultMap="Clazz">
+		SELECT c.name,c.id,c.schoolYear,c.grade,c.studentCount,c.schoolId ,s.name AS schoolName FROM school_class AS c JOIN
+		school AS s ON c.schoolId=s.id WHERE c.`id` NOT IN (SELECT classId FROM lesson)
+	</select>
+	
+	<select id="updataGetClazzList" resultMap="Clazz">
+		SELECT c.name,c.id,c.schoolYear,c.grade,c.studentCount,c.schoolId ,s.name AS schoolName FROM school_class AS c JOIN
+		school AS s ON c.schoolId=s.id WHERE c.`id` NOT IN (SELECT classId FROM lesson)  or c.id = #{classId}
+	</select>
+	
+	<select id="getClazzListBySchoolId" parameterType="int" resultMap="Clazz">
+		SELECT c.name,c.id,c.schoolYear,c.grade,c.studentCount,c.schoolId ,s.name AS schoolName FROM school_class AS c JOIN
+		school AS s ON c.schoolId=s.id where s.id=#{id}
+	</select>
+	
+	<select id="getClazzByClazzId" parameterType="int" resultMap="Clazz">
+		SELECT c.name,c.id,c.schoolYear,c.grade,c.studentCount,c.schoolId ,s.name AS schoolName FROM school_class AS c JOIN
+		school AS s ON c.schoolId=s.id where c.id=#{id}
+	</select>
+	
+	
+	<select id="searchClazzList" resultMap="Clazz">
+		SELECT c.name,c.id,c.schoolYear,c.grade,c.studentCount,c.schoolId ,s.name AS schoolNameFROM school_class AS c JOIN
+		school AS s ON c.schoolId=s.id where s.id=#{schoolId}
+		<if test="q != null">AND c.id LIKE #{q} OR c.name LIKE #{q} </if>
+	</select> 
+	<delete id="deleteClazzById">
+		delete from school_class where id=#{classId}
+	</delete>
+	
+	
+
+
+
+
+
+
+</mapper>

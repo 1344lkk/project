@@ -1,0 +1,88 @@
+<div class="modal-header">
+    <h3 class="modal-title">添加试题</h3>
+</div>
+<div class="modal-body">
+
+    <form name="form" class="form-horizontal" id="form">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">试题名称</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="name" ng-model="question.name"  required >
+                <span style="color: red" ng-show="form.name.$dirty && form.name.$invalid"> 
+                <span ng-show="form.name.$error.required">请输入试题名。</span> </span>
+            </div>
+             
+        </div>
+
+       <!--  <div class="form-group" >
+            <label class="col-sm-2 control-label">试题描述</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control"  name="note" ng-model="question.note"  required>
+                <span style="color: red" ng-show="form.note.$dirty && form.note.$invalid"> 
+                <span ng-show="form.note.$error.required">请输入试题描述。</span> </span>
+            </div>
+            
+        </div> -->
+       <div class="form-group">
+            <label class="col-sm-2 control-label">试题分值</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="points" ng-model="question.points"  required >
+                <span style="color: red" ng-show="form.points.$dirty && form.points.$invalid"> 
+                <span ng-show="form.points.$error.required">请输入试题分值。</span> </span>
+            </div>
+        </div>
+        <div class="form-group">
+			<label for="grade" class="col-sm-2 control-label">试题类型</label>
+            <div class="col-sm-10">
+                <select class="form-control main-form-input" id="type" name="type" ng-model="question.type" >
+                <option value="" class="hide">请选择</option>
+               <option value="1" >单选</option>
+               <option value="2">多选</option>
+               <option value="3">简答</option>
+                </select>
+		       
+            </div>
+        </div>
+        
+       <div class="form-group">
+		    <label for="note" class="col-sm-2 control-label">是否必做</label>
+		   
+		    <div class="col-sm-10">
+		        <select class="form-control main-form-input" id="required" name="required" ng-model="question.required">
+		        <option value="" class="hide">请选择</option>
+                <option value="true">是</option>
+                <option value="false">否</option>
+              
+                </select>
+		    </div>
+		</div>
+		
+		 <div class="form-group">
+            <label class="col-sm-2 control-label">试题答案</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="answer" ng-model="question.answer"  required >
+                <span style="color: red" ng-show="form.answer.$dirty && form.answer.$invalid"> 
+                <span ng-show="form.answer.$error.required">请输入试题分值。</span> </span>
+            </div>
+        </div>
+         <div class="form-group row" ng-repeat="optionItem in optionItems">
+            <label class="col-sm-2 control-label">选项{{order[$index]}}</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" name="option" ng-model="optionItem.name"  required >
+            </div>
+           <div> 是否答案<input type="checkbox" ng-model="optionItem.correct">
+           <a class="btn btn-danger btn-xs"  ng-click="deleteOption($index)" >
+            <span class="glyphicon glyphicon-remove"></span></a>
+           </div>
+          
+           
+        </div>
+       <div class="text-center"><a class="text-center btn btn-primary btn-xs" ng-if="question.type == 1 || question.type == 2" ng-click="addOption()" style="margin-right: 8px;">
+            <span class="glyphicon glyphicon-plus"></span>增加选项</a></div>
+        
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="ok()" ng-disabled="form.name.$invalid||form.note.$invalid||form.pionts.$invalid||form.answer.$invalid">确定</button>
+    <button class="btn btn-warning" type="button" ng-click="close()">取消</button>
+</div>

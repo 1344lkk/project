@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzcwtech.wuzhong.model.mapper.TeacherMapper">
+	<resultMap type="Teacher" id="Teacher" autoMapping="true">
+		<id column="id" property="userId" />
+		 <association property="user" resultMap="User"/> 
+	</resultMap>
+	<resultMap type="User" id="User" autoMapping="true">
+		<id column="id" property="id" />	
+	</resultMap>
+	
+	<select id="getTeachers"  resultMap="Teacher">
+	SELECT * FROM teacher AS t JOIN user AS u ON t.userId=u.id
+	</select>
+	
+	<insert id="insertTeacher"  parameterType="Teacher">
+		INSERT INTO teacher (userId,note) 
+		VALUES(#{userId},#{note})
+	</insert>
+	
+	<insert id="updateTeacher" parameterType="Teacher">
+		UPDATE  teacher SET note=#{note} WHERE userId=#{userId}
+	</insert>	
+	
+	<select id="getTeacherByUserId"  resultMap="Teacher">
+	SELECT * FROM teacher AS t JOIN user AS u ON t.userId=u.id where t.userId=#{userId}
+	</select>
+	
+	<select id="searchTeacherList" resultMap="Teacher">
+		SELECT * FROM teacher AS t JOIN user AS u ON t.userId=u.id
+		<if test="q != null">WHERE u.truename LIKE #{q} OR u.username LIKE #{q}</if>
+	</select>
+	
+	
+	
+	</mapper>

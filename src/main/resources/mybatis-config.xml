@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias type="com.hzcwtech.wuzhong.model.ACLAuthority" alias="ACLAuthority" />
+		<typeAlias type="com.hzcwtech.wuzhong.model.ACLResource" alias="ACLResource" />
+		<typeAlias type="com.hzcwtech.wuzhong.model.ACLRole" alias="ACLRole" />
+		<typeAlias type="com.hzcwtech.wuzhong.model.ACLRoleUser" alias="ACLRoleUser" />
+		<typeAlias type="com.hzcwtech.wuzhong.model.Knowledge" alias="Knowledge" />
+		<typeAlias type="com.hzcwtech.wuzhong.model.KnowledgeCatalog" alias="KnowledgeCatalog" />
+		<typeAlias type="com.hzcwtech.wuzhong.model.School" alias="School" />
+		<typeAlias type="com.hzcwtech.wuzhong.model.Clazz" alias="Clazz" />
+		<typeAlias type="com.hzcwtech.wuzhong.model.Student" alias="Student" />
+		<typeAlias type="com.hzcwtech.wuzhong.model.Notice" alias="Notice" />
+		<typeAlias type="com.hzcwtech.wuzhong.model.NoticeCategory" alias="NoticeCategory" />
+		<typeAlias type="com.hzcwtech.wuzhong.model.CourseCategory" alias="CourseCategory" />
+		<typeAlias type="com.hzcwtech.wuzhong.model.CourseStage" alias="CourseStage" />
+		<typeAlias type="com.hzcwtech.wuzhong.model.Course" alias="Course" />
+		<typeAlias type="com.hzcwtech.wuzhong.model.CourseTask" alias="CourseTask" />
+		<typeAlias type="com.hzcwtech.wuzhong.model.Question" alias="Question" />
+		<typeAlias type="com.hzcwtech.wuzhong.model.QuestionOption" alias="QuestionOption" />
+		<typeAlias type="com.hzcwtech.wuzhong.model.Lesson" alias="Lesson" />
+		<typeAlias type="com.hzcwtech.wuzhong.model.LessonPlan" alias="lessonPlan" />
+		<typeAlias type="com.hzcwtech.wuzhong.model.Teacher" alias="Teacher" />
+		<typeAlias type="com.hzcwtech.wuzhong.model.User" alias="User" />
+		<typeAlias type="com.hzcwtech.wuzhong.model.Note" alias="Note" />
+		<typeAlias type="com.hzcwtech.wuzhong.model.NoteComment" alias="NoteComment" />
+		<typeAlias type="com.hzcwtech.wuzhong.model.NoteImage" alias="NoteImage" />
+		<typeAlias type="com.hzcwtech.wuzhong.model.WorkPhoto" alias="WorkPhoto" />
+		<typeAlias type="com.hzcwtech.wuzhong.model.Work" alias="Work" />
+		<typeAlias type="com.hzcwtech.wuzhong.model.WorkComment" alias="WorkComment" />
+		<typeAlias type="com.hzcwtech.wuzhong.model.WorkPaper" alias="WorkPaper" />
+		<typeAlias type="com.hzcwtech.wuzhong.model.WorkPaperAnswer" alias="WorkPaperAnswer" />
+		<typeAlias type="com.hzcwtech.wuzhong.model.Learning" alias="Learning" />
+		<typeAlias type="com.hzcwtech.wuzhong.model.Praise" alias="Praise" />
+		<typeAlias type="com.hzcwtech.wuzhong.model.PageView" alias="PageView" />
+		<typeAlias type="com.hzcwtech.wuzhong.model.ExcellentWork" alias="ExcellentWork"/>
+		<typeAlias type="com.hzcwtech.wuzhong.model.Report" alias="Report"/>
+		
+	</typeAliases>
+
+
+
+	<plugins>
+		<plugin interceptor="com.hzcwtech.mybatis.PageInterceptor">
+			<property name="sqlType" value="mysql" />
+			<property name="sqlPattern" value=".*Page$" />
+		</plugin>
+	</plugins>
+	
+	<!-- <mappers>
+		<package name="com.hzcwtech.wuzhong.model.mapper"/>
+ 		<mapper resource="com/hzcwtech/wuzhong/model/mapper/AuthMapper.xml"/>
+ 	</mappers>  -->
+</configuration>

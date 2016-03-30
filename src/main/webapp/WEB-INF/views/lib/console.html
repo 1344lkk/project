@@ -1,0 +1,96 @@
+<#macro css>
+<link rel="stylesheet" type="text/css" href="/lib/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/lib/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="/res/console/common.css">
+</#macro>
+
+<#macro js>
+<script src="/lib/jquery/1.11.3/jquery.min.js"></script>
+<script src="/lib/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</#macro>
+
+<#macro topbar>
+<nav class="topbar navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/console">智慧小农场后台管理系统</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/">返回首页</a></li>
+                <li><a href="/library" target="_blank">知识天地</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+	            <#if grantedUser??>
+	            <li class="dropdown">
+		          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">${grantedUser.nickname?html} <span class="caret"></span></a>
+		          <ul class="dropdown-menu">
+		            <li><a href="/console/member/changePassword">修改密码</a></li>
+		            <li role="separator" class="divider"></li>
+		            <li><a href="/auth/signout">注销</a></li>
+		          </ul>
+		        </li>
+	        
+				<#else>
+				<li><a href="/auth/signin">登录</a></li>
+				</#if>
+                
+               <!--  <li><a href="/index/test">帮助</a></li> -->
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+</#macro>
+
+
+<#macro sidebar active="">
+<div class="sidebar">
+	<ul class="sidemenu">
+		<li><a href="javascript:;"><i class="fa fa-caret-down"></i> 个人中心</a>
+            <ul>
+                <li <#if active == "profile">class="active"</#if>><a href="/console/member/profile">个人信息</a></li>
+                <li <#if active == "changePassword">class="active"</#if>><a href="/console/member/changePassword">修改密码</a></li>
+            </ul>
+        </li>
+       <#if grantedUser.role == 2 ||  grantedUser.role== 3 ||grantedUser.role==1> <li><a href="javascript:;"><i class="fa fa-caret-down"></i> 教学中心</a>
+            <ul>
+                <#if grantedUser.role == 2||grantedUser.role==1>  <li <#if active == "school">class="active"</#if>><a href="/console/school/list">学校管理</a></li>
+              <!--   <li <#if active == "student">class="active"</#if>><a href="/console/student/list">学生管理</a></li> -->
+                <li <#if active == "teacher">class="active"</#if>><a href="/console/teacher/list">教师管理</a></li></#if>
+              <#if grantedUser.role == 3 ||grantedUser.role==1>   <li <#if active == "course">class="active"</#if>><a href="/console/course/list">课程设计</a></li>
+                <li <#if active == "lesson">class="active"</#if>><a href="/console/lesson/list">授课管理</a></li></#if>
+            </ul>
+        </li>
+        </#if>
+       <#if grantedUser.role == 3||grantedUser.role==1>  <li><a href="javascript:;"><i class="fa fa-caret-down"></i> 知识中心</a>
+            <ul>
+                <li><a href="/library/console" target="_blank">知识管理</a></li>
+               <!--  <li hidden="hidden"><a href="/console/library/stats">知识统计</a></li> -->
+            </ul>
+        </li>
+        </#if>
+        <#if grantedUser.role == 2||grantedUser.role==1>
+        <li><a href="javascript:;"><i class="fa fa-caret-down"></i> 公告中心</a>
+            <ul>
+                <li <#if active == "noticeCategory">class="active"</#if>><a href="/console/notice/category/list">分类管理</a></li>
+                <li <#if active == "notice">class="active"</#if>><a href="/console/notice/list">公告管理</a></li>
+            </ul>
+        </li>
+        <li><a href="javascript:;"><i class="fa fa-caret-down"></i> 安全中心</a>
+            <ul>
+                <li <#if active == "resource">class="active"</#if>><a href="/console/acl/resource/list">资源管理</a></li>
+                <li <#if active == "role">class="active"</#if>><a href="/console/acl/role/list">角色管理</a></li>
+                <li <#if active == "user">class="active"</#if>><a href="/console/acl/user/list">用户管理</a></li>
+            </ul>
+        </li>
+        </#if>
+	</ul>
+</div>
+</#macro>
+

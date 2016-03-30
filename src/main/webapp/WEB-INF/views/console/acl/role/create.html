@@ -1,0 +1,87 @@
+<!DOCTYPE html><#import "/lib/console.html" as console>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>后台管理系统</title>
+
+<@console.css />
+
+<style type="text/css">
+
+</style>
+</head>
+<body>
+
+<@console.topbar />
+
+<@console.sidebar active="role"/>
+
+<#import "/lib/spring.ftl" as spring>
+
+<div class="main">
+	<div class="main-head clearfix">
+        <ol class="breadcrumb float-left">
+            <li><i class="fa fa-cubes"></i> <a href="/console/acl/role/list">角色管理</a></li>
+            <#if role.id??>
+            <li class="active">修改角色</li>
+            <#else>
+            <li class="active">新建角色</li>
+            </#if>
+        </ol>
+    </div>
+    
+    <form id="role" action="<#if role.id??>/console/acl/role/update/${role.id}<#else>/console/acl/role/create</#if>" method="post" class="form-horizontal main-form" role="form">
+		<div class="form-group">
+		    <label for="code" class="col-sm-2 control-label">角色代码</label>
+		    <div class="col-sm-10">
+		        <input id="code" name="code" value="${(role.code)!}" placeholder="必填，必须是英文" type="text" class="form-control main-form-input"  autofocus>
+		        <#if role??><@spring.bind "role.code" /><@spring.showErrors /></#if>
+		    </div>
+		</div>
+		<@spring.formHiddenInput "role.id" />
+		<div class="form-group">
+		    <label for="name" class="col-sm-2 control-label">角色名称</label>
+		    <div class="col-sm-10">
+		        <input id="name" name="name" value="${(role.name)!}" placeholder="必填" type="text" class="form-control main-form-input" >
+		        <#if role??><@spring.bind "role.name" /><@spring.showErrors /></#if>
+		    </div>
+		</div>
+		<div class="form-group">
+		    <label for="note" class="col-sm-2 control-label">角色描述</label>
+		    <div class="col-sm-10">
+		        <textarea id="note" name="note" class="form-control main-form-input">${(role.note)!}</textarea>
+		        <#if role??><@spring.bind "role.note" /><@spring.showErrors /></#if>
+		    </div>
+		</div>
+		<div class="form-group">
+			<label for="enabled" class="col-sm-2 control-label">是否启用</label>
+            <div class="col-sm-10">
+                <div class="checkbox">
+                    <label><@spring.formCheckbox "role.enabled" /> 启用 <span class="field-note"></span></label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+			<label for="sort" class="col-sm-2 control-label">显示顺序</label>
+            <div class="col-sm-10">
+                <input id="sort" name="sort" value="${(role.sort)!}" placeholder="必填" type="text" class="form-control main-form-input" >
+		        <#if role??><@spring.bind "role.sort" /><@spring.showErrors /></#if>
+            </div>
+        </div>
+
+        <hr>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button id="submit" type="submit" class="btn btn-success main-form-submit">提 交</button>
+            </div>
+        </div>
+	</form>
+    
+</div><!-- main -->
+
+<@console.js />
+
+</body>
+</html>

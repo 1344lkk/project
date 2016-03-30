@@ -1,0 +1,117 @@
+<!DOCTYPE html><#import "/lib/common.html" as common>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>知识库</title>
+<link rel="stylesheet" type="text/css" href="/lib/ui-tree/angular-ui-tree.min.css">
+<link rel="stylesheet" type="text/css" href="/lib/ui-tree/app.css">
+<@common.css />
+
+</head>
+<body>
+
+<@common.topbar />
+
+<style type="text/css">
+.panel {
+	margin-top: 10px;
+    margin-bottom: 120px;
+}
+
+.panel-heading {
+	text-align: center;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.panel-body {
+
+}
+
+.data-box {
+width: 100%;
+    height: 80px;
+    text-align: center;
+    font-size: 22px;
+    line-height: 80px;
+}
+
+.video-box {
+    color: #fff;
+    background-color: #000000;
+    width: 100%;
+    height: 500px;
+    text-align: center;
+    font-size: 32px;
+    line-height: 500px;
+}
+</style>
+<div class="container" ng-app="demoApp" style="margin-top: 50px">
+<script type="text/ng-template" id="nodes_renderer.html">
+  <div ui-tree-handle class="tree-node tree-node-content">
+    <a class="btn btn-success btn-xs" ng-if="node.nodes && node.nodes.length > 0" data-nodrag ng-click="toggle(this)"><span
+        class="glyphicon"
+        ng-class="{
+          'glyphicon-chevron-right': collapsed,
+          'glyphicon-chevron-down': !collapsed
+        }"></span></a>
+    <a href='#/studentknowledgeSet/{{node.id}}' data-nodrag >{{node.title}}</a>
+   
+
+  </div>
+  <ol ui-tree-nodes="" ng-model="node.nodes" ng-class="{hidden: collapsed}">
+    <li ng-repeat="node in node.nodes" ui-tree-node ng-include="'nodes_renderer.html'">
+    </li>
+  </ol>
+</script>
+  <div>
+    
+  
+    <div class="row">
+ 
+  
+      <div class="col-md-3" ng-controller="myCtrl">
+    
+        <div ui-tree id="tree-root">
+      <ol ui-tree-nodes ng-model="data">
+        <li ng-repeat="node in data" ui-tree-node ng-include="'nodes_renderer.html'"></li>
+      </ol>
+    </div>
+      </div>
+       <div class="col-md-9">
+        <h2></h2>
+        <ng-view></ng-view>
+      </div>
+     
+    </div>
+    
+  </div>
+
+
+
+</div>
+
+
+
+<@common.footer />
+
+<@common.js />
+<script src="/lib/angular/1.4.8/angular.min.js"></script>
+<script src="/lib/angular/1.4.8/angular-route.min.js"></script>
+<script src="/lib/angular-ui-bootstrap/0.14.3/ui-bootstrap-tpls.min.js"></script>
+<script src="/lib/ui-tree/js/angular-ui-tree.js"></script>
+<script src="/lib/ui-tree/js/app.js"></script>
+<script src="/lib/ui-tree/js/treeRouter.js"></script>
+<script type="text/javascript" charset="utf-8" src="/lib/ue/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="/lib/ue/ueditor.all.min.js"> </script>
+<script src="/lib/ui-tree/angular-ueditor.js"></script>
+ <script >
+ 
+ 
+</script>
+	
+	
+</body>
+</html>

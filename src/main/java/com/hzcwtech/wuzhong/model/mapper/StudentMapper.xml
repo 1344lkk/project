@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzcwtech.wuzhong.model.mapper.StudentMapper">
+	<resultMap type="Student" id="Student" autoMapping="true">
+		<id column="id" property="userId" />
+		 <association property="user" resultMap="User"/> 
+		 <association property="clazz" resultMap="Clazz"/> 
+		 <association property="work" resultMap="Work"/> 
+	</resultMap>
+	
+	<resultMap type="User" id="User" autoMapping="true">
+		<id column="id" property="id" />
+		 <association property="work" resultMap="Work"/> 
+	</resultMap>
+	
+	<resultMap type="Clazz" id="Clazz" autoMapping="true">
+		<id column="id" property="id" />
+	</resultMap>
+	<resultMap type="Work" id="Work" autoMapping="true">
+		<id column="id" property="id" />
+	</resultMap>
+	<resultMap type="PageView" id="PageView" autoMapping="true">
+		
+	</resultMap>
+	<select  id="getStudentsByClassId"  resultMap="Student">
+	SELECT * FROM student AS s JOIN user AS u ON s.userId=u.id JOIN (SELECT c.name,c.id,c.schoolYear,c.grade,c.studentCount,c.schoolId ,s.name AS schoolName FROM school_class AS c JOIN
+		school AS s ON c.schoolId=s.id) AS t ON s.classId=t.id WHERE s.classId=#{classId}
+	</select>
+	
+	<insert id="updateStudent" parameterType="Student">
+		UPDATE student SET 
+		  classId=#{classId}
+		WHERE userId = #{userId}
+	</insert>
+	<insert id="insertStudent" parameterType="Student">
+		INSERT INTO student (userId, classId)
+		VALUE(#{userId},#{classId})
+	</insert>
+	
+	<select  id="getStudents"  resultMap="Student">
+		SELECT * FROM student AS s JOIN user AS u ON s.userId=u.id JOIN (SELECT c.name,c.id,c.schoolYear,c.grade,c.studentCount,c.schoolId ,s.name AS schoolName FROM school_class AS c JOIN
+		school AS s ON c.schoolId=s.id) AS t ON s.classId=t.id 
+	</select>
+	
+	<select id="searchStudentList" resultMap="Student">
+		SELECT * FROM student AS s JOIN user AS u ON s.userId=u.id JOIN (SELECT c.name,c.id,c.schoolYear,c.grade,c.studentCount,c.schoolId ,s.name AS schoolName FROM school_class AS c JOIN
+		school AS s ON c.schoolId=s.id) AS t ON s.classId=t.id 
+		<if test="q != null">WHERE u.truename LIKE #{q} OR u.username LIKE #{q} OR t.schoolYear LIKE #{q}</if>
+	</select>
+	
+	
+	<select  id="getStudentByUserId"  resultMap="Student">
+		SELECT * FROM student AS s JOIN user AS u ON s.userId=u.id JOIN (SELECT c.name,c.id,c.schoolYear,c.grade,c.studentCount,c.schoolId ,s.name AS schoolName FROM school_class AS c JOIN
+		school AS s ON c.schoolId=s.id) AS t ON s.classId=t.id  WHERE s.userId=#{userId}
+	</select>
+     
+     <select  id="getStudentByLessonId"  resultMap="Student">
+		select * from student st ,user u ,lesson l,school_class sc where st.classId = sc.id and st.userId = u.id and l.classId = sc.id and  l.id=#{lessonId}
+	</select>
+	
+	 <select  id="getStudentByTaskId"  resultMap="User">
+	 select * from(select l.id as learningId ,u.truename,u.id from learning l,user u where l.studentId = u.id and lessonId =#{lessonId})as st left join (select w.* from learning l,work w where l.id = w.learningId and taskId =#{taskId}) as t on st.learningId   =t.learningId 
+     </select>
+     
+	 <insert  id="insertPageView"  parameterType="PageView">
+	  INSERT INTO view (masterId, visitorId,viewTime)
+		VALUE(#{masterId},#{visitorId},#{viewTime})
+     </insert>
+     
+     <select  id="getViewCount"  resultType="int">
+	  SELECT IFNULL(sum(viewCount),0) as viewCount FROM view where masterId  = #{masterId}
+     </select>
+     
+      <select  id="getPageView"  resultMap="PageView">
+	  select * from view where masterId = #{masterId} and  visitorId = #{visitorId}
+      </select>
+     
+     <update id="updatePageView" parameterType="PageView">
+		UPDATE view SET 
+		 viewTime = #{viewTime}, viewCount = #{viewCount} where masterId = #{masterId} and  visitorId = #{visitorId}
+	</update>
+	  
+	  <select  id="getViewUser"  resultMap="PageView">
+	  select u.truename as viewUser,u.role ,v.* from view v,user u where v.visitorId=u.id and v.masterId = #{masterId} order by viewTime desc
+      </select>
+	</mapper>

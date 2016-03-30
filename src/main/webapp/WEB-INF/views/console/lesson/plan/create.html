@@ -1,0 +1,91 @@
+<!DOCTYPE html><#import "/lib/console.html" as console>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>后台管理系统</title>
+
+<@console.css />
+<link rel="stylesheet" type="text/css" href="/lib/laydate/need/laydate.css">
+<style type="text/css">
+
+</style>
+</head>
+<body>
+
+<@console.topbar />
+
+<@console.sidebar active="lesson"/>
+
+<#import "/lib/spring.ftl" as spring>
+
+<div class="main">
+	<div class="main-head clearfix">
+        <ol class="breadcrumb float-left">
+             <li><a href="/console/lesson/plan/list/${lessonId}">授课设计</a></li>
+            <#if lessonPlan.stageId??>
+            <li class="active">修改计划</li>
+            <#else>
+            <li class="active">新建计划</li>
+            </#if>
+        </ol>
+    </div>
+   
+    <form id="lesson" action="<#if lessonPlan.stageId??>/console/lesson/plan/update<#else>/console/lesson/plan/create</#if>" method="post" class="form-horizontal main-form" role="form">
+		<input value="${lessonId}"type="hidden" name="lessonId">
+		<div class="form-group">
+			<label for="grade" class="col-sm-2 control-label">阶段名称</label>
+            <div class="col-sm-10">
+                <select class="form-control main-form-input" id="stageId" name="stageId">
+                <#list stages as stage>
+                  
+                     <#if lessonPlan.stageId??><#if stage.id == lessonPlan.stageId><option value="${stage.id}" selected>${stage.name}</option></#if>
+                     <#else>
+                     <option value="${stage.id}" >${stage.name}</option>
+                     </#if>
+                    
+                  </#list> 
+                </select>
+		        <#if lessonPlan??><@spring.bind "lessonPlan.stageId" /><@spring.showErrors /></#if>
+            </div>
+        </div>
+	
+        <div class="form-group">
+		    <label for="note" class="col-sm-2 control-label">开始时间</label>
+		    <div class="col-sm-10">
+		       	<input onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"value="${lessonPlan.startTime!}" name="startTime" class="form-control main-form-input" required >
+		        <#if lessonPlan??><@spring.bind "lessonPlan.startTime" /><@spring.showErrors /></#if>
+		    </div>
+		</div>
+        <div class="form-group">
+		    <label for="note" class="col-sm-2 control-label">结束时间</label>
+		    <div class="col-sm-10">
+		       	<input onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" name="endTime"value="${lessonPlan.endTime!}" class="form-control main-form-input" required >
+		        <#if lessonPlan??><@spring.bind "lessonPlan.endTime" /><@spring.showErrors /></#if>
+		    </div>
+		</div>
+	  
+        <hr>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button id="submit" type="submit" class="btn btn-success main-form-submit">提 交</button>
+            </div>
+        </div>
+	</form>
+ 
+</div><!-- main -->
+
+<@console.js />
+<script type="text/javascript" src="/lib/laydate/laydate.js" ></script>
+<script type="text/javascript">
+$("#courseId").change(function(){
+	
+	$("#name").val($("#courseId").find("option:selected").text());
+	
+})
+
+</script>
+</script> 
+</body>
+</html>

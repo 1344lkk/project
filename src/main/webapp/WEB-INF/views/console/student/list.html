@@ -1,0 +1,188 @@
+<!DOCTYPE html><#import "/lib/console.html" as console>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>后台管理系统</title>
+
+<@console.css />
+
+<style type="text/css">
+
+</style>
+</head>
+<body>
+
+<@console.topbar />
+
+<@console.sidebar active="school"/>
+
+<div class="modal" id="mymodal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="title">提示</h4>
+			</div>
+			<div class="modal-body">
+				<p id="message"></p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				<button type="button" class="btn btn-primary" id="JustDoIt">确定</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+<div class="main">
+	<div class="main-head clearfix">
+        <ol class="breadcrumb float-left">
+            <li class="active"><i class="fa fa-cubes"></i><#if className ??>${className}</#if> 学生管理</li>
+        </ol>
+    </div>
+    <div class="main-tool btn-toolbar" role="toolbar" aria-label="...">
+    <#if classId ??>
+       <a href="/console/student/create/${classId}" class="btn btn-primary">新建学生</a> 
+	</#if>
+        <form method="get" class="input-group" action="/console/student/search" style="width:220px">
+            <input type="text" name="q" value="${q!}" class="form-control" placeholder="搜索 真名/用户名/年份">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+            </span>
+        </form>
+        <div class="col-xs-5" style="float:right"  >
+        <#if classId ??>
+        
+					<form action="/console/student/importStudents/${classId}" class="input-group" enctype="multipart/form-data" method="post" id="students" name="students">
+						<div class="input-group" >								
+							<input type="file" id="schoolExcel" name="filename" >										
+						</div>	
+							<button class="btn btn-primary" type="button" onClick="submitStudent(${classId})">
+								上传Excel
+							</button>
+					</form>	
+					<a href="/console/student/export/${classId}" class="btn btn-primary">导出Excel</a>
+					
+							
+					
+			</#if>
+			</div>
+    </div>
+    
+	<table class="table table-hover table-bordered">
+	<thead>
+		<tr>
+			<th width="42">ID</th>
+			<th>姓名</th>			
+			<th>用户名</th>
+			<th>初始密码</th>
+			<th>昵称</th>
+			<th>性别</th>
+			<th>生日</th>
+			<#if className ??>
+			<#else>
+			<th>班级</th>
+			</#if>
+			<th>学校</th>
+			<th>入学年份</th>
+			<th>操作</th>
+		</tr>
+	</thead>
+	<tbody>
+	
+		<#if students ??>
+		<#list students as item>
+		<tr>
+			<td>${item.userId!''}</td>
+			<td>${item.user.truename!''}</td>
+			<td>${item.user.username!''}</td>
+			<td>${item.user.clearPassword!''}</td>
+			<td>${item.user.nickname!''}</td>
+			<#if item.user.sex !=0>
+					<td>女</td>
+					<#else>
+					<td>男</td>
+					</#if>
+			<td>${item.user.birthday!''}</td>
+			<#if className ??>
+			<#else>
+			<td>${item.clazz.name!''}</td>			
+			</#if>
+			<td>${item.clazz.schoolName!''}</td>
+			<td>${item.clazz.schoolYear!''}</td> 
+			<td>
+				<a href="/console/student/update/${item.userId}">修改</a> / 
+				<a href="#" onClick="clickDel(${item.userId})">删除</a>
+			</td>
+		</tr>
+		</#list>
+		</#if>
+	</tbody>
+	</table>
+</div>
+
+<@console.js />
+<script type="text/javascript" src="../../../lib/bootstrap/3.3.5/js/bootstrap-filestyle.min.js"></script>
+
+
+
+<script type="text/javascript">
+
+		function clickDel(userId){
+			
+		$("#message").html("确定删除此学生吗");
+		$("#mymodal").modal("show");
+		
+		$("#JustDoIt").click(function(){
+		
+			window.location="/console/student/delete/"+userId+"/"+${classId};			
+			
+		});	
+		}
+
+		$('#schoolExcel').filestyle({
+			buttonText : 'File',
+			buttonName : 'btn-primary'
+		});
+		
+		function submitStudent(id){
+			
+			
+			var file=$("#schoolExcel").val();
+			var ldot = file.lastIndexOf(".");
+			var type = file.substring(ldot + 1);
+			 var formData = new FormData($( "#students" )[0]);  
+	
+		
+			 if(!(type=="xls"||type=="xlsx")){
+				 $("#message").html("上传文件类型不支持");
+				 $("#mymodal").modal("show");
+				 $("#JustDoIt").click(function(){
+						$("#mymodal").modal("hide");		
+				});
+				
+			 }else{		
+		 			
+				$("#students").submit();
+				
+			 
+			
+			 }
+		}
+			
+		
+
+
+</script>
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,51 @@
+<div ng-controller="QuestionCtrl" ng-if="task.name != null">
+    <div id="taskDetail">
+	<div>
+		<a class="pull-right btn btn-primary btn-xs" style="margin-right: 8px;" onclick="showEditTask()"> <span
+			class="glyphicon glyphicon-pencil"></span>修改
+		</a>
+	</div>
+	<div class="panel panel-default col-sm-10">
+		<div class="panel-heading">任务名称：{{task.name}}</div>
+		<div class="panel-body"ng-bind-html="task.note|to_trusted" >
+			</div>
+	</div>
+	</div>
+	<div>
+	 <form name="form" class="form-horizontal hide pull-left" id="task_form">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">任务名称</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="name" ng-model="task.name"  required >
+            </div>
+           
+        </div>
+
+        <div class="form-group" >
+            <label class="col-sm-2 control-label">任务描述</label>
+            <div class="col-sm-10">
+             <div class="ueditor" ng-model="task.note" style="height: 300px"></div>
+             
+            </div>
+            
+        </div>
+   <div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="ok()" onclick="showTaskDetail()">确定</button>
+    <button class="btn btn-warning" type="button" onclick="showTaskDetail()">取消</button>
+</div>
+
+    </form>
+</div>
+</div>
+<script>
+function showEditTask(){
+	$("#task_form").show();
+	$("#taskDetail").hide();
+	$("#task_form").removeClass("hide");
+}
+function showTaskDetail(){
+	$("#taskDetail").show();
+	$("#task_form").hide();
+}
+
+</script>

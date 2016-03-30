@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzcwtech.wuzhong.model.mapper.CourseMapper">
+
+	<resultMap type="CourseCategory" id="CourseCategory" autoMapping="true">
+		<id column="id" property="id" />
+	</resultMap>
+	
+	<resultMap type="CourseStage" id="CourseStage" autoMapping="true">
+		<id column="id" property="id" />
+	</resultMap>
+
+	<resultMap type="Course" id="Course" autoMapping="true">
+		<id column="id" property="id" />
+		<association property="createUser" javaType="User" columnPrefix="creator_" notNullColumn="username" autoMapping="true">
+			<id column="id" property="id" />
+		</association>
+	</resultMap>
+	<resultMap type="CourseTask" id="CourseTask" autoMapping="true">
+		<id column="id" property="id" />
+		<association property="createUser" javaType="User" columnPrefix="creator_" notNullColumn="username" autoMapping="true">
+			<id column="id" property="id" />
+		</association>
+		<association property="stage" javaType="CourseStage" columnPrefix="stage_" notNullColumn="name" autoMapping="true">
+			<id column="id" property="id" />
+		</association>
+		<association property="course" javaType="Course" columnPrefix="course_" notNullColumn="name" autoMapping="true">
+			<id column="id" property="id" />
+		</association>
+	</resultMap>
+	<!-- Course -->
+	
+	<insert id="insertCourse" parameterType="Course">
+		INSERT INTO course (categoryId, state, version, grade, name, note, createUserId, createTime) 
+		VALUES( #{categoryId}, #{state}, #{version}, #{grade}, #{name}, #{note}, #{createUserId}, #{createTime} )
+	</insert>
+
+	<insert id="updateCourse" parameterType="Course">
+		UPDATE course SET 
+		   categoryId=#{categoryId}, state=#{state}, version=#{version}, grade=#{grade},
+		   name=#{name}, note=#{note}
+		WHERE id = #{id}
+	</insert>
+	
+	<delete id="deleteCourse">
+		DELETE FROM course WHERE id = #{id}
+	</delete>
+	
+	<select id="getCourseListByCategory" resultMap="Course">
+		SELECT id, categoryId, state, version, grade, name, note, createUserId, createTime
+		FROM course
+		WHERE categoryId = #{categoryId}
+	</select>
+	
+	<select id="getCourseStageListByLessonId" resultMap="CourseStage">
+		SELECT * FROM course_stage WHERE id not in (SELECT stageId as id FROM lesson_plan WHERE lessonId= #{lessonId})
+	</select>
+	
+	<select id="getCourseById" resultMap="Course">
+		SELECT 
+			c.id, c.categoryId, c.state, c.version, c.grade, c.name, c.note, c.createUserId, c.createTime,
+			u.id as creator_id,
+			u.username as creator_username,
+			u.truename as creator_truename,
+			u.nickname as creator_nickname
+		FROM course c
+		INNER JOIN user u ON c.createUserId = u.id
+		WHERE c.id = #{id}
+	</select>
+	
+	<select id="searchCourseList" resultMap="Course">
+		SELECT 
+			c.id, c.categoryId, c.state, c.version, c.grade, c.name, c.note, c.createUserId, c.createTime,
+			u.id as creator_id,
+			u.username as creator_username,
+			u.truename as creator_truename,
+			u.nickname as creator_nickname
+		FROM course c
+		INNER JOIN user u ON c.createUserId = u.id
+		WHERE (1=1)
+		<if test="state != null"> AND state = #{state}</if>
+		<if test="q != null"> AND (name LIKE #{q} OR note LIKE #{q}) </if>
+	</select>
+
+   <select id="getCourseTaskList" resultMap="CourseTask">
+		SELECT t.*,u.id as creator_id,
+			u.username as creator_username,
+			u.truename as creator_truename,
+			u.nickname as creator_nickname,
+			s.id as stage_id,
+			s.name as stage_name,
+			c.id as course_id,
+			c.name as course_name
+		FROM  task t
+		    INNER JOIN course c ON t.courseId =c.id 
+		    INNER JOIN course_stage s ON t.stageId =s.id
+		    INNER JOIN user u  ON t.createUserId=u.id
+	    WHERE t.courseId = #{courseId}
+	</select>
+	
+	<select id="getCourseTaskByStageId" resultMap="CourseTask">
+		SELECT t.*,u.id as creator_id,
+			u.username as creator_username,
+			u.truename as creator_truename,
+			u.nickname as creator_nickname,
+			s.id as stage_id,
+			s.name as stage_name,
+			c.id as course_id,
+			c.name as course_name
+		FROM  task t
+		    INNER JOIN course c ON t.courseId =c.id 
+		    INNER JOIN course_stage s ON t.stageId =s.id
+		    INNER JOIN user u  ON t.createUserId=u.id
+	    WHERE t.courseId = #{courseId} AND t.stageId = #{stageId}
+	</select>
+	
+    <select id="getCourseTask" resultMap="CourseTask">
+		select t.*,u.id as creator_id,
+			u.username as creator_username,
+			u.truename as creator_truename,
+			u.nickname as creator_nickname,
+			s.id as stage_id,
+			s.name as stage_name,
+			c.id as course_id,
+			c.name as course_name
+		FROM  task t
+		    INNER JOIN course c ON t.courseId =c.id 
+		    INNER JOIN course_stage s ON t.stageId =s.id
+		    INNER JOIN user u  ON t.createUserId=u.id
+		WHERE t.id = #{id}
+	</select>
+	
+	<insert id="insertCourseTask" parameterType="CourseTask">
+		INSERT INTO task (courseId, stageId, id, name, note,sort, createUserId, createTime) 
+		VALUES( #{courseId}, #{stageId}, #{id}, #{name}, #{note},#{sort}, #{createUserId}, #{createTime} )
+	</insert>
+	
+	<update id="updateCourseTask" parameterType="CourseTask">
+		UPDATE task SET 
+		   courseId=#{courseId},  stageId=#{ stageId}, name=#{name}, note=#{note}
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteCourseTask">
+		DELETE FROM task WHERE id = #{id}
+	</delete>
+	
+	<select id="getIndexCourseList" resultType="Course">
+		SELECT * FROM course ORDER BY createTime DESC LIMIT 0,6 
+	</select>
+	
+	<select id="getCourseTaskByClassId" resultType="CourseTask">
+		SELECT * FROM task t where courseId = (select courseId  from lesson where classId=#{classId}) limit 0,6
+	</select>
+	
+</mapper>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzcwtech.wuzhong.model.mapper.KnowledgeMapper">
+
+	<resultMap type="Knowledge" id="Knowledge" autoMapping="true">
+		<id column="id" property="id" />
+	</resultMap>
+	
+	<resultMap type="KnowledgeCatalog" id="KnowledgeCatalog" autoMapping="true">
+		<id column="id" property="id" />
+	</resultMap>
+	
+	<select id="getKnowledgeByKnowledgeId" parameterType="int" resultMap="Knowledge">
+		SELECT r.* FROM knowledge r,knowledge_category g WHERE r.categoryId =g.id AND r.id=#{id}
+	</select>
+	<insert id="addCatalog" parameterType="KnowledgeCatalog" >
+		INSERT INTO knowledge_category (
+		parentId, name, sort)
+		VALUES( #{parentId}, #{title}, #{sort})
+	</insert>
+     <insert id="addKnowledge" parameterType="Knowledge">
+		INSERT INTO knowledge (categoryId,name,readed,sort,note,createUserId,createTime)
+		VALUES( #{categoryId}, #{name},#{readed},#{sort},#{note},#{createUserId},#{createTime})
+	</insert>
+	<update id="updateKnowLedge" parameterType="Knowledge">
+	UPDATE knowledge SET name=#{name},readed=#{readed},sort=#{sort},note=#{note} WHERE id=#{id}
+		
+	</update>
+</mapper>

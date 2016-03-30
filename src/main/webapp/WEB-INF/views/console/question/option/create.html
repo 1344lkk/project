@@ -1,0 +1,71 @@
+<!DOCTYPE html><#import "/lib/console.html" as console>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>后台管理系统</title>
+
+<@console.css />
+
+<style type="text/css">
+
+</style>
+</head>
+<body>
+
+<@console.topbar />
+
+<@console.sidebar active="questionOption"/>
+
+<#import "/lib/spring.ftl" as spring>
+
+<div class="main">
+	<div class="main-head clearfix">
+        <ol class="breadcrumb float-left">
+            <li><i class="fa fa-cubes"></i> <a href="/console/question/option/list?questionId=${questionId}">试题选项管理</a></li>
+            <#if questionOption.id??>
+            <li class="active">修改试题选项</li>
+            <#else>
+            <li class="active">新建试题选项</li>
+            </#if>
+        </ol>
+    </div>
+    
+    <form id="questionOption" action="<#if questionOption.id ??>/console/question/option/update/${questionId}<#else>/console/question/option/create/${questionId}</#if>" method="post" class="form-horizontal main-form" role="form">
+		<div class="form-group">
+		    <label for="code" class="col-sm-2 control-label">选项名称</label>
+		    <div class="col-sm-10">
+		        <input id="name" name="name" value="${(questionOption.name)!}" placeholder="必填，请填写试题选项名称" type="text" class="form-control main-form-input" required autofocus>
+		        <#if questionOption??><@spring.bind "questionOption.name" /><@spring.showErrors /></#if>
+		    </div>
+		</div>
+		<@spring.formHiddenInput "questionOption.id" />
+		
+		<div class="form-group">
+		    <label for="note" class="col-sm-2 control-label">是否为正确答案</label>
+		   
+		    <div class="col-sm-10">
+		        <select class="form-control main-form-input" id="correct" name="correct">
+                <option value="1"<#if questionOption.correct?? &&questionOption.correct>selected="selected" </#if>>是</option>
+                <option value="0"<#if questionOption.correct?? &&!questionOption.correct>selected="selected" </#if>>否</option>
+              
+                </select>
+		       
+		        <#if questionOption??><@spring.bind "questionOption.correct" /><@spring.showErrors /></#if>
+		    </div>
+		</div>
+        <hr>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button id="submit" type="submit" class="btn btn-success main-form-submit">提 交</button>
+            </div>
+        </div>
+	</form>
+    
+</div><!-- main -->
+
+<@console.js />
+
+</body>
+</html>

@@ -1,0 +1,38 @@
+<div ng-controller="QuestionCtrl" ng-if="task.name != null">
+    <div id="taskDetail">
+	<div>
+		
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">任务名称：{{task.name}}</div>
+		<div class="panel-body" ng-bind-html="task.note|to_trusted" >
+			</div>
+	</div>
+	<div class="panel panel-default" ng-if="stageId!=1">
+		<div class="panel-heading">该生的作业</div>
+		<div class="panel-body" >
+		<div class="row"> 
+		<div class="col-md-6"  ng-repeat="photo in work.pthotos" >
+		<img src="{{photo.image}}" width=100% >
+		</div>
+		</div>
+			</div>
+	</div>
+	</div>
+   <div>
+  
+</form> 
+   
+</div>
+<script>
+function showEditTask(){
+	$("#task_form").show();
+	$("#taskDetail").hide();
+	$("#task_form").removeClass("hide");
+}
+function showTaskDetail(){
+	$("#taskDetail").show();
+	$("#task_form").hide();
+}
+
+</script>

@@ -1,0 +1,205 @@
+<!DOCTYPE html><#import "/lib/common.html" as common>
+
+
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>智慧小农场学习平台</title>
+
+<@common.css />
+<link rel="stylesheet" type="text/css" href="/lib/swiper/3.1.0/css/swiper.min.css">
+<link rel="stylesheet" type="text/css" href="/res/home/index/index.css">
+</head>
+<body>
+
+<@common.topbar />
+
+
+<div class="container banner-container">
+    <!-- swiper -->
+    <div class="banner swiper-container">
+        <div class="swiper-wrapper">
+
+            <a href="#" class="swiper-slide" style="background-image:url(/res/home/index/banner1.jpg);background-position-x: 35%">
+                <div class="banner-info banner-info0">
+                    <div>综合实践学习平台</div>
+                    <div>体验式学习，多维度发展</div>
+                </div>
+            </a>
+            <a href="#" class="swiper-slide" style="background-image:url(/res/home/index/banner2.jpg)">
+                <div class="banner-info">
+                    <span>体验式学习四阶段图示</span>
+                </div>
+            </a>
+            <a href="#" class="swiper-slide" style="background-image:url(/res/home/index/banner3.jpg)">
+                <div class="banner-info">
+                    <span>领导参观和关怀</span>
+                </div>
+            </a>
+
+            <a href="#" class="swiper-slide" style="background-image:url(/res/home/index/banner4.jpg)">
+                <div class="banner-info">
+                    <span>优秀作品展示</span>
+                </div>
+            </a>
+
+        </div>
+        <div class="swiper-pagination banner-pagination"></div>
+    </div><!-- swiper -->
+</div>
+
+<div class="container news-container">
+	<div class="news">
+        <span><i class="fa fa-angle-right"></i> 公告和新闻滚动</span>
+        <span><i class="fa fa-angle-right"></i> 黄瓜生长主题任务更新</span>
+        <span><i class="fa fa-angle-right"></i> 某某领导视察本农场</span>
+        <span><i class="fa fa-angle-right"></i> 系统维护公告</span>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+          
+            <div class="panel panel-default">
+                <#if currentUser ??>
+                                             <div class="text-center">欢迎你:${currentUser.truename}</div>  
+		        
+		        <#else>
+                <div class="panel-heading">
+                    <h3 class="panel-title">用户登录</h3>
+                </div>
+                <div class="panel-body">
+                    <form class="form-signin" action="/auth/signin" method="post">
+                        <label for="username" class="sr-only">Username</label>
+                        <input id="username" name="username" class="form-control" type="text" required placeholder="用户名/学号">
+                        <label for="password" class="sr-only">Password</label>
+                        <input id="password" name="password" class="form-control" type="password" required placeholder="密码">
+                        <div class="checkbox">
+                            <label>
+                                <input name="remeber" type="checkbox" value="remember-me"> 下次自动登录
+                            </label>
+                        </div>
+                        <button class="btn btn-success btn-block" type="submit">登录</button>
+                    </form>
+                </div>
+                </#if>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">最近活动</h3>
+                </div>
+                <div class="panel-body">
+                    <ul>
+                     <#if indexLesson??>
+                      <#list indexLesson as lesson>
+						<li>${lesson.name} ${lesson.class_name}</li>
+                      </#list> 
+                     </#if>  
+                    </ul>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">最近作品</h3>
+                </div>
+                <div class="panel-body">
+                    <ul style="list-style-type:none;">
+                     <#if recentWork??>
+                      <#list recentWork as work>
+                        <li><img src="${work.image}" width="100%"></li>
+                       </#list>
+                     </#if>  
+                    </ul>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">友情链接</h3>
+                </div>
+                <div class="panel-body">
+                    <ul>
+                        <li>环太湖教育论坛</li>
+                        <li>xxxxxxxxxxxxxx</li>
+                        <li>xxxxxxxxxxxxxx</li>
+                        <li>xxxxxxxxxxxxxx</li>
+                        <li>xxxxxxxxxxxxxx</li>
+                        <li>xxxxxxxxxxxxxx</li>
+                    </ul>
+                </div>
+            </div>
+        </div><!-- col-md-3 -->
+
+        <div class="col-md-9 col-right">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">优秀作品</h3>
+                </div>
+                <div class="panel-body work-container">
+                    <div id="works" class="swiper-container work-swiper-container">
+                        <div class="swiper-wrapper">
+                         <#if excellentWork??>
+                          <#list excellentWork as work>
+                            <a href="/student/${work.studentId}/work" class="swiper-slide"><div class="t" style="background-image:url(${work.image})"><div class="work-title">${work.truename}</div></div></a>
+                          </#list>
+                         </#if>
+                        </div>
+                        <!-- Add Pagination -->
+                        <div class="swiper-pagination work-pagination"></div>
+                    </div>
+                </div>
+            </div>
+
+<!--             <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title" style="display: inline-block">最新知识</h3>
+                    <a class="pull-right" href="/library">更多知识</a>
+                </div>
+                <div class="panel-body">
+                    aaa
+                </div>
+            </div> -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">体验式学习介绍</h3>
+                </div>
+                <div class="panel-body">
+                    <ol>
+                        <li>实际经历和体验--完全投入到当时当地的实际体验活动中</li>
+                        <li>观察和反思----从多个角度观察和思考实际体验活动和经历</li>
+                        <li>抽象概念和归纳的形成---通过观察与思考，抽象出合乎逻辑的概念和理论</li>
+                        <li>在新环境中测试新概念的含义---运用这些理论去作出决策和解决问题，并在实际工作中验证自己新形成的概念和理论</li>
+                    </ol>
+
+                    <h4>主动学习</h4>
+                    <p>在传统上，教师是教学的中心，学生只需专心听讲，认真记笔记即可。而体 验式学习则要求学习者发挥主动精神，对自己的学习负主要责任，真正成为教学过程的主体。体验式学习强调学习者积极主动地参与，认为没有这种参与，就不能产生任何体验，更谈 不上学习过程的完成。</p>
+
+                    <h4>寓教于乐</h4>
+                    <p>寓教于乐一直是教育界为激发学生的学习兴趣而试图攻克的难题。寓教于乐 中的“乐”字应包涵两层意义：一是指教师把传授的知识融入能激发学生兴趣的教学方法中去，尽量使教学过程像娱乐活动一样吸引人。二是指教师通过调动学生，将被动学习变成主 动掌握的过程。“体验式学习”的提出为这方面的研究开辟了一条新的思路。在这里“乐” 的重心已有所偏移，即并非教师单方面制造的乐趣，而是学生主动体会到的乐趣。学生学得 快乐，这才是寓教于“乐”的真正实现和真实效果。</p>
+
+                    <h4>学以致用</h4>
+                    <p>学以致用是传统教育的一个难题，原因之一是学生很少有应用知识解决实际 问题的场所、时间和机会。在语言教学中则表现为不了解在真实的环境下应该用什么语言最适当、最能表达自己的思想。这也是中国学生在英语等级考试中能拿高分。这也是 中国学生在英语等级考试中能拿高分，但始终摆脱不了“哑巴式英语”的原因所在。因此，应该让学习者逐渐意识到语言学习是一个通过实践运用循序渐进的过程。脱离了语言的应用 ，语法就永远只是一堆僵化的字符，并将随着时间的流逝而从头脑里消失。体验式学习的优势在于，它为学习者及时提供了一个运用语言的空间，使语言学习者成功地进入活生生的语 言表达和思想交流之中。</p>
+
+                    <h4>虚实结合</h4>
+                    <p>体验式学习是一种情境化学习，在这里学习过程被置于各种虚拟的或真实的 语言情境之中。关键在于，教师在实施情境化教学理念时应该对其保持一种发展的眼光和态度，意识到情境化学习不能只是让学生表演一些背得烂熟的情景对话小品。的确，模仿是语 言学习的必经之路，但更重要的是，不能忘记模仿是为了更好地创造。如果只是一味地强调模仿，一旦学生在生活中遇到真实情境，就会不知所措，因为他们并没有真正掌握在真实情 境下语言的灵活运用。所以，虚拟情境应力求逼近真实的情境，在引导学生体验时要尽量使学习者从外在的环境和内在的心境两方面都感到自己正处在生活的语言空间中，而不是在一 种被安排好的系列活动之中，要让学习者对即将发和珠事情无法预料，而又必须马上运用所学语言知识进行思考，作出反应，加以解决，从而在一个解决问题的过程中获得对语言的深 刻的体验。语言的运用在生活中无处不在，教师应充分抓住这一点，把语言体验与语言教学有机地结合起来。</p>
+
+                </div>
+            </div>
+
+
+        </div><!-- col-md-9 -->
+    </div>
+
+</div>
+
+<@common.footer />
+
+<@common.js />
+<script src="/lib/swiper/3.1.0/js/swiper.jquery.min.js"></script>
+<script src="/res/home/index/index.js"></script>
+</body>
+</html>

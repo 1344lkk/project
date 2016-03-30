@@ -1,0 +1,136 @@
+<!DOCTYPE html><#import "/lib/common.html" as common>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>精彩作品</title>
+
+<@common.css />
+<link rel="stylesheet" type="text/css" href="/lib/swiper/3.1.0/css/swiper.min.css">
+</head>
+<body>
+
+<@common.topbar />
+
+<style type="text/css">
+.art-list {
+    padding:0;
+    margin:0;
+    list-style-type: none;
+}
+
+.art-list li {
+    float: left;
+    width: 100%;
+    padding: 10px;
+}
+
+@media (min-width: 500px) {
+    .art-list li {
+        width: 50%;
+    }
+}
+@media (min-width: 768px) {
+    .art-list li {
+        width: 33%;
+    }
+}
+
+.art-list li a {
+    position: relative;
+    display: block;
+    color: #333;
+    font-size: 12px;
+    text-decoration: none;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,.3);
+    -moz-box-shadow: 0 1px 3px rgba(0,0,0,.3);
+    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.3);
+}
+
+.art-list li a:hover {
+
+}
+
+.art-list li a img {
+    width: 100%;
+}
+
+span.art-name {
+    display: block;
+    padding: 15px 0 5px 15px;
+}
+
+.art-school {
+    padding: 0 5px 5px 15px;
+}
+
+.art-stats {
+    padding-left: 10px;
+}
+.art-stats span {
+    display: inline-block;;
+    padding: 5px;
+    color: #8c7e7e;
+    font-size: 11px;
+}
+
+</style>
+
+<div class="container" style="margin-top: 10px">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="text-center" style="height: 260px">
+                <h1>典型作品轮播</h1>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="container">
+    <div class="panel panel-default" style="background-color: #f2f2f5">
+        <div class="panel-body">
+            <ul class="art-list clearfix">
+                {% for art in arts %}
+                <li>
+                    <a href="/student/{{ art.id }}/work">
+                        <img src="/res/works/work{{ art.id - 2}}.jpg">
+                        <span class="art-name">{{ art.nickname }}</span>
+                        <div class="art-school">星海学校小学部 四年级(1)班</div>
+                        <div class="art-stats">
+                            <span><i class="fa fa-eye"></i> 1332</span>
+                            <span><i class="fa fa-thumbs-o-up"></i> 587</span>
+                        </div>
+                    </a>
+                </li>
+                {% endfor %}
+
+                {% for art in arts %}
+                <li>
+                    <a href="/student/{{ art.id }}/work">
+                        <img src="/res/works/work{{ art.id - 2}}.jpg">
+                        <span class="art-name">{{ art.nickname }}</span>
+                        <div class="art-school">星海学校小学部 四年级(1)班</div>
+                        <div class="art-stats">
+                            <span><i class="fa fa-eye"></i> 1332</span>
+                            <span><i class="fa fa-thumbs-o-up"></i> 587</span>
+                        </div>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+
+</div>
+
+<@common.footer />
+
+<@common.js />
+<script src="/lib/swiper/3.1.0/js/swiper.jquery.min.js"></script>
+
+</body>
+</html>

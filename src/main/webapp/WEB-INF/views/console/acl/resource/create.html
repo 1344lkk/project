@@ -1,0 +1,88 @@
+<!DOCTYPE html><#import "/lib/console.html" as console>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>后台管理系统</title>
+
+<@console.css />
+
+<style type="text/css">
+
+</style>
+</head>
+<body>
+
+<@console.topbar />
+
+<@console.sidebar active="resource"/>
+
+<#import "/lib/spring.ftl" as spring>
+
+<div class="main">
+	<div class="main-head clearfix">
+        <ol class="breadcrumb float-left">
+            <li><i class="fa fa-cubes"></i> <a href="/console/acl/resource/list">资源管理</a></li>
+            <#if resource.id??>
+            <li class="active">修改资源</li>
+            <#else>
+            <li class="active">新建资源</li>
+            </#if>
+        </ol>
+    </div>
+    
+    <form id="resource" action="<#if resource.id??>/console/acl/resource/update/${resource.id}<#else>/console/acl/resource/create</#if>" method="post" class="form-horizontal main-form" role="form">
+		<div class="form-group">
+		    <label for="code" class="col-sm-2 control-label">资源代码</label>
+		    <div class="col-sm-10">
+		        <input id="code" name="code" value="${(resource.code)!}" placeholder="必填，必须是英文" type="text" class="form-control main-form-input" required autofocus>
+		        <#if resource??><@spring.bind "resource.code" /><@spring.showErrors /></#if>
+		    </div>
+		</div>
+		<@spring.formHiddenInput "resource.id" />
+		<div class="form-group">
+		    <label for="name" class="col-sm-2 control-label">资源名称</label>
+		    <div class="col-sm-10">
+		        <input id="name" name="name" value="${(resource.name)!}" placeholder="必填" type="text" class="form-control main-form-input">
+		        <#if resource??><@spring.bind "resource.name" /><@spring.showErrors /></#if>
+		    </div>
+		</div>
+		<div class="form-group">
+		    <label for="note" class="col-sm-2 control-label">资源描述</label>
+		    <div class="col-sm-10">
+		        <textarea id="note" name="note" class="form-control main-form-input">${(resource.note)!}</textarea>
+		        <#if resource??><@spring.bind "resource.note" /><@spring.showErrors /></#if>
+		    </div>
+		</div>
+		<div class="form-group">
+			<label for="enabled" class="col-sm-2 control-label">是否启用</label>
+            <div class="col-sm-10">
+                <div class="checkbox">
+                    <label><@spring.formCheckbox "resource.enabled" /> 启用 <span class="field-note">(如不启用，则所有用户都不可访问)</span></label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+		    <label for="security" class="col-sm-2 control-label">是否鉴权</label>
+		    <div class="col-sm-10">
+		        <div class="checkbox">
+                    <label><@spring.formCheckbox "resource.security" /> 鉴权 <span class="field-note">(如不鉴权，则所有用户都可以访问)</span></label>
+                </div>
+		    </div>
+		</div>
+
+        <hr>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button id="submit" type="submit" class="btn btn-success main-form-submit">提 交</button>
+            </div>
+        </div>
+	</form>
+    
+</div><!-- main -->
+
+<@console.js />
+
+</body>
+</html>

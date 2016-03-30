@@ -1,0 +1,303 @@
+.banner-container {
+    padding: 0;
+    margin-bottom: 10px;
+}
+
+.banner {
+    position: relative;
+    background-image: url(/res/student/images/banner1.jpg);
+    background-repeat: no-repeat;
+    background-position: 10% top;
+    background-size: auto 100%;
+    margin: 0;
+    height: 188px;
+}
+
+@media (min-width: 529px) {
+    .banner {
+        background-position: center top;
+        background-size: 100%;
+    }
+}
+@media (min-width: 768px) {
+    .banner-container {
+        padding: 0 10px;
+    }
+    .banner {
+        height: 260px;
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
+        box-shadow: 0 -1px 5px rgba(0,0,0,0.15);
+        background-position: center top;
+        background-size: 100%;
+    }
+}
+
+.banner-left {
+    text-align: center;
+    padding-top: 10px;
+}
+
+.banner-left div {
+    display: inline-block;
+    border-radius: 50%;
+    padding: 5px;
+    width: 80px;
+    background-color: #fff;
+    box-shadow: 0 0 8px rgba(0,0,0,.25);
+}
+
+.banner-left img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.banner-right {
+    color: #fff;
+    text-align: center;
+}
+
+.student-name {
+    font-size: 18px;
+    margin: 5px;
+    text-shadow: -1px -1px 1px #444;
+}
+
+.student-school {
+    font-size: 11px;
+}
+
+.student-note {
+    margin-top: 12px;
+}
+
+@media (min-width: 768px) {
+    .banner-left {
+        padding-top: 20px;
+    }
+    .banner-left div {
+        width: 120px;
+    }
+    .student-name {
+        font-size: 28px;
+        margin: 10px;
+    }
+}
+
+
+.menu {
+    color: #333;
+    background-color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.2);
+    z-index:1;
+    height: 44px;
+    overflow: hidden;
+}
+
+.menu ul {
+    margin:0;
+    padding: 0;
+    list-style-type: none;
+    display: inline-block;
+}
+
+.menu li {
+    float: left;
+    margin-left: 26px;
+}
+
+.menu li:first-child {
+    margin-left: 0;
+}
+
+.menu li a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #333;
+    border-bottom: 3px solid transparent;
+}
+
+.menu li a:hover {
+    border-color: #ff9800;
+}
+
+.menu li.active a {
+    color: #ff5800;
+    font-weight: bold;
+    border-color: #ff5800;
+}
+
+.panel-note {
+    margin-bottom: 10px;
+}
+
+.panel-note .panel-body {
+    padding: 10px 16px;
+}
+
+.panel-note .panel-footer {
+    padding: 0;
+    background-color: #fff;
+    border-top: 1px solid #f2f2f5;
+}
+
+.note-tool {
+
+}
+
+.note-tool a {
+    display: inline-block;
+    text-decoration: none;
+    color:#999;
+    font-size: 13px;
+}
+
+.note-tool a:hover {
+    color: #ff5800;
+}
+
+.note-tool a>span {
+    padding: 0 20px;
+    display: inline-block;
+    margin: 8px 0;
+    border-left: 1px solid #d9d9d9;
+}
+
+.note-tool a:first-child>span {
+    border-left: 0;
+}
+
+.note-tool-like i {
+    margin-right: 4px;
+}
+
+.note-comments {
+    display: none;
+    background-color: #f2f2f5;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+
+    margin: -1px 0 0;
+    padding: 16px;
+    border-top: 1px solid #d9d9d9;
+}
+
+.note-user {
+    font-size: 15px;
+    display: none;.
+}
+
+.note-time {
+    color: #ccc;
+    font-size: 12px;
+    margin-top: 8px;
+}
+
+.note-note {
+    margin-top: 4px;
+}
+
+.note-note img {
+    margin-top: 10px;
+    width: 50%;
+}
+
+.student-stats {
+    text-align: center;
+}
+.student-stats a {
+    padding: 6px;
+    display: inline-block;
+    width: 45%;
+    text-align: center;
+    color: #333;
+    text-decoration: none;
+}
+.student-stats a:hover {
+    color: #ff5800;
+}
+
+.student-stats a:first-child {
+    border-right: 1px solid #ccc;
+}
+
+.student-stats a span:first-child {
+    margin-right: 4px;
+}
+
+.comment-list {
+    list-style-type: none;
+    margin: 0;
+    padding:0;
+    font-size: 12px;
+}
+
+.comment {
+    position: relative;
+    border-bottom: 1px solid #eee;
+    padding: 5px 0 7px;
+}
+
+.comment-head {
+    float: left;
+    width: 30px;
+    height: 30px;
+    margin-top: 5px;
+    margin-left: 10px
+}
+
+.comment-head img {
+    width: 100%;
+    height: 100%;
+}
+
+.comment-body {
+    margin-left: 40px;
+    line-height: 23px;
+}
+
+.comment-user {
+    color: #49976b;
+}
+
+.comment-text {
+
+}
+
+.comment-text img {
+    width: 18px;
+}
+
+.comment-foot {
+    margin-left: 40px;
+}
+
+.comment-time {
+    color: #999;
+}
+
+.comment-tool {
+    display: inline-block;
+}
+
+.comment-tool a {
+    color: #333;
+    text-decoration: none;
+    padding: 0 8px;
+}
+
+p{
+    margin: 10px 0 0 0;
+    text-align: center;
+}
+
+.comment-tool a:hover {
+    color: #ff5800;
+}

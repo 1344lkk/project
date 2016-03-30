@@ -1,0 +1,136 @@
+<!DOCTYPE html><#import "/lib/console.html" as console>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>后台管理系统</title>
+
+<@console.css />
+<link rel="stylesheet" type="text/css" href="/lib/laydate/need/laydate.css">
+<style type="text/css">
+
+</style>
+</head>
+<body>
+
+<@console.topbar />
+
+<@console.sidebar active="lesson"/>
+
+<#import "/lib/spring.ftl" as spring>
+
+<div class="main">
+	<div class="main-head clearfix">
+        <ol class="breadcrumb float-left">
+            <li><a href="/console/lesson/list">授课设计</a></li>
+            <#if lesson.id??>
+            <li class="active">修改授课</li>
+            <#else>
+            <li class="active">新建授课</li>
+            </#if>
+        </ol>
+    </div>
+    
+    <form id="lesson" action="<#if lesson.id??>/console/lesson/update?cId=${lesson.classId}<#else>/console/lesson/create</#if>" method="post" class="form-horizontal main-form" role="form">
+		<@spring.formHiddenInput "lesson.id" />
+		<div class="form-group">
+			<label for="grade" class="col-sm-2 control-label">课程名称</label>
+            <div class="col-sm-10">
+                <select class="form-control main-form-input" id="courseId" name="courseId">
+                <#list courses as course>
+                  
+                    <option value="${course.id}"  <#if lesson.courseId??><#if course.id == lesson.courseId>selected</#if></#if>>${course.name}</option>
+                    
+                  </#list> 
+                </select>
+		        <#if lesson??><@spring.bind "lesson.classId" /><@spring.showErrors /></#if>
+            </div>
+        </div>
+		
+		<div class="form-group">
+		    <label for="name" class="col-sm-2 control-label">授课名称</label>
+		    <div class="col-sm-10">
+		        <input id="name" name="name" value="${(lesson.name)!}" placeholder="必填" type="text" class="form-control main-form-input" required autofocus>
+		        <#if lesson??><@spring.bind "lesson.name" /><@spring.showErrors /></#if>
+		    </div>
+		</div>
+		<div class="form-group">
+		    <label for="note" class="col-sm-2 control-label">授课描述</label>
+		    <div class="col-sm-10">
+		        <textarea id="note" name="note" class="form-control main-form-input" required>${(lesson.note)!}</textarea>
+		        <#if lesson??><@spring.bind "lesson.note" /><@spring.showErrors /></#if>
+		    </div>
+		</div>
+		<div class="form-group">
+			<label for="grade" class="col-sm-2 control-label">授课班级</label>
+            <div class="col-sm-10">
+                <select class="form-control main-form-input" id="classId" name="classId">
+	                <#if lesson.id??>
+	                	
+	                	<#list classes as clazz>
+	                		<option value="${clazz.id}"  <#if clazz.id == lesson.classId>selected</#if>>${clazz.schoolName}${clazz.name}</option>
+	                	</#list>
+	                <#else>
+	                	
+		                <#list classes as clazz>
+		                  	
+		                    <option value="${clazz.id}">${clazz.schoolName}${clazz.name}</option>
+		                    
+		                </#list>
+                	</#if> 
+                </select>
+		        <#if lesson??><@spring.bind "lesson.classId" /><@spring.showErrors /></#if>
+            </div>
+        </div>
+        <div class="form-group">
+		    <label for="note" class="col-sm-2 control-label">开始时间</label>
+		    <div class="col-sm-10">
+		       	<input onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"value="${lesson.startTime!}" name="startTime" class="form-control main-form-input" required >
+		        <#if lesson??><@spring.bind "lesson.startTime" /><@spring.showErrors /></#if>
+		    </div>
+		</div>
+        <div class="form-group">
+		    <label for="note" class="col-sm-2 control-label">结束时间</label>
+		    <div class="col-sm-10">
+		       	<input onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" name="endTime"value="${lesson.endTime!}" class="form-control main-form-input" required >
+		        <#if lesson??><@spring.bind "lesson.endTime" /><@spring.showErrors /></#if>
+		    </div>
+		</div>
+	   <div class="form-group">
+			<label for="grade" class="col-sm-2 control-label">授课状态</label>
+            <div class="col-sm-10">
+                <select class="form-control main-form-input" id="state" name="state">
+                   <option value="1" <#if lesson.state >selected="selected" </#if>>开课</option>
+                   <option value="0" <#if !lesson.state >selected="selected" </#if>>未开课</option>
+                </select>
+		        <#if lesson??><@spring.bind "lesson.state" /><@spring.showErrors /></#if>
+            </div>
+        </div>
+ 
+        <hr>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button id="submit" type="submit" class="btn btn-success main-form-submit">提 交</button>
+            </div>
+        </div>
+	</form>
+ 
+</div><!-- main -->
+
+<@console.js />
+<script type="text/javascript" src="/lib/laydate/laydate.js" ></script>
+<script type="text/javascript">
+$("#courseId").change(function(){
+	
+	$("#name").val($("#courseId").find("option:selected").text());
+	
+})
+$(document).ready(function(){
+	$("#name").val($("#courseId").find("option:selected").text());
+});
+
+</script>
+</script> 
+</body>
+</html>

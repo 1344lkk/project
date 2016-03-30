@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzcwtech.wuzhong.model.mapper.ReportMapper">
+
+	<resultMap type="Report" id="Report" autoMapping="true">
+		
+	</resultMap>
+
+	
+	
+	<select id="getReportList" resultMap="Report">
+		SELECT er.*,from_unixtime(INSERT_TIME,'%Y-%m-%d %H:%i:%S') as insTime ,er.FUN_ID as functionId FROM  equip_gateway_origal_report er  where to_days(from_unixtime(INSERT_TIME)) = to_days(now()) and FUN_ID = #{functionId} order by from_unixtime(INSERT_TIME)  limit 10000000;
+	</select> 
+
+
+
+
+
+
+</mapper>

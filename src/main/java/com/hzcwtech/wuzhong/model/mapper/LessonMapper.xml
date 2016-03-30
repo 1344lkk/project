@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzcwtech.wuzhong.model.mapper.LessonMapper">
+
+	<resultMap type="Lesson" id="Lesson" autoMapping="true">
+		<id column="id" property="id" />
+		<association property="createUser" javaType="User" columnPrefix="creator_" notNullColumn="username" autoMapping="true">
+			<id column="id" property="id" />
+		</association>
+		<association property="clazz" javaType="Clazz" columnPrefix="class_" notNullColumn="name" autoMapping="true">
+			<id column="id" property="id" />
+		</association>
+		<association property="course" javaType="Course" columnPrefix="course_" notNullColumn="name" autoMapping="true">
+			<id column="id" property="id" />
+		</association>
+	</resultMap>
+	
+	<resultMap type="LessonPlan" id="LessonPlan" autoMapping="true">
+	
+	   
+	</resultMap>
+	
+   <select id="getLessonList" resultMap="Lesson">
+		SELECT l.*,u.id as creator_id,
+			u.username as creator_username,
+			u.truename as creator_truename,
+			u.nickname as creator_nickname,
+			sc.id as class_id,
+			s.name as class_schoolName,
+			sc.name as class_name,
+			c.id as course_id,
+			c.name as course_name
+			FROM  lesson l
+		    INNER JOIN  course c ON l.courseId =c.id 
+		    INNER JOIN  school_class sc ON l.classId =sc.id
+		    INNER JOIN school s ON sc.schoolId =s.id 
+		    INNER JOIN  user u  ON l.createUserId=u.id
+		   
+	</select>
+	
+    <select id="getLesson" resultMap="Lesson">
+		SELECT l.*,u.id as creator_id,
+			u.username as creator_username,
+			u.truename as creator_truename,
+			u.nickname as creator_nickname,
+			sc.id as class_id,
+			s.name as class_shoolName,
+			sc.name as class_name,
+			c.id as course_id,
+			c.name as course_name
+			FROM  lesson l
+		    INNER JOIN  course c ON l.courseId =c.id 
+		    INNER JOIN  school_class sc ON l.classId =sc.id
+		    INNER JOIN  school s ON sc.schoolId =s.id 
+		    INNER JOIN  user u  ON l.createUserId=u.id
+		    WHERE l.id = #{id}
+	</select>
+	
+	<insert id="insertLesson" parameterType="Lesson" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO lesson (courseId, classId, id, name, note,state, createUserId, createTime,startTime,endTime) 
+		VALUES( #{courseId}, #{classId}, #{id}, #{name}, #{note},#{state}, #{createUserId}, #{createTime},#{startTime},#{endTime} )
+	</insert>
+	
+	<update id="updateLesson" parameterType="Lesson">
+		UPDATE lesson SET 
+		   courseId=#{courseId}, classId=#{classId}, name=#{name}, note=#{note},state=#{state},startTime=#{startTime},endTime=#{endTime}
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteLesson">
+		DELETE FROM lesson WHERE id = #{id}
+	</delete>
+	
+	 <!-- lessonPlan -->
+	 
+	   <select id="getLessonPlanList" resultMap="LessonPlan">
+		SELECT p.*,
+			s.name as stageName,
+			l.name as lessonName
+			FROM  lesson_plan p
+		    INNER JOIN  course_stage s ON s.id =p.stageId 
+		    INNER JOIN  lesson l ON l.id = p.lessonId
+		    WHERE p.lessonId = #{lessonId}
+	</select>
+	
+    <select id="getLessonPlan" resultMap="LessonPlan">
+		SELECT p.*,
+			s.id as stage_id,
+			s.name as stage_name,
+			l.id as lesson_id,
+			l.name as lesson_name
+			FROM  lesson_plan p
+		    INNER JOIN  course_stage s ON s.id =p.stageId 
+		    INNER JOIN  lesson l ON l.id = p.lessonId
+		    WHERE p.lessonId = #{lessonId}
+		    AND p.stageId = #{stageId}
+	</select>
+	
+	<insert id="insertLessonPlan" parameterType="LessonPlan">
+		INSERT INTO lesson_plan (lessonId, stageId,startTime,endTime) 
+		VALUES( #{lessonId}, #{stageId},#{startTime},#{endTime} )
+	</insert>
+	
+	<update id="updateLessonPlan" parameterType="LessonPlan">
+		UPDATE lesson_plan SET 
+		  startTime=#{startTime},endTime=#{endTime}
+		WHERE lessonId = #{lessonId} AND  stageId = #{stageId}
+	</update>
+	
+	<delete id="deleteLessonPlan">
+		DELETE FROM lesson_plan WHERE lessonId = #{lessonId} AND  stageId = #{stageId}
+	</delete>
+	 
+	 <select id="getIndexLessonList" resultMap="Lesson">
+	 		SELECT l.*,u.id as creator_id,
+			u.username as creator_username,
+			u.truename as creator_truename,
+			u.nickname as creator_nickname,
+			sc.id as class_id,
+			s.name as class_schoolName,
+			sc.name as class_name,
+			c.id as course_id,
+			c.name as course_name
+			FROM  lesson l
+		    INNER JOIN  course c ON l.courseId =c.id 
+		    INNER JOIN  school_class sc ON l.classId =sc.id
+		    INNER JOIN school s ON sc.schoolId =s.id 
+		    INNER JOIN  user u  ON l.createUserId=u.id	
+		    LIMIT 0,6 	
+	 </select>
+	
+</mapper>

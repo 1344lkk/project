@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzcwtech.wuzhong.model.mapper.QuestionMapper">
+
+	<resultMap type="Question" id="Question" autoMapping="true">
+		<id column="id" property="id" />
+	</resultMap>
+	
+	<resultMap type="QuestionOption" id="QuestionOption" autoMapping="true">
+		<id column="id" property="id" />
+	</resultMap>
+	
+   <select id="getQuestionListByTaskId" resultMap="Question">
+	SELECT * FROM task_question q WHERE taskId = #{taskId}
+	<if test="q != null">AND (q.id LIKE #{q} OR q.name LIKE #{q}) </if>	   
+	</select>
+	
+	 <select id="getQuestionListByTaskIdRandom" resultMap="Question">
+	SELECT * FROM task_question q WHERE taskId = #{taskId} ORDER BY rand() LIMIT 5
+	   
+	</select>
+	
+    <select id="getQuestion" resultMap="Question">
+	SELECT * FROM task_question WHERE id = #{id}
+	</select>
+	
+	<select id="getQuestionByPaperId" resultMap="Question">
+	select q.*,an.answer as studentAnswer from work_paper p,work_paper_answer an,task_question q  where p.id=an.paperId and p.id=#{paperId} and an.questionId = q.id 
+	</select>
+	
+	
+	<insert id="insertQuestion" useGeneratedKeys="true" keyProperty="id" parameterType="Question" >
+		INSERT INTO task_question(taskId, id, name, note,type, required, points,sort,answer) 
+		VALUES( #{taskId}, #{id}, #{name}, #{note},#{type}, #{required}, #{points},#{sort},#{answer} )
+	</insert>
+	
+	<update id="updateQuestion" parameterType="Question">
+		UPDATE task_question SET 
+		  name=#{name}, note=#{note},required=#{required},points=#{points},sort=#{sort},answer=#{answer}
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteQuestion">
+		DELETE FROM task_question WHERE id = #{id}
+	</delete>
+	
+	 <select id="getQuestionOptionListByQuestionId" resultMap="QuestionOption">
+	SELECT * FROM task_question_option  WHERE questionId = #{questionId}	   
+	</select>
+	
+    <select id="getQuestionOption" resultMap="QuestionOption">
+	SELECT * FROM task_question_option  WHERE id = #{id}
+	</select>
+	
+	<insert id="insertQuestionOption" parameterType="QuestionOption">
+		INSERT INTO task_question_option(questionId, id, name, correct)
+		VALUES( #{questionId}, #{id}, #{name}, #{correct} )
+	</insert>
+	
+	<update id="updateQuestionOption" parameterType="QuestionOption">
+		UPDATE task_question_option SET 
+		  name=#{name},correct=#{correct}
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteQuestionOption">
+		DELETE FROM task_question_option WHERE id = #{id}
+	</delete>
+	
+</mapper>

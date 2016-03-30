@@ -1,0 +1,33 @@
+<div class="modal-header">
+    <h3 class="modal-title">添加任务</h3>
+</div>
+<div class="modal-body">
+
+    <form name="form" class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">任务名称</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="name" ng-model="courseTask.name"  required > 
+                <span style="color: red" ng-show="form.name.$dirty && form.name.$invalid"> 
+                <span ng-show="form.name.$error.required">请输入任务名。</span> </span>
+			</div>
+            
+        </div>
+
+        <div class="form-group" >
+            <label class="col-sm-2 control-label">任务描述</label>
+            <div class="col-sm-10">
+             <div class="ueditor"ng-model="courseTask.note" name="note" style="height: 300px"></div>
+             <span style="color: red" ng-show="form.note.$dirty && form.note.$invalid"> 
+                <span ng-show="form.note.$error.required">任务描述。</span> </span>
+            </div>
+            
+        </div>
+
+
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="ok()"ng-disabled="form.name.$invalid || courseTask.note==null ">确定</button>
+    <button class="btn btn-warning" type="button" ng-click="close()">取消</button>
+</div>

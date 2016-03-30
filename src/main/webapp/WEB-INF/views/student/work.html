@@ -1,0 +1,177 @@
+<!DOCTYPE html><#import "/lib/common.html" as common>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${user.user.truename!''}的主页</title>
+
+<@common.css />
+<link rel="stylesheet" type="text/css" href="/res/student/common.css">
+<link rel="stylesheet" type="text/css" href="/res/student/commo.css">
+</head>
+<body>
+<@common.topbar />
+
+
+
+<div class="container banner-container" style="margin-top: 20px">
+    <div class="banner">
+        <div class="banner-left">
+            <div class="student-icon"><#if user.user.avatar??><img src="${user.user.avatar}"/><#else><img src="/res/student/images/student_1.jpg"/></#if></div>
+        </div>
+        <div class="banner-right">
+            <h3 class="student-name">${user.user.truename!''}</h3>
+            <div class="student-school">${user.clazz.schoolName!''}(${user.clazz.name!''})</div>
+            <div class="student-note"><i class="fa fa-quote-left"></i> ${user.user.sign!''} <i class="fa fa-quote-right"></i></div>
+        </div>
+    </div>
+
+    <div class="menu">
+        <ul>
+            <#if compare>
+            <li ><a href="/student/${user.user.id}">我的主页</a></li>
+            <li ><a href="/student/${user.user.id}/learning">我的学习</a></li>
+            <li  class="active"><a href="/student/${user.user.id}/work">我的成果</a></li>
+          
+           </#if>
+           <#if !compare>   
+            <li ><a href="/student/${user.user.id}"><#if user.user.sex == 1>他</#if><#if user.user.sex == 0>她</#if>的主页</a></li>
+           
+            <li  class="active"><a href="/student/${user.user.id}/work"><#if user.user.sex == 1>他</#if><#if user.user.sex == 0>她</#if>的成果</a></li>
+           </#if></ul>
+    </div>
+
+
+</div>
+
+
+
+<div class="container" >
+    <div class="row1">
+           <#if works??>        
+         <#list works as work>
+		
+            <#if (work.pthotos?size >0)>
+            <div class="panel panel-note">
+            	 <div class="panel-body" style="text-align:center" >
+                 <span  style= "color:#ff5800"  >${work.lessonName}&nbsp->&nbsp${work.workstage}&nbsp->&nbsp${work.workTaskName}</span>
+                 </div>
+            	<#list work.pthotos as pthoto>
+                <div class="panel-body">
+                    <div class="note-user">甘小明</div>
+                    <p >
+                    <img src=${pthoto.image} width="100%" >
+                    </p>
+                    <div class="note-time">${pthoto.createTime}</div>
+                </div>
+                 </#list>
+                 
+                 
+                <div class="panel-footer">
+                    <div class="note-tool">
+                        <a  class="note-tool-comment" style="cursor:pointer"><span>评论&nbsp${work.count}</span></a>                  
+                        <a  class="note-tool-like" style="cursor:pointer"onclick="likeThisWork(${work.id})"><span><i id="worklike${work.id}" class="fa fa-thumbs-o-up" <#if work.praiseOrNot> style='color:#ff5800' </#if> ></i><span id="workLikeCount${work.id}" <#if work.praiseOrNot> style='color:#ff5800' </#if>>${work.likeCount}</span></span></a>
+                        <#if compare>
+                        <a href="/student/work/deleteWork/${work.id}" class="note-tool-delete" style="cursor:pointer"><span>删除</span></a>
+                        </#if>
+                        <!-- <span style= "margin-right:5px; position:relative; left:25%;color:#ff5800">${work.workstage}&nbsp:&nbsp${work.workTaskName}</span> -->
+                    </div>
+                    <div class="note-comments">
+                        <div class="commnet-input">
+                            <form action="/student/work/workComment/${user.userId}"  method="POST"  id="work${work.id!''}" >
+                            <input id="comment${work.id!''}" type="text" name="content"  class="form-control"><span id="message${work.id}" class="hide">请填写评论</span>
+                            <input type="hidden" name="workId" value="${work.id}">
+                            <input type="hidden" name="createUserId" value="${user.user.id!''}">
+                            <input type="hidden" name="replayId" value=0>
+                           
+                            </form>
+                            <button class=" btn btn-success btn-sm " onclick="submitCommentData(${work.id!''})">评论</button>
+                        </div>
+                        
+                        <ul class="comment-list">
+                        <#if work.workComments??>
+                         <#list work.workComments as comment>
+                            <li class="comment">
+                                <div class="comment-head"><#if comment.createUserImage??><img src=${comment.createUserImage}><#else><img src="/res/student/images/student_1.jpg"></#if></div>
+                                <div class="comment-body">
+                                	<#if comment.createUserName != comment.replyUserName>
+                                    <span class="comment-user" ><a <#if comment.role==4>href="/student/${comment.replyUserId}/work"</#if>>${comment.replyUserName}</a></span> 回复 <span class="comment-user"><a href="/student/${comment.createUserId}/work">${comment.createUserName}</a></span> &nbsp :
+                                    </#if>
+                                    <#if comment.createUserName==comment.replyUserName>
+                                    <span class="comment-user" ><a  <#if comment.role==4> href="/student/${comment.createUserId}/work"</#if> >${comment.createUserName}</a></span>&nbsp :
+                                    </#if>
+                                    <span class="comment-text" >${comment.content}</span>
+                                    
+                                    
+                                </div>
+                                <div>
+                                	<span class="comment-time">${comment.createTime}</span>&nbsp&nbsp&nbsp&nbsp&nbsp
+                                	
+                                	<a  class="note-tool-comment" style="cursor:pointer"><span>回复</span></a>&nbsp&nbsp&nbsp&nbsp&nbsp
+                                	
+                                </div>
+                                     <div class="note-comments">
+		                                    <div class="commnet-input">
+		                                    	<form action="/student/work/replyComment/${user.userId}"id="workCommet${comment.id!''}"  method="POST"">
+						                            <input type="text" name="content" id="comment${comment.id!''}" class="form-control"><span id="message${comment.id!''}" class="hide">请填写评论</span>
+						                            <input type="hidden" name="workId" value="${work.id}">
+						                            <input type="hidden" name="createUserId" value="${comment.replyUserId!''}">
+						                            <input type="hidden" name="replayId" value="${comment.id!''}">
+						                            
+					                            </form>
+					                            <button class=" btn btn-success btn-sm " onclick="subCommentData(${comment.id!''})">回复</button>
+					                          </div>
+		                                </div>
+		                             
+                            </li>
+                         </#list>
+                         </#if>
+                        </ul>
+                     </div>  
+                   
+                        
+                    </div>
+                 
+                </div>
+           </#if>
+  		</#list>
+  		</#if>
+        </div>
+    </div>
+  
+ <@common.footer />
+
+
+<@common.js />
+<script src="/lib/angular/1.4.8/angular.min.js"></script>
+<script src="/res/student/student.js"></script>
+<script src="/res/student/index.js"></script>
+<script type="text/javascript">
+function subCommentData(id){
+	
+    if($("#comment"+id).val()!=""){
+	$("#workCommet"+id).submit();
+    }
+    else{
+    	$("#message"+id).removeClass("hide");
+    	return;
+    }
+
+
+}
+function submitCommentData(id){
+	
+    if($("#comment"+id).val()!=""){
+	$("#work"+id).submit();
+    }
+    else{
+    	$("#message"+id).removeClass("hide");
+    	return;
+    }
+
+
+}
+</script>
+</body>
+</html>

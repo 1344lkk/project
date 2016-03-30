@@ -1,0 +1,136 @@
+
+<style type="text/css">
+
+.stages {
+    text-align: center;
+    padding: 50px 0 30px;
+}
+
+.stages a {
+    position: relative;
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+    color: #aaa;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    line-height: 80px;
+    text-align: center;
+    text-decoration: none;
+    background-color: #f8f8f8;
+}
+
+.stages a:hover {
+    border-color: #999;
+}
+
+.stages a.success {
+    border: 1px solid #97FFB1;
+    background-color: #00CC33;
+    color: #fff;
+    box-shadow: 0 0 2px rgb(83, 255, 126);
+}
+
+.stages a.success:hover {
+    border-color: #007F00;
+}
+
+.stages a.current {
+    border-color: #68DAFE;
+    background-color: #A8EAFF;
+    color: #000;
+    box-shadow: 0 0 2px rgb(168, 234, 255);
+}
+.stages a.current:hover {
+    border-color: #0000ff;
+}
+
+.stages i.link {
+    color: #ccc;
+    margin: 0 20px;
+}
+
+.stages i.success {
+    color: #00CC33;
+}
+
+.stages a i.check {
+    display: none;
+    color: #FFFFFF;
+    margin: 0;
+    font-size: 1.3em;
+    width: 16px;
+}
+
+.stages a.success i.check {
+    display: inline-block;
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    margin-left: -8px;
+}
+
+.stages span.pointer {
+    display: none;
+}
+
+.stages a.current span.pointer {
+    color: #ff5800;
+    display: block;
+    position: absolute;
+    top: -40px;
+    text-align: center;
+    width: 100%;
+    line-height: 22px;
+}
+
+span.pointer i {
+    display: block;
+    text-align: center;
+}
+
+.stage {
+    display: none;
+    border-top: 1px solid #ddd;
+}
+
+.stage h3 {
+    text-align: center;
+}
+
+.stage-a1 .stage1,
+.stage-a2 .stage2,
+.stage-a3 .stage3,
+.stage-a4 .stage4,
+.stage-a5 .stage5 {
+    display: block;
+}
+
+.stage-a1 .tab1,
+.stage-a2 .tab2,
+.stage-a3 .tab3,
+.stage-a4 .tab4,
+.stage-a5 .tab5 {
+    border: 2px solid #ff5800 !important;
+}
+
+@media (max-width: 768px) {
+    .stages {
+        padding: 30px 0 10px;
+    }
+
+    .stages a {
+        width: 52px;
+        height: 52px;
+        line-height: 52px;
+        font-size: 9px;
+
+    }
+
+    .stages i.link {
+        color: #ccc;
+        margin: 0 4px;
+        font-size: 10px;
+    }
+}
+</style>

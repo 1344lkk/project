@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzcwtech.wuzhong.model.mapper.SchoolMapper">
+
+	<resultMap type="School" id="School" autoMapping="true">
+		<id column="id" property="id" />
+	</resultMap>
+	
+	
+	<insert id="insertSchool"  parameterType="School">
+		INSERT INTO school (regionId, name, note, lng, lat, sort) 
+		VALUES(#{regionId},#{name}, #{note}, #{lng}, #{lat}, #{sort})
+	</insert>
+
+	<insert id="updateSchool" parameterType="School">
+		UPDATE school SET 
+		   regionId=#{regionId}, name=#{name}, note=#{note},lng=#{lng}, lat=#{lat}, sort=#{sort}
+		WHERE id = #{id}
+	</insert>
+	
+	
+	<select id="searchSchoolList" resultMap="School">
+		SELECT regionId, id, name, note, lat, lng, sort
+		FROM school
+		<if test="q != null">WHERE name LIKE #{q} </if>
+	</select>
+
+
+
+</mapper>

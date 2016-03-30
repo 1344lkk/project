@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzcwtech.wuzhong.model.mapper.NoticeMapper">
+
+	<resultMap type="Notice" id="Notice" autoMapping="true">
+		<id column="id" property="id" />
+	</resultMap>
+	<select id="searchNoticeList" resultMap="Notice">
+		SELECT id,categoryId, state,name,note,createUserId,createTime
+		FROM notice
+		WHERE (1=1)
+		<if test="state != null"> AND (state = #{state})</if>
+		<if test="q != null">AND name LIKE #{q}</if>
+	</select>
+	
+	
+	<insert id="addNotice" parameterType="Notice">
+		INSERT INTO notice(categoryId, state,name,note,createUserId,createTime)
+		VALUES (#{categoryId},#{state},#{name},#{note},#{createUserId},#{createTime})
+	</insert>
+	
+	<update id="updateNotice" parameterType="Notice">
+		UPDATE notice SET
+		categoryId=#{categoryId}, state=#{state}, name=#{name}, note=#{note}
+		WHERE id = #{id}
+	</update>
+</mapper>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzcwtech.wuzhong.model.mapper.WorkMapper">
+
+	<resultMap type="Work" id="Work" autoMapping="true">
+		<id column="id" property="id" />
+	</resultMap>
+	<resultMap type="WorkComment" id="WorkComment" autoMapping="true">
+		<id column="id" property="id" />
+	</resultMap>
+	<resultMap type="WorkPhoto" id="WorkPhoto" autoMapping="true">
+		<id column="id" property="id" />
+	</resultMap>
+	<resultMap type="WorkPaper" id="WorkPaper" autoMapping="true">
+		<id column="id" property="id" />
+	</resultMap>
+	<resultMap type="Praise" id="Praise" autoMapping="true">
+		
+	</resultMap>
+	<resultMap type="ExcellentWork" id="ExcellentWork" autoMapping="true">
+		<id column="id" property="id"/>
+	</resultMap>
+	
+   <select id="getWorkListByUserId" resultMap="Work">
+   
+	SELECT  * FROM work  w,learning l,user u where w.learningId = l.id and l.studentId = u.id and l.studentId = #{userId}
+	   
+	</select>
+	<select id="getWorkIdByStudentId" resultMap="Work">
+   
+	select w.* from learning l, work  w where l.studentId =#{id} and l.id= w.learningId
+	   
+	</select>
+	
+	 <select id="getWorkListByStudentIdAndTaskId" resultMap="Work">
+   
+	select w.* from learning l,work w where l.studentId=#{studentId} and l.id = w.learningId and taskId =#{taskId}
+	   
+	</select>
+	
+	<insert id="insertWork" useGeneratedKeys="true" keyProperty="id" parameterType="Work" >
+		INSERT INTO work(learningId, id, state, taskId,viewCount, likeCount, noteCount) 
+		VALUES( #{learningId}, #{id}, #{state}, #{taskId},#{viewCount}, #{likeCount}, #{noteCount} )
+	</insert>
+	
+	<update id="updateWork" parameterType="Work">
+		UPDATE work SET 
+		 state = #{state}, viewCount = #{viewCount},likeCount = #{likeCount},noteCount =  #{noteCount},points=#{points}
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteWorkPhoto">
+		DELETE FROM work_photo WHERE workId = #{workId}
+	</delete>
+	
+	<select id="getCommentListByWorkId" resultMap="WorkComment">
+	SELECT n.*,rpu.truename as replyUserName , cteu.truename as createUserName,rpu.role FROM work_comment n , user rpu, user cteu WHERE  n.workId =#{workId}  AND n.replyUserId = rpu.id AND n.createUserId=cteu.id order by n.createTime desc
+	</select>
+	
+	<insert id="insertComment" useGeneratedKeys="true" keyProperty="id" parameterType="WorkComment" >
+		INSERT INTO work_comment(workId, id, content, createUserId,replayId,replyUserId,createTime) 
+		VALUES( #{workId}, #{id}, #{content}, #{createUserId},#{replayId}, #{replyUserId},#{createTime} )
+	</insert>
+	 <insert id="insertImge" parameterType="WorkPhoto" >
+		INSERT INTO work_photo(workId, id, viewCount,likeCount,createTime,image) 
+		VALUES( #{workId}, #{id}, #{viewCount},#{likeCount},#{createTime},#{image} )
+	</insert>
+	<update id="updateWorkPhoto" parameterType="WorkPhoto">
+		UPDATE work_Photo SET 
+		 viewCount = #{viewCount}, likeCount = #{likeCount},viewCount = #{viewCount},image =  #{image}
+		WHERE id = #{id}
+	</update>
+	<update id="updateWorkPaper" parameterType="WorkPaper">
+		UPDATE work_paper SET 
+		 points = #{points}
+		WHERE id = #{id}
+	</update>
+	<select id="getWorkPaper" resultMap="WorkPaper">
+	SELECT * FROM  work_paper WHERE workId= #{workPaperId} order by points desc limit 1
+	</select>
+	<insert id="insertWorkPaper" useGeneratedKeys="true" keyProperty="id" parameterType="WorkPaper" >
+		INSERT INTO work_paper(workId, id, points, duration,startTime,endTime) 
+		VALUES( #{workId}, #{id}, #{points}, #{duration},#{startTime}, #{endTime} )
+	</insert>
+	<insert id="insertWorkPaperAnswer" useGeneratedKeys="true" keyProperty="id" parameterType="WorkPaperAnswer" >
+		INSERT INTO work_paper_answer(questionId, answer, paperId, comment) 
+		VALUES( #{questionId}, #{answer}, #{paperId}, #{comment} )
+	</insert>
+	
+	<select id="getImges" resultMap="WorkPhoto">
+	SELECT * FROM  work_photo WHERE workId= #{workId}
+	</select>
+	
+	<select id="gradeScore" resultMap="WorkPaper" >
+	 select  sum(points) as points from task_question where id in(select op.questionId from work_paper_answer an,task_question_option op where an.answer = op.id and correct =1 and an.paperId=#{paperId})
+	</select>
+	
+	<insert id="insertPraise" parameterType="Praise" > 
+		INSERT INTO praise (noteId, workId, userId) VALUES (#{noteId}, #{workId}, #{userId})
+	</insert>
+	
+	<delete id="deletePraise">
+		DELETE FROM praise WHERE workId = #{workId} AND userId=#{userId}
+	</delete>
+	
+	<select id="selectPraise" resultMap="Praise">
+	Select * from praise  where workId=#{workId} and userId=#{userId}
+	</select>
+	
+	<select id="getIndexRecentWorkList" resultMap="ExcellentWork">
+		SELECT w.id,t.studentId,t.truename,wp.image,w.likeCount 
+        FROM WORK w ,work_photo wp ,(SELECT l.id AS learningId,l.studentId,u.truename FROM learning l,USER u  WHERE  l.studentId = u.id) t 
+        WHERE w.learningId = t.learningId AND w.id = wp.workId ORDER BY wp.createTime  DESC  LIMIT 0,21
+	</select>
+	
+	<select id="getIndexExcellentWorkList" resultMap="ExcellentWork">
+	SELECT w.id,t.studentId,t.truename,wp.image,w.likeCount 
+        FROM WORK w ,work_photo wp ,(SELECT l.id AS learningId,l.studentId,u.truename FROM learning l,USER u,student s  WHERE  l.studentId = u.id and s.userId = u.id
+        
+        <if test="classId != null"> AND s.classId = #{classId}</if>
+        
+         
+         ) t 
+        WHERE w.learningId = t.learningId AND w.id = wp.workId ORDER BY w.likeCount  DESC,wp.createTime DESC LIMIT 0,21
+	
+	</select>
+</mapper>

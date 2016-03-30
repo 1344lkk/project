@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false"><!-- debug true to see logback log -->
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+    	<encoder>
+      		<pattern>%d{HH:mm:ss} [%-5level] [%logger] - %msg%n</pattern>
+    	</encoder>
+  	</appender>
+  
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    	<file>wuzhong.log</file>
+    	<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      		<!-- daily rollover -->
+      		<fileNamePattern>wuzhong.%d{yyyy-MM-dd}.log</fileNamePattern>
+
+      		<!-- keep 30 days' worth of history -->
+      		<maxHistory>30</maxHistory>
+    	</rollingPolicy>
+
+    	<encoder>
+      		<pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
+    	</encoder>
+  	</appender> 
+
+	<logger name="com.hzcwtech.wuzhong" level="debug" additivity="false">
+		<appender-ref ref="STDOUT" />
+	</logger>
+	
+	<!-- Hibernate validator -->
+	<logger name="org.hibernate.validator" level="info" additivity="false">
+		<appender-ref ref="STDOUT" />
+	</logger>
+	
+	<logger name="org.springframework.jndi" level="info" additivity="false">
+		<appender-ref ref="STDOUT" />
+	</logger>
+	
+	<logger name="org.springframework" level="debug" additivity="false">
+		<appender-ref ref="STDOUT" />
+	</logger>
+	
+	<!-- PropertySourcesPropertyResolver -->
+	<logger name="org.springframework.core.env" level="info" additivity="false">
+		<appender-ref ref="STDOUT" />
+	</logger>
+	
+	
+	<logger name="org.springframework.transaction.annotation" level="info" additivity="false">
+		<appender-ref ref="STDOUT" />
+	</logger>
+	
+	<!-- Identified candidate component class -->
+	<logger name="org.springframework.context.annotation.ClassPathBeanDefinitionScanner" level="info" additivity="false">
+		<appender-ref ref="STDOUT" />
+	</logger>
+	
+	<!-- Unable to locate MessageSource with name 'messageSource' -->
+	<logger name="org.springframework.web.context.support.XmlWebApplicationContext" level="info" additivity="false">
+		<appender-ref ref="STDOUT" />
+	</logger>
+	
+	<!-- Unable to locate ThemeSource -->
+	<logger name="org.springframework.ui.context.support.UiApplicationContextUtils" level="info" additivity="false">
+		<appender-ref ref="STDOUT" />
+	</logger>
+	
+	<!-- Unable to locate MultipartResolver with name 'multipartResolver' -->
+	<logger name="org.springframework.web.servlet.DispatcherServlet" level="info" additivity="false">
+		<appender-ref ref="STDOUT" />
+	</logger>
+	
+	<!--  -->
+	<logger name="org.springframework.beans.factory" level="info" additivity="false">
+		<appender-ref ref="STDOUT" />
+	</logger>
+	
+	<logger name="org.springframework.security.web.DefaultSecurityFilterChain" level="warn" additivity="false">
+		<appender-ref ref="STDOUT" />
+	</logger>
+	
+	<logger name="org.springframework.security.web.util.matcher" level="info" additivity="false">
+		<appender-ref ref="STDOUT" />
+	</logger>
+	
+	<!-- Component scan -->
+	<logger name="org.springframework.core.io.support.PathMatchingResourcePatternResolver" level="info" additivity="false">
+		<appender-ref ref="STDOUT" />
+	</logger>
+	
+	<!-- org.springframework.web.context.support.StandardServletEnvironment -->
+	<logger name="org.springframework.web.context.support.StandardServletEnvironment" level="info" additivity="false">
+		<appender-ref ref="STDOUT" />
+	</logger>
+	
+	<!-- org.springframework.beans.factory.xml.PluggableSchemaResolver -->
+	<logger name="org.springframework.beans.factory.xml.PluggableSchemaResolver" level="info" additivity="false">
+		<appender-ref ref="STDOUT" />
+	</logger>
+	
+	<!-- ! -->
+	<logger name="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" level="info" additivity="false">
+		<appender-ref ref="STDOUT" />
+	</logger>
+	
+	<!-- url mapping -->
+	<logger name="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" level="warn" additivity="false">
+		<appender-ref ref="STDOUT" />
+	</logger>
+	
+	<logger name="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping" level="info" additivity="false">
+		<appender-ref ref="STDOUT" />
+	</logger>
+	
+	<!-- FreeMarker debug output: Added model object 'springMacroRequestContext' -->
+	<logger name="org.springframework.web.servlet.view.freemarker.FreeMarkerView" level="debug" additivity="false">
+		<appender-ref ref="STDOUT" />
+	</logger>
+	
+	<logger name="org.springframework.aop" level="INFO" additivity="false">
+		<appender-ref ref="STDOUT" />
+	</logger>
+	
+	<root level="debug">
+		<appender-ref ref="STDOUT" />
+	</root>
+
+</configuration>

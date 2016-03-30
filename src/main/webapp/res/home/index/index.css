@@ -1,0 +1,171 @@
+.swiper-pagination-bullet {
+    opacity: 0.3;
+}
+
+.swiper-pagination-bullet-active {
+    opacity: 1;
+    background: #FF5800;
+}
+
+.banner-container {
+    padding: 0;
+    margin-bottom: 10px;
+}
+
+.news-container {
+	display: none;
+	padding: 0;
+	margin-bottom: 10px;
+}
+
+.banner {
+    position: relative;
+    width: 100%;
+    height: 200px;
+}
+
+.news {
+    padding: 8px 0;
+    background-color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    z-index:1;
+}
+
+@media (min-width: 530px) {
+    .banner {
+        height: 280px;
+    }
+}
+
+@media (min-width: 700px) {
+    .banner-container {
+        padding: 0 10px;
+        margin-top: 10px;
+        
+    }
+    .news-container {
+    	padding: 0 10px;
+    }
+    .banner {
+        height: 382px;
+        border-radius: 2px;
+     	box-shadow: 0 0 5px rgba(0,0,0,0.15);
+    }
+    .news {
+    	border-bottom-left-radius: 2px;
+    	border-bottom-right-radius: 2px;
+    	box-shadow: 0 1px 5px rgba(0,0,0,0.2);
+    }
+}
+
+
+.banner a {
+    display: block;
+    color: #fff;
+    text-decoration: none;
+    position: relative;
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+    background-position: center center;
+}
+
+.banner img {
+    height: 100%;
+    max-width: 100%;
+}
+
+.banner-info {
+    position: absolute;
+    bottom: 30px;
+    left:0;
+    right:0;
+    font-size: 2em;
+    text-align: center;
+}
+
+.banner-info0 {
+    text-align: right;
+    right: 10px;
+    font-size: 16px;
+}
+
+@media (min-width: 735px) {
+    .banner-info0 {
+        right: 50px;
+        bottom: 50px;
+        font-size: 36px;
+    }
+}
+
+.news span {
+    margin-left: 32px;
+}
+
+@media (min-width: 992px) {
+	.col-right {
+		padding-left: 0;
+	}
+}
+
+
+#username {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+#password {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-top: 0;
+}
+
+.work-swiper-container {
+    width: 100%;
+    padding: 10px 10px 30px 10px;
+}
+
+.work-swiper-container>.swiper-pagination {
+    bottom:0;
+}
+
+.work-swiper-container .swiper-slide {
+    display: block;
+    width: 112px;
+    height: 180px;
+    position: relative;
+    padding: 8px;
+    background-color: #fff;
+    box-shadow: 0 0 2px rgba(0,0,0,.3);
+}
+
+.work-swiper-container .swiper-slide:hover {
+    box-shadow: 0 0 10px rgba(2, 110, 165, 0.71);
+}
+
+.work-swiper-container .swiper-slide div.t {
+    background-position: center;
+    background-size: cover;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.work-title {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 4px 0;
+    color: #fff;
+    background-color: rgba(0,0,0,.3);
+}
+
+
+.panel-body ul {
+    margin:0;
+    padding-left: 15px;
+}
