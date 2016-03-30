@@ -186,6 +186,7 @@ public class PageInterceptor implements Interceptor {
      */
     private String buildPageSql(String sql, Pager page) {
         if (page != null) {
+
             StringBuilder pageSql = new StringBuilder();
             if ("mysql".equals(sqlType)) {
                 pageSql = buildPageSqlForMysql(sql, page);
