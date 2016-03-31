@@ -11,6 +11,10 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.hzcwtech.wuzhong.web.security.GrantedUser;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
 public class CustomHandlerInterceptor extends HandlerInterceptorAdapter {
 	private static final Logger logger = LoggerFactory.getLogger(CustomHandlerInterceptor.class);
 	
@@ -53,9 +57,19 @@ public class CustomHandlerInterceptor extends HandlerInterceptorAdapter {
 			ModelAndView modelAndView) throws Exception {
 		
 		if (modelAndView != null) {
+			InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("ipConfig.properties");
+			Properties p = new Properties();
+			try{
+				p.load(inputStream);
+				modelAndView.addObject("ip",p.getProperty("ip"));
+			} catch (IOException e1){
+				e1.printStackTrace();
+			}
+
 			GrantedUser user = GrantedUser.getCurrent();
 			if (user != null) {
 				modelAndView.addObject("grantedUser", user);
+
 			}
 		}
 	}
