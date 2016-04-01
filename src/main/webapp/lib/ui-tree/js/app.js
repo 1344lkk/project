@@ -42,15 +42,19 @@
 		});
 		
 		$scope.removeNodes = function(scope) {
-         
+
+
 			var nodeData = scope.$modelValue;
-			if(nodeData.id==0){
-				
-			}else{
-			$http.get("/library/deleteCatalog?id=" + nodeData.id).success(
-					function(response) {
-					});
-			scope.remove();}
+			if(confirm("您确定删除该知识？")){
+				if(nodeData.id==0){
+
+				}else{
+					$http.get("/library/deleteCatalog?id=" + nodeData.id).success(
+						function(response) {
+						});
+					scope.remove();}
+			}
+
 		};
 
 		$scope.toggle = function(scope) {

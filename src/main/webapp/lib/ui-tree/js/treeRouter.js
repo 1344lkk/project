@@ -10,12 +10,14 @@
     	  $scope.knowlagedatas = response;
     	});
       $scope.deleteKnowladge= function (code) {
-    	 
-    	  $http.get("/library/delete?id="+code).success(function(response) {
-    		  $http.get("/library/knowledgeJson?id="+$scope.id).success(function(response) {
-    	    	  $scope.knowlagedatas = response;
-    	    	});
-        	});
+
+		  if(confirm("您确定删除该知识？")){
+			  $http.get("/library/delete?id="+code).success(function(response) {
+				  $http.get("/library/knowledgeJson?id="+$scope.id).success(function(response) {
+					  $scope.knowlagedatas = response;
+					});
+				});
+		  }
         };
         $scope.showDialog=function(){
         	
