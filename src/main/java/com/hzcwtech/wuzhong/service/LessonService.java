@@ -7,6 +7,6 @@ public interface LessonService extends LessonMapper{
 
 	void updateLesson(Lesson lesson, boolean b);
 	
-	
+	 Lesson getLessonByClassId(int classId);
 
 }

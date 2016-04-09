@@ -7,59 +7,59 @@
 		<collection property="noteImage" resultMap="NoteImage"></collection>
 	</resultMap>
 	<resultMap type="NoteImage" id="NoteImage">
-	  <id column="imageId" property="id" />
-	  <result  column="path" property="path"  />
+		<id column="imageId" property="id" />
+		<result  column="path" property="path"  />
 	</resultMap>
 	<resultMap type="NoteComment" id="NoteComment" autoMapping="true">
 		<id column="id" property="id" />
-		
+
 	</resultMap>
 	<resultMap type="Praise" id="Praise" autoMapping="true">
-		
+
 	</resultMap>
-   <select id="getNoteListByUserId" parameterType="int" resultMap="Note">
+	<select id="getNoteListByUserId" parameterType="int" resultMap="Note">
 	   select t.*,ni.id as imageId,ni.path as path from(select  n.*,u.username
 	    FROM note n ,USER u
 	    WHERE n.userId = #{userId} AND n.userId = u.id) t left join note_image ni on ni.noteId =t.id  ORDER BY top DESC,createTime DESC
 	</select>
-	
+
 	<insert id="insertNote" useGeneratedKeys="true" keyProperty="id" parameterType="Note" >
 		INSERT INTO note(userId, id, content, photos,viewCount, likeCount, commentCount,createTime,top) 
 		VALUES( #{userId}, #{id}, #{content}, #{photos},#{viewCount}, #{likeCount}, #{commentCount},#{createTime},#{top})
 	</insert>
-	
+
 	<update id="updateNote" parameterType="Note">
 		UPDATE note SET 
 		 content = #{content}, photos = #{photos},viewCount = #{viewCount},likeCount =  #{likeCount},commentCount =  #{commentCount}
 	     ,likeUserId = #{likeUserId},top=#{top}
 		WHERE id = #{id}
 	</update>
-	
+
 	<update id="updateOtherNote" parameterType="int">
 		UPDATE note SET 
 		top=#{top}
 	</update>
-	
+
 	<delete id="deleteNote">
 		DELETE FROM note WHERE id = #{id}
 	</delete>
-	
+
 	<select id="getCommentListByNoteId" resultMap="NoteComment">
 		SELECT n.*,u.truename AS replyUserName,creUser.truename AS createName,u.role AS userRole,u.avatar AS commentAvatar,creUser.role AS createRole,replyUser.role AS replyRole
         FROM note_comment n,USER u,USER creUser,USER replyUser
         WHERE n.noteId = #{noteId} AND n.replyUserId = u.id AND n.createUserId = creUser.id  AND n.replyUserId = replyUser.id ORDER BY n.createTime
 	</select>
-	
+
 	<insert id="insertComment" useGeneratedKeys="true" keyProperty="id" parameterType="NoteComment" >
 		INSERT INTO note_comment(noteId, id, content, createUserId,replyId,replyUserId,createTime) 
 		VALUES( #{noteId}, #{id}, #{content}, #{createUserId},#{replyId}, #{replyUserId},#{createTime} )
 	</insert>
-	 <insert id="insertImge" parameterType="NoteImage" >
+	<insert id="insertImge" parameterType="NoteImage" >
 		INSERT INTO note_image(noteId, id, path) 
 		VALUES( #{noteId}, #{id}, #{path} )
 	</insert>
 
-	
+
 	<select id="getPraiseByNoteIdAndUserId" resultMap="Praise">
 		SELECT * FROM praise WHERE noteId = #{noteId} AND userId = #{userId}
 	</select>
@@ -67,18 +67,22 @@
 	SELECT n.* ,ni.path as path FROM `school_class` sc1,`student` s1,`student` s2, `user` u1,`note` n,note_image ni WHERE s1.userId=#{userId} AND s1.classId=sc1.`id`
 	AND sc1.`id`=s2.`classId` AND s2.`userId`=u1.`id` AND u1.`id` = n.userId AND n.`id`=ni.`noteId` ORDER BY n.`createTime` DESC
 	</select>
-	
+
 	<select id="recommendClazzNote" parameterType="int" resultMap="Note">
 	SELECT n.*  FROM `school_class` sc1,`student` s1,`student` s2, `user` u1,`note` n,note_image ni WHERE s1.userId=#{userId} AND s1.classId=sc1.`id`
 	AND sc1.`id`=s2.`classId` AND s2.`userId`=u1.`id` AND u1.`id` = n.userId AND n.`id`=ni.`noteId` ORDER BY n.likeCount DESC
 	</select>
-	
+
 	<delete id="deletePraise">
 		DELETE  FROM  praise WHERE noteId=#{noteId} AND userId=#{userId}
 	</delete>
-	
+
 	<insert id="insertPraise">
 		INSERT INTO praise(noteId, userId) 
 		VALUES( #{noteId}, #{userId} )
 	</insert>
+
+	<select id="getNoteImageByNodeId" parameterType="int" resultMap="NoteImage">
+		SELECT * FROM note_image WHERE noteId = #{nodeId}
+	</select>
 </mapper>

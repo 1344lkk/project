@@ -1,320 +1,350 @@
 <!DOCTYPE html><#import "/lib/common.html" as common>
-<html lang="zh-CN">
-<head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${user.user.truename!''}的主页</title>
+    <html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>${user.user.truename!''}的主页</title>
 
-<@common.css />
-<link rel="stylesheet" type="text/css" href="/res/student/common.css">
-<link rel="stylesheet" type="text/css" href="/res/student/commo.css">
-</head>
-	<style type="text/css">
-	    #avatarimg img{
-		    width: 110px;
-		    height: 110px;
-		    border-radius: 50%;
-		    border: 2px solid #FFFFFF;
-		    box-shadow: 0 0 2px rgba(0,0,0,.3);	
-	    }
-	</style>
-<body   ng-app="myApp" ng-controller="indexCtrl"  ng-init="studentId=${user.userId}">
-<@common.topbar />
+        <@common.css />
+        <link rel="stylesheet" type="text/css" href="/res/student/common.css">
+        <link rel="stylesheet" type="text/css" href="/res/student/commo.css">
+    </head>
+    <style type="text/css">
+        #avatarimg img{
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            border: 2px solid #FFFFFF;
+            box-shadow: 0 0 2px rgba(0,0,0,0.3);
+        }
+    </style>
+    <body   ng-app="myApp" ng-controller="indexCtrl"  ng-init="studentId=${user.userId}">
+    <@common.topbar />
 
 
 
-<div class="container banner-container" style="margin-top: 20px">
-    <div class="banner">
-        <div class="banner-left">
-            <div  <#if user.user.id == curr>style="cursor: pointer;"</#if> class="student-icon"><#if user.user.avatar??><img onclick="editavatar(${user.user.id},${curr})" src="${user.user.avatar}"/><#else><img onclick="editavatar(${user.user.id},${curr})" src="/res/student/images/student_1.jpg"/></#if></div>
+    <div class="container banner-container" style="margin-top: 20px">
+        <div class="banner">
+            <div class="banner-left">
+                <div  <#if user.user.id == curr>style="cursor: pointer;"</#if> class="student-icon"><#if user.user.avatar??><img onclick="editavatar(${user.user.id},${curr})" src="${user.user.avatar}"/><#else><img onclick="editavatar(${user.user.id},${curr})" src="/res/student/images/student_1.jpg"/></#if></div>
         </div>
         <div class="banner-right">
             <h3 class="student-name">${user.user.truename!''}</h3>
             <div class="student-school">${user.clazz.schoolName!''}(${user.clazz.name!''})</div>
-            <div class="student-note"><i class="fa fa-quote-left"></i> ${user.user.sign!'编辑签名'} <i class="fa fa-quote-right"></i> 
-              <#if user.user.id == curr>
-               <span id="edit" class="glyphicon glyphicon-pencil " title="点击更换签名" aria-hidden="true" onclick="editsign()" style="color:red;cursor:pointer;"></span>
-              </#if>
+            <div class="student-note"><i class="fa fa-quote-left"></i> ${user.user.sign!'编辑签名'} <i class="fa fa-quote-right"></i>
+                <#if user.user.id == curr>
+                    <span id="edit" class="glyphicon glyphicon-pencil " title="点击更换签名" aria-hidden="true" onclick="editsign()" style="color:red;cursor:pointer;"></span>
+                </#if>
             </div>
         </div>
     </div>
 
     <div class="menu">
         <ul>
-          <#if compare>
-            <li class="active"><a href="/student/${user.user.id}">我的主页</a></li>
-            <li ><a href="/student/${user.user.id}/learning">我的学习</a></li>
-            <li ><a href="/student/${user.user.id}/work">我的成果</a></li>
-           </#if>
-           <#if !compare>   
-            <li class="active"><a href="/student/${user.user.id}"><#if user.user.sex == 1>他</#if><#if user.user.sex == 0>她</#if>的主页</a></li>
-            
-            <li ><a href="/student/${user.user.id}/work"><#if user.user.sex == 1>他</#if><#if user.user.sex == 0>她</#if>的成果</a></li>
-           </#if>
+            <#if compare>
+                <li class="active"><a href="/student/${user.user.id}">我的主页</a></li>
+                <li ><a href="/student/${user.user.id}/learning">我的学习</a></li>
+                <li ><a href="/student/${user.user.id}/work">我的成果</a></li>
+            </#if>
+            <#if !compare>
+                <li class="active"><a href="/student/${user.user.id}"><#if user.user.sex == 1>他</#if><#if user.user.sex == 0>她</#if>的主页</a></li>
+
+                <li ><a href="/student/${user.user.id}/work"><#if user.user.sex == 1>他</#if><#if user.user.sex == 0>她</#if>的成果</a></li>
+            </#if>
         </ul>
     </div>
-</div>
-
-
-
-<div class="container" >
-    <div class="row">
-        <div class="col-sm-4">
-        
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <div class="student-stats">
-                        <a href="#"><span>访问</span><span>${viewCount}</span></a>
-                        <a href="#"><span><i class="fa fa-thumbs-o-up"></i></span><span>{{likeCount}}</span></a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- <div class="panel panel-default">
-                <div class="panel-heading">
-                  <#if compare>
-                    <h3 class="panel-title">我的活动</h3>
-                  </#if>  
-                  <#if !compare>
-                     <h3 class="panel-title"><#if user.user.sex == 1>他</#if><#if user.user.sex == 0>她</#if>的活动</h3>
-                  </#if>                
-                </div>
-                <div class="panel-body">
-                    <div>xxx</div>
-                    <div>xxx</div>
-                    <div>xxx</div>
-                    <div>xxx</div>
-                </div>
-            </div> -->
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                  <#if compare>
-                    <h3 class="panel-title">我的相册</h3>
-                  </#if>
-                  <#if !compare>
-                    <h3 class="panel-title"><#if user.user.sex == 1>他</#if><#if user.user.sex == 0>她</#if>的相册</h3>    
-                  </#if>                                          
-                </div>
-                <div class="panel-body">
-                    <div ng-repeat="photo in photos"> 
-                     <div ><img alt="" src="{{photo}}" width="100%"></div>
-                    </div>
-                   
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">最近访客</h3>
-                </div>
-                <div class="panel-body">
-                <#if viewUsers ??>
-                <#list  viewUsers as user>
-                 
-                    <div><a <#if user.role==4>href="/student/${user.visitorId}"</#if>>${user.viewUser} </a> </div>
-                   </#list>
-                   </#if>
-                </div>
-            </div>
-        </div>
-
-     <div class="col-sm-8">
-      <#if compare>
-        <div style="margin-bottom: 50px">
-		<form id="note_form" action="/student/addNote" method="post" enctype="multipart/form-data">  
-			  
-			  <textarea id="note" class="form-control" name="content" id="content" rows="3"></textarea>
-			
-	          <div class="pull-right"><button type="button" class="btn btn-default btn-sm note-tool-comment">
-                 <span class="glyphicon glyphicon-picture" aria-hidden="true"></span> </button>
-                 <input type="button"  class="btn btn-success btn-sm " value="发布" onclick="subNoteData()"></div>
-                  <div class="note-comments" style="margin-top: 30px">
-                        <div class="commnet-input">
-                           <input name="file" type="file" class="filestyle" data-buttonName="btn-success" data-buttonText="选择图片"/> 
-			               <input name="file"  type="file" class="filestyle" data-buttonName="btn-success" data-buttonText="选择图片"/> 
-                        </div>
-                  </div>
-                  <span  id="notemessage" class="hide" style="color:red">请填写说说内容</span>
-		</form> 
-		</div>
-      </#if>              
-         <#list notes as note>
-            <div class="panel panel-note">
-                <div class="panel-body">
-                    <div class="note-user"></div>
-                     <div class="note-note">
-                       ${note.content}
-                    </div>
-                 
-                    <#if (note.noteImage?size>0)>
-                    <div class="row">
-                    <#list note.noteImage as item>
-                    <div class="note-image col-md-6">
-                     <img src="${item.path}" width="100%">
-                    </div> 
-                    </#list>
-                    </div>
-                    </#if> 
-                    <div class="note-time"> ${note.createTime}</div>
-                </div>
-              
-                <div class="panel-footer">
-                    <div class="note-tool">
-                        <a  class="note-tool-comment"  style="cursor:pointer"><span id="getComments${note.id}" onclick="getComments(${note.id})">评论&nbsp;<span id="commentCount${note.id}"><#if note.noteComments?? && note.noteComments?size==0><#else>${note.noteComments?size}</#if></span></span></a>
-                        <a  class="note-tool-like" style="cursor:pointer"onclick="likeThisNote(${note.id})"><span><i id="agree${note.id}" <#if note.praiseOrNot>style='color:#ff5800'</#if> class="fa fa-thumbs-o-up"></i><span id="count${note.id}" <#if  note.praiseOrNot>style='color:#ff5800'</#if>>${note.likeCount}</span></span></a>
-                       <#if compare> 
-                        <a  class="note-tool-delete" style="cursor:pointer" onclick="topThisNote(${note.id})" ><span><#if note.top == 0>置顶</#if><#if note.top == 1>取消置顶</#if></span></a>
-                        <a href="/student/delete/${note.id}" class="note-tool-delete" style="cursor:pointer"><span>删除</span></a>
-                       </#if> 
-                    </div>
-                    <div class="note-comments">
-                        <div id="sub-notecomment" class="commnet-input">
-                           <div class="commnet-input">
-	                            <form action="" method="POST" id="comment_form${note.id}" >
-		                            <input type="text" name="content" id="comment${note.id}" class="form-control"><span id="message${note.id}" class="hide" style="color:red">请填写评论</span>
-		                            <input type="hidden" name="noteId" value="${note.id}">
-		                            <input type="hidden" name="createUserId" value="${currentId}">
-		                            <input type="hidden" name="userId" value="${note.userId}">
-	                            </form>
-                                <button class=" btn btn-success btn-sm " onclick="subCommentData(${note.id},${note.noteComments?size})">发布</button>
-                           </div>
-                        </div>
-                        <ul class="comment-list">
-                        <#if note.noteComments??>
-                         <#list note.noteComments as comment>
-                            <li class="comment">
-                                <div class="comment-head"><#if comment.commentAvatar??><img src="${comment.commentAvatar}"><#else><img src="/res/student/images/student_1.jpg"></#if></div>
-                                <div class="comment-body">
-                                  <#if comment.replyUserId == comment.createUserId>
-                                     <span class="comment-user"><a <#if comment.createRole == 4> href="/student/${comment.createUserId}"</#if>>${comment.createName}：</a></span>
-                                  </#if>
-                                  <#if comment.replyUserId != comment.createUserId>
-                                     <span class="comment-user"><a <#if comment.replyRole == 4> href="/student/${comment.replyUserId}"</#if>>${comment.replyUserName}：</a></span><font color="#ff5800">回复</font>
-                                     <span class="comment-text"><a <#if comment.createRole == 4> href="/student/${comment.createUserId}"</#if>>${comment.createName}：</a></span>
-                                  </#if>
-                                  <span class="comment-text">${comment.content}</span>
-                                </div>
-                                <div class="comment-foot">
-                                    <span class="comment-tim e">${comment.createTime}</span>
-                                    <div class="comment-tool">
-                                      <#if currentId != (comment.replyUserId+"")>
-                                        <a class="comment_reply" style="cursor:pointer;">回复</a>
-                                      </#if>  
-                                    </div>
-                                    
-                                    <div id="reply_comm${comment.id}" class="commnet-input" style="display:none;">
-			                            <form action="" method="POST" id="reply_form${comment.id}" >
-				                            <input type="text" placeholder="回复${comment.replyUserName}" name="content" id="reply${comment.id}" class="form-control"><span id="mess${comment.id}" class="hide" style="color:red">请填写回复</span>
-				                            <input type="hidden" name="noteId" value="${note.id}">
-				                            <input type="hidden" name="createUserId" value="${comment.replyUserId}">
-				                            <input type="hidden" name="userId" value="${note.userId}">
-			                            </form>
-                                        <button class=" btn btn-success btn-sm " onclick="ReplyData(${comment.id},${note.noteComments?size},${note.id})">发送</button>
-                                    </div>
-                                </div>
-                             </li>
-                        
-                            </#list>
-                            </#if>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-         </#list>
-        </div>
     </div>
-     <form id="signForm" action="/student/updateSign" method="post">
-      <input type="hidden" name="id" value="${user.user.id}"/>
-      <div class="modal" id="mymodal">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">
-						<span aria-hidden="true">×</span><span class="sr-only">Close</span>
-					</button>
-					<h4 class="modal-title" id="title">更改签名</h4>
-				</div>
-				<div class="modal-body">
-					<input class="form-control" aria-describedby="sizing-addon1" placeholder="新签名" type="text" name="sign"/>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-					<button type="button" class="btn btn-primary" id="updateSign">确定</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	</form>
-	
-	<form id="avatarForm" action="/student/updateAvatar" method="post" enctype="multipart/form-data"> 
-	 <input type="hidden" name="id" value="${user.user.id}"/>
-     <div class="modal" id="mymodal2">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">
-						<span aria-hidden="true">×</span><span class="sr-only">Close</span>
-					</button>
-					<h4 class="modal-title" id="title">更改头像</h4>
-				</div>
-				<div class="modal-body">
-				   <input aria-describedby="sizing-addon1" name="stuavatar" type="file" class="filestyle" data-buttonName="btn-success" data-buttonText="选择图片"/>
-					<!-- <input aria-describedby="sizing-addon1" placeholder="新头像" type="file" name="stuavatar"/> --> 
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-					<button type="button" class="btn btn-primary" id="updateAvatar">确定</button>
-				</div>
-			</div>
-		</div>
-	</div>
-    </form>
-</div>
-
-<@common.footer />
-
-
-<@common.js />
-    
-  
-
-<script src="/lib/angular/1.4.8/angular.min.js"></script>
-<script src="/res/student/student.js"></script>
-<script src="/res/student/index.js"></script>
-<script src="/lib/angular/1.4.8/angular-route.min.js"></script>
-<script src="/lib/angular-ui-bootstrap/0.14.3/ui-bootstrap-tpls.min.js"></script>
-<script src="/res/student/index/index.js"></script>
-<script type="text/javascript" src="/lib/bootstrap/3.3.5/js/bootstrap-filestyle.min.js"></script>
-<script type="text/javascript">
-
-function subNoteData(){
-    if($("#note").val()!=""){
-		$("#note_form").submit();
-    }
-    else{
-        $("#notemessage").removeClass("hide");
-        return;
-    }  
-}
 
 
 
-function editsign(sign){
-	$("#mymodal").modal("show");
-	$('#updateSign').click(function(){
-		$('#signForm').submit();
-		$("#mymodal").modal("hide");
-	});
-}
-function editavatar(userId,curr){
-	if(userId == curr){
-	   $("#mymodal2").modal("show");
-	   $('#updateAvatar').click(function(){
-	       $('#avatarForm').submit();
-	   });
-	}
-}
+    <div class="container" >
+        <div class="row">
+            <div class="col-sm-4">
 
-</script>
-</body>
-</html>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="student-stats">
+                            <a href="#"><span>访问</span><span>${viewCount}</span></a>
+                            <a href="#"><span><i class="fa fa-thumbs-o-up"></i></span><span>{{likeCount}}</span></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <#if compare>
+                        <h3 class="panel-title">我的活动</h3>
+                      </#if>
+                      <#if !compare>
+                         <h3 class="panel-title"><#if user.user.sex == 1>他</#if><#if user.user.sex == 0>她</#if>的活动</h3>
+                      </#if>
+                    </div>
+                    <div class="panel-body">
+                        <div>xxx</div>
+                        <div>xxx</div>
+                        <div>xxx</div>
+                        <div>xxx</div>
+                    </div>
+                </div> -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <#if compare>
+                            <h3 class="panel-title">最近图片</h3>
+                        </#if>
+                        <#if !compare>
+                            <h3 class="panel-title"><#if user.user.sex == 1>他</#if><#if user.user.sex == 0>她</#if>的相册</h3>
+                        </#if>
+                    </div>
+                    <div class="panel-body">
+                        <div ng-repeat="photo in photos">
+                            <div><a href="#"><img alt="" src="{{photo}}" width="100%"></a></div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">最近访客</h3>
+                    </div>
+                    <div class="panel-body">
+                        <#if viewUsers ??>
+                            <#list  viewUsers as user>
+
+                                <div><a <#if user.role==4>href="/student/${user.visitorId}"</#if>>${user.viewUser} </a> </div>
+                            </#list>
+                        </#if>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-8">
+                <#if compare>
+                    <div style="margin-bottom: 50px">
+                        <form id="note_form"  enctype="multipart/form-data">
+
+                            <textarea id="note" class="form-control" name="content" id="content_" rows="3"></textarea>
+
+                            <div class="pull-right"><button type="button" class="btn btn-default btn-sm note-tool-comment">
+                                <span class="glyphicon glyphicon-picture" aria-hidden="true"></span> </button>
+                                <input type="button"  class="btn btn-success btn-sm " value="发布" onclick="subNoteData()"></div>
+                            <div class="note-comments" style="margin-top: 30px">
+                                <div class="commnet-input">
+                                    <input name="file" type="file" class="filestyle" data-buttonName="btn-success" data-buttonText="选择图片"/>
+                                    <input name="file"  type="file" class="filestyle" data-buttonName="btn-success" data-buttonText="选择图片"/>
+                                </div>
+                            </div>
+                            <span  id="notemessage" class="hide" style="color:red">请填写说说内容</span>
+                        </form>
+                    </div>
+                </#if>
+                <div id="con_note">
+                    <#list notes as note>
+                        <div class="panel panel-note">
+                            <div class="panel-body">
+                                <div class="note-user"></div>
+                                <div class="note-note">
+                                    ${note.content}
+                                </div>
+
+                                <#if (note.noteImage?size>0)>
+                                    <div class="row">
+                                        <#list note.noteImage as item>
+                                            <div class="note-image col-md-6">
+                                                <img src="${item.path}" width="100%">
+                                            </div>
+                                        </#list>
+                                    </div>
+                                </#if>
+                                <div class="note-time"> ${note.createTime}</div>
+                            </div>
+
+                            <div class="panel-footer">
+                                <div class="note-tool">
+                                    <a  class="note-tool-comment"  style="cursor:pointer"><span id="getComments${note.id}" onclick="getComments(${note.id})">评论&nbsp;<span id="commentCount${note.id}"><#if note.noteComments?? && note.noteComments?size==0><#else>${note.noteComments?size}</#if></span></span></a>
+                                    <a  class="note-tool-like" style="cursor:pointer"onclick="likeThisNote(${note.id})"><span><i id="agree${note.id}" <#if note.praiseOrNot>style='color:#ff5800'</#if> class="fa fa-thumbs-o-up"></i><span id="count${note.id}" <#if  note.praiseOrNot>style='color:#ff5800'</#if>>${note.likeCount}</span></span></a>
+                                    <#if compare>
+                                        <a  class="note-tool-delete" style="cursor:pointer" onclick="topThisNote(${note.id})" ><span><#if note.top == 0>置顶</#if><#if note.top == 1>取消置顶</#if></span></a>
+                                        <a href="/student/delete/${note.id}" class="note-tool-delete" style="cursor:pointer"><span>删除</span></a>
+                                    </#if>
+                                </div>
+                                <div class="note-comments">
+                                    <div id="sub-notecomment" class="commnet-input">
+                                        <div class="commnet-input">
+                                            <form action="" method="POST" id="comment_form${note.id}" >
+                                                <input type="text" name="content" id="comment${note.id}" class="form-control"><span id="message${note.id}" class="hide" style="color:red">请填写评论</span>
+                                                <input type="hidden" name="noteId" value="${note.id}">
+                                                <input type="hidden" name="createUserId" value="${currentId}">
+                                                <input type="hidden" name="userId" value="${note.userId}">
+                                            </form>
+                                            <button class="btn btn-success btn-sm " onclick="subCommentData(${note.id})">发布</button>
+                                        </div>
+                                    </div>
+                                    <ul class="comment-list">
+                                        <#if note.noteComments??>
+                                            <#list note.noteComments as comment>
+                                                <li class="comment">
+                                                    <div class="comment-head"><#if comment.commentAvatar??><img src="${comment.commentAvatar}"><#else><img src="/res/student/images/student_1.jpg"></#if></div>
+                                                    <div class="comment-body">
+                                                        <#if comment.replyUserId == comment.createUserId>
+                                                            <span class="comment-user"><a <#if comment.createRole == 4> href="/student/${comment.createUserId}"</#if>>${comment.createName}：</a></span>
+                                                        </#if>
+                                                        <#if comment.replyUserId != comment.createUserId>
+                                                            <span class="comment-user"><a <#if comment.replyRole == 4> href="/student/${comment.replyUserId}"</#if>>${comment.replyUserName}：</a></span><font color="#ff5800">回复</font>
+                                                            <span class="comment-text"><a <#if comment.createRole == 4> href="/student/${comment.createUserId}"</#if>>${comment.createName}：</a></span>
+                                                        </#if>
+                                                        <span class="comment-text">${comment.content}</span>
+                                                    </div>
+                                                    <div class="comment-foot">
+                                                        <span class="comment-tim e">${comment.createTime}</span>
+                                                        <div class="comment-tool">
+                                                            <#if currentId != (comment.replyUserId+"")>
+                                                                <a class="comment_reply" style="cursor:pointer;">回复</a>
+                                                            </#if>
+                                                        </div>
+                                                        <div class="comment-tool">
+                                                            <a id="del_${comment.id}" class="comment_reply hide" style="cursor:pointer;">删除</a>
+                                                        </div>
+                                                        <div id="reply_comm${comment.id}" class="commnet-input" style="display:none;">
+                                                            <form action="" method="POST" id="reply_form${comment.id}" >
+                                                                <input type="text" placeholder="回复${comment.replyUserName}" name="content" id="reply${comment.id}" class="form-control"><span id="mess${comment.id}" class="hide" style="color:red">请填写回复</span>
+                                                                <input type="hidden" name="noteId" value="${note.id}">
+                                                                <input type="hidden" name="createUserId" value="${comment.replyUserId}">
+                                                                <input type="hidden" name="userId" value="${note.userId}">
+                                                            </form>
+                                                            <button class=" btn btn-success btn-sm " onclick="ReplyData(${comment.id},${note.id})">发送</button>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </#list>
+                                        </#if>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </#list>
+                </div>
+            </div>
+        </div>
+        <form id="signForm" action="/student/updateSign" method="post">
+            <input type="hidden" name="id" value="${user.user.id}"/>
+            <div class="modal" id="mymodal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">
+                                <span aria-hidden="true">×</span><span class="sr-only">Close</span>
+                            </button>
+                            <h4 class="modal-title" id="title">更改签名</h4>
+                        </div>
+                        <div class="modal-body">
+                            <input class="form-control" aria-describedby="sizing-addon1" placeholder="新签名" type="text" name="sign"/>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary" id="updateSign">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <form id="avatarForm" action="/student/updateAvatar" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="${user.user.id}"/>
+            <div class="modal" id="mymodal2">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">
+                                <span aria-hidden="true">×</span><span class="sr-only">Close</span>
+                            </button>
+                            <h4 class="modal-title" id="title">更改头像</h4>
+                        </div>
+                        <div class="modal-body">
+                            <input aria-describedby="sizing-addon1" name="stuavatar" type="file" class="filestyle" data-buttonName="btn-success" data-buttonText="选择图片"/>
+                            <!-- <input aria-describedby="sizing-addon1" placeholder="新头像" type="file" name="stuavatar"/> -->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary" id="updateAvatar">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <@common.footer />
+
+
+    <@common.js />
+
+
+
+    <script src="/lib/angular/1.4.8/angular.min.js"></script>
+    <script src="/res/student/student.js"></script>
+    <script src="/res/student/index.js"></script>
+    <script src="/lib/angular/1.4.8/angular-route.min.js"></script>
+    <script src="/lib/angular-ui-bootstrap/0.14.3/ui-bootstrap-tpls.min.js"></script>
+    <script src="/res/student/index/index.js"></script>
+    <script type="text/javascript" src="/lib/bootstrap/3.3.5/js/bootstrap-filestyle.min.js"></script>
+    <script type="text/javascript">
+        function subNoteData(){
+            if($("#note").val()!=""){
+                var formData = new FormData($("#note_form")[0]);
+                $.ajax({
+                    type:'POST',
+                    url:'/student/addNote',
+                    data: formData,
+                    async: false,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success:function(res){
+                        //记录图片
+                        var img = '';
+                        if(res.result.image != null){
+                            for(var i = 0; i<res.result.image.length ; i++){
+                                img += '<div class="note-image col-md-6"><img src='+res.result.image[i].path+' width="100%"></div>';
+                            }
+                        }
+                        $("#content_").val(''); //清空说说的内容
+                        $("#con_note").prepend('<div class="panel panel-note"><div class="panel-body"><div class="note-user"></div><div class="note-note">'+res.result.note.content+'</div><div class="row">'+img+'</div><div class="note-time">刚刚</div></div><div class="panel-footer"><div class="note-tool"><a  class="note-tool-comment"  style="cursor:pointer"><span>评论&nbsp;<span id="commentCount'+res.result.note.id+'"></span></span></a><a class="note-tool-like" style="cursor:pointer"onclick="likeThisNote('+res.result.note.id+')"><span><i id="agree'+res.result.note.id+'" class="fa fa-thumbs-o-up"></i><span id="count'+res.result.note.id+'">0</span></span></a><a class="note-tool-delete" style="cursor:pointer" onclick="topThisNote('+res.result.note.id+')"><span>置顶</span></a><a href="/student/delete/'+res.result.note.id+'" class="note-tool-delete" style="cursor:pointer"><span>删除</span></a></div><div class="note-comments"><div id="sub-notecomment" class="commnet-input"><div class="commnet-input"><form action="" method="POST" id="comment_form'+res.result.note.id+'"><input type="text" name="content" id="comment'+res.result.note.id+'" class="form-control"><span id="message'+res.result.note.id+'" class="hide" style="color:red">请填写评论</span><input type="hidden" name="noteId" value="'+res.result.note.id+'"><input type="hidden" name="createUserId" value="'+${currentId}+'"><input type="hidden" name="userId" value="'+res.result.note.userId+'"></form><button class="btn btn-success btn-sm " onclick="subCommentData('+res.result.note.id+')">发布</button></div></div><ul class="comment-list"><li class="comment"></li></ul></div></div></div>');
+                        $(document).ready(function(){
+                            $(".note-tool-comment").each(function() {
+                                $(this).on('click', function() {
+                                    var p = $(this).parent().next();
+                                    p.toggle();
+                                });
+                            });
+                        });
+                    }
+                });
+            }
+            else{
+                $("#notemessage").removeClass("hide");
+                return;
+            }
+        }
+
+
+
+        function editsign(sign){
+            $("#mymodal").modal("show");
+            $('#updateSign').click(function(){
+                $('#signForm').submit();
+                $("#mymodal").modal("hide");
+            });
+        }
+        function editavatar(userId,curr){
+            if(userId == curr){
+                $("#mymodal2").modal("show");
+                $('#updateAvatar').click(function(){
+                    $('#avatarForm').submit();
+                });
+            }
+        }
+
+    </script>
+    </body>
+    </html>

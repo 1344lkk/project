@@ -34,5 +34,7 @@ public interface LessonMapper {
 	public void updateLessonPlan(LessonPlan lessonPlan);
 	
 	public void deleteLessonPlan(@Param("lessonId") int lessonId,@Param("stageId") int stageId);
+
+	public Lesson getLessonByClassId(int classId);
 	
 }

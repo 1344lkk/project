@@ -270,13 +270,15 @@ public class StudentIndexController {
 		return str;
 	}
 
-	
+
+	@ResponseBody
 	@RequestMapping(value = "/addNote", method = RequestMethod.POST)
-	public String addNote(HttpServletRequest request, @RequestParam(value="file", required=false) MultipartFile[] files,
-			@ModelAttribute Note note) throws IllegalStateException, IOException {
+	public ErrorMessage addNote(HttpServletRequest request, @RequestParam(value="file", required=false) MultipartFile[] files,
+								@ModelAttribute Note note) throws IllegalStateException, IOException {
+		ErrorMessage message = new ErrorMessage();
 		int studentId = GrantedUser.getCurrent().getId();
 		try {
-			
+
 			ArrayList<Object> paths = new ArrayList<Object>();
 			if (files.length > 0) {
 				for (int i = 0; i < files.length; i++) {
@@ -309,11 +311,18 @@ public class StudentIndexController {
 			note.setPhotos("");
 			note.setCreateTime(timer);
 			noteService.insertNoteAndImage(note,paths);
-			
+			List images = noteService.getNoteImageByNodeId(note.getId());
+			Map map = new HashMap();
+			map.put("note", note);
+			map.put("image",images);
+			message.setResult(map);
+			message.setCode(1);
 		} catch (Exception e) {
+			message.setCode(-1);
 			logger.error(e.getMessage());
 		}
-		return "redirect:/student/"+studentId;
+		return message;
+		//"redirect:/student/"+studentId;
 	}
 	
 	@RequestMapping(value = "/{userId}/work", method = RequestMethod.GET)

@@ -43,8 +43,13 @@
     						$scope.tasks = response;
     						
     					});
-    	 
+			   $http.get("/farm/events/lesson/"+id).success(
+				   function(response) {
 
+
+					   $scope.lesson = response;
+
+				   });
     	    };
     	   
        })

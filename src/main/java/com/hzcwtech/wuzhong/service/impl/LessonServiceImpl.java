@@ -125,5 +125,8 @@ public class LessonServiceImpl implements LessonService {
 		
 	}
 
+	public Lesson getLessonByClassId(int classId){
+		return  lessonMapper.getLessonByClassId(classId);
 
+	}
 }

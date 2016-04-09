@@ -53,6 +53,11 @@
                 
                 <!-- <li><a href="/index/test">帮助</a></li> -->
             </ul>
+            <#if grantedUser??>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/student/${grantedUser.id}">我的主页</a></li>
+                </ul>
+            </#if>
         </div><!--/.nav-collapse -->
     </div>
 </nav>

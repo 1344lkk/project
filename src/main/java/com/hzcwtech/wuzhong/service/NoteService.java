@@ -1,6 +1,7 @@
 package com.hzcwtech.wuzhong.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.hzcwtech.wuzhong.model.Note;
 import com.hzcwtech.wuzhong.model.Praise;
@@ -12,6 +13,8 @@ public interface NoteService  extends NoteMapper{
 
 	void insertPraise(int noteId, int userId);
 
-	
+	List getNoteImageByNodeId(Integer id);
+
+
 
 }
