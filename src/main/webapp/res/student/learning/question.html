@@ -32,8 +32,8 @@
 	</div>
 	<div class="panel panel-default" ng-if="question.type==3">
 		<div class="panel-heading">试题名称：{{question.name}}<span class="pull-right "><div ng-switch="question.type" style="display: inline;"><span ng-switch-when="1">单选</span><span ng-switch-when="2">多选</span><span ng-switch-when="3">简答</span></div>/<div ng-switch="question.required" style="display: inline;"><span ng-switch-when="true">必做</span><span ng-switch-when="false">选做</span></div>（{{question.points}}分）</span></div>
-		<div class="panel-body" >
-		你的答案:<textarea rows="" cols=""  ng-model="formData.question[question.id]"></textarea>
+		<div class="panel-body" class="col-md-12">
+		你的答案:<textarea  rows="6" class="col-md-12" ng-model="formData.question[question.id]"></textarea>
 		
 		</div>
 	</div>
