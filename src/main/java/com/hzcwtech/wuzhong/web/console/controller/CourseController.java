@@ -129,4 +129,21 @@ public class CourseController {
 		}
 		return "redirect:" + VIEW_LIST;
 	}
+	@RequestMapping(value = "/search" ,method = RequestMethod.GET)
+	public String search(@RequestParam(value="grade",required=false ,defaultValue="0" ) int grade,
+						 @RequestParam(value="q", required=false) String q,
+						 @RequestParam(value="state", required=false) Integer state,
+						 Model model) {
+
+		Pager pager = new Pager(Integer.valueOf(grade), 20);
+		Course course = new Course();
+		List<Course> courses = courseService.searchCourseListBySort(grade, state, q);
+
+		model.addAttribute("courses", courses);
+		model.addAttribute("state", state);
+		model.addAttribute("pager", pager);
+		model.addAttribute("q", q);
+
+		return VIEW_LIST;
+	}
 }

@@ -38,6 +38,8 @@ public interface CourseMapper {
 	/* Course */
 	
 	public List<Course> searchCourseList(@Param("pager") Pager pager, @Param("state") Integer state, @Param("q") String q);
+
+	public List<Course> searchCourseListBySort(@Param("grade") int grade, @Param("state") Integer state, @Param("q") String q);
 	
 	public List<Course> getCourseListByCategory(@Param("categoryId") Integer categoryId);
 	

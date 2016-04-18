@@ -3,6 +3,7 @@ package com.hzcwtech.wuzhong.service.impl;
 import java.sql.Timestamp;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -72,6 +73,13 @@ public class CourseServiceImpl implements CourseService {
 		if (q != null && q.isEmpty()) q = null;
 		if (q != null) q = "%" + q + "%";
 		return courseMapper.searchCourseList(pager, state, q);
+	}
+
+	@Override
+	public List<Course> searchCourseListBySort(@Param("grade") int grade, @Param("state") Integer state, @Param("q") String q) {
+
+		if (q != null) q = "%" + q + "%";
+		return courseMapper.searchCourseListBySort(grade, state, q);
 	}
 
 	@Override
