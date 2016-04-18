@@ -16,8 +16,17 @@
 		<img src="{{photo.image}}" width=100% >
 		</div>
 		</div>
-			</div>
+		</div>
 	</div>
+		<div class="panel panel-default" ng-if="work!=null">
+			<div class="panel-heading">教师评语</div>
+			<div class="panel-body" >
+				<div class="row" style="color: red;">
+					{{work.remark}}
+				</div>
+			</div>
+		</div>
+
 	</div>
    <div>
   

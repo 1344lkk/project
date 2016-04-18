@@ -354,6 +354,7 @@ public class StudentIndexController {
 		model.addAttribute("compare",ifMastor);
 		model.addAttribute("user", student);
 		model.addAttribute("works", works);
+		model.addAttribute("currentId",studentId);
 		return "student/work";
 	}
 	@ResponseBody  

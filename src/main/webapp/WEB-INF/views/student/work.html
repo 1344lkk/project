@@ -102,19 +102,19 @@
                                     <span class="comment-user" ><a  <#if comment.role==4> href="/student/${comment.createUserId}/work"</#if> >${comment.createUserName}</a></span>&nbsp :
                                     </#if>
                                     <span class="comment-text" >${comment.content}</span>
-                                    
+
                                     
                                 </div>
                                 <div>
                                 	<span class="comment-time">${comment.createTime}</span>&nbsp&nbsp&nbsp&nbsp&nbsp
-                                	
+
                                 	<a  class="note-tool-comment" style="cursor:pointer"><span>回复</span></a>&nbsp&nbsp&nbsp&nbsp&nbsp
-                                	
+
                                 </div>
                                      <div class="note-comments">
 		                                    <div class="commnet-input">
 		                                    	<form action="/student/work/replyComment/${user.userId}"id="workCommet${comment.id!''}"  method="POST"">
-						                            <input type="text" name="content" id="comment${comment.id!''}" class="form-control"><span id="message${comment.id!''}" class="hide">请填写评论</span>
+						                            <input type="text" name="content" id="comment${comment.id!''}" class="form-control"><span id="message${comment.id!''}" class="hide" style="color: red;">请填写评论</span>
 						                            <input type="hidden" name="workId" value="${work.id}">
 						                            <input type="hidden" name="createUserId" value="${comment.replyUserId!''}">
 						                            <input type="hidden" name="replayId" value="${comment.id!''}">

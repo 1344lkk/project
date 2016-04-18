@@ -161,7 +161,7 @@
 
                             <div class="panel-footer">
                                 <div class="note-tool">
-                                    <a  class="note-tool-comment"  style="cursor:pointer"><span id="getComments${note.id}" onclick="getComments(${note.id})">评论&nbsp;<span id="commentCount${note.id}"><#if note.noteComments?? && note.noteComments?size==0><#else>${note.noteComments?size}</#if></span></span></a>
+                                    <a  class="note-tool-comment"  style="cursor:pointer"><span id="getComments${note.id}">评论&nbsp;<span id="commentCount${note.id}"><#if note.noteComments?? && note.noteComments?size==0><#else>${note.noteComments?size}</#if></span></span></a>
                                     <a  class="note-tool-like" style="cursor:pointer"onclick="likeThisNote(${note.id})"><span><i id="agree${note.id}" <#if note.praiseOrNot>style='color:#ff5800'</#if> class="fa fa-thumbs-o-up"></i><span id="count${note.id}" <#if  note.praiseOrNot>style='color:#ff5800'</#if>>${note.likeCount}</span></span></a>
                                     <#if compare>
                                         <a  class="note-tool-delete" style="cursor:pointer" onclick="topThisNote(${note.id})" ><span><#if note.top == 0>置顶</#if><#if note.top == 1>取消置顶</#if></span></a>
@@ -310,14 +310,6 @@
                         }
                         $("#content_").val(''); //清空说说的内容
                         $("#con_note").prepend('<div class="panel panel-note"><div class="panel-body"><div class="note-user"></div><div class="note-note">'+res.result.note.content+'</div><div class="row">'+img+'</div><div class="note-time">刚刚</div></div><div class="panel-footer"><div class="note-tool"><a  class="note-tool-comment"  style="cursor:pointer"><span>评论&nbsp;<span id="commentCount'+res.result.note.id+'"></span></span></a><a class="note-tool-like" style="cursor:pointer"onclick="likeThisNote('+res.result.note.id+')"><span><i id="agree'+res.result.note.id+'" class="fa fa-thumbs-o-up"></i><span id="count'+res.result.note.id+'">0</span></span></a><a class="note-tool-delete" style="cursor:pointer" onclick="topThisNote('+res.result.note.id+')"><span>置顶</span></a><a href="/student/delete/'+res.result.note.id+'" class="note-tool-delete" style="cursor:pointer"><span>删除</span></a></div><div class="note-comments"><div id="sub-notecomment" class="commnet-input"><div class="commnet-input"><form action="" method="POST" id="comment_form'+res.result.note.id+'"><input type="text" name="content" id="comment'+res.result.note.id+'" class="form-control"><span id="message'+res.result.note.id+'" class="hide" style="color:red">请填写评论</span><input type="hidden" name="noteId" value="'+res.result.note.id+'"><input type="hidden" name="createUserId" value="'+${currentId}+'"><input type="hidden" name="userId" value="'+res.result.note.userId+'"></form><button class="btn btn-success btn-sm " onclick="subCommentData('+res.result.note.id+')">发布</button></div></div><ul class="comment-list"><li class="comment"></li></ul></div></div></div>');
-                        $(document).ready(function(){
-                            $(".note-tool-comment").each(function() {
-                                $(this).on('click', function() {
-                                    var p = $(this).parent().next();
-                                    p.toggle();
-                                });
-                            });
-                        });
                     }
                 });
             }

@@ -16,13 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.hzcwtech.mybatis.Pager;
 import com.hzcwtech.wuzhong.model.Clazz;
@@ -240,10 +234,11 @@ public class LessonController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/paper/grade/{studentId}/{taskId}/{score}")
-	public ErrorMessage gradeWork(Model model,@PathVariable("studentId") Integer studentId,@PathVariable("score") int score,@PathVariable("taskId") int taskId) {
+	public ErrorMessage gradeWork(Model model,@PathVariable("studentId") Integer studentId,@PathVariable("score") int score,@PathVariable("taskId") int taskId,@RequestParam("remark") String remark) {
 		ErrorMessage message = new ErrorMessage();
 		try {
 			Work work = workService.getWorkListByStudentIdAndTaskId(studentId,taskId);
+			work.setRemark(remark);
 			work.setPoints(score);
 			workService.updateWork(work);
 			message.setCode(1);

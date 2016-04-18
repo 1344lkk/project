@@ -31,6 +31,12 @@ public class Work {
 	private String  workstage;
 	
 	private String lessonName;
+
+	private String remark; //评语
+
+	public void setRemark(String remark){this.remark = remark;}
+
+	public String getRemark(){return remark;}
 	
 	public String getLessonName() {
 		return lessonName;
