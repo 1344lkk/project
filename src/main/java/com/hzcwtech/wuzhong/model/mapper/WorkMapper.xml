@@ -45,7 +45,7 @@
 	
 	<update id="updateWork" parameterType="Work">
 		UPDATE work SET 
-		 state = #{state}, viewCount = #{viewCount},likeCount = #{likeCount},noteCount =  #{noteCount},points=#{points}
+		 state = #{state}, viewCount = #{viewCount},likeCount = #{likeCount},noteCount =  #{noteCount},points=#{points},remark=#{remark}
 		WHERE id = #{id}
 	</update>
 	

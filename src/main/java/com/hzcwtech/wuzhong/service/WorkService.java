@@ -19,6 +19,7 @@ public interface WorkService extends WorkMapper {
 
 	public int anserWorkPaper(Work work, JSONObject answer);
 
+	void updateWork(Work work);
 	
 
 	

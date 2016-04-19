@@ -83,7 +83,7 @@ function likeThisNoteclass(id){
 		}});
 }
 
-function subCommentData(id,size){
+function subCommentData(id){
 	if($("#comment"+id).val()!=""){
 		$.ajax({
 			type:'POST',

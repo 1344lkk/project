@@ -36,10 +36,16 @@
 					});
     	}
     	$scope.subGrade= function() {
-     	  
-     		$http.post("/console/lesson/paper/grade/"+$rootScope.studentId+"/"+$scope.taskId+"/"+$scope.score).success(
+			$scope.formData = {'remark':$scope.remark};
+     		$http({
+				    url:"/console/lesson/paper/grade/"+$rootScope.studentId+"/"+$scope.taskId+"/"+$scope.score,
+				    data:$.param($scope.formData),
+				    headers : { 'Content-Type': 'application/x-www-form-urlencoded' },
+				    method:'post'
+			        }).success(
  					function(response) {
  						$scope.score = "";
+						$scope.remark = "";
  						$http.get("/student/getStudentWork/"+$rootScope.studentId+"/"+$scope.taskId ).success(
  								function(response) {
  									$scope.work = response;
@@ -67,6 +73,7 @@
 						$rootScope.questions = response;
 						
 					});
+
     		
      	}
     	
@@ -101,6 +108,7 @@
 						$rootScope.students = response.result;
 						
 					});
+
 
         };
         

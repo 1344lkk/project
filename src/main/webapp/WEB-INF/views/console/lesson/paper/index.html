@@ -43,7 +43,7 @@ width:100%;
           
         </div>
     </div>
-    
+
     <div class="row">
     
      <div class="col-md-2">
@@ -87,7 +87,6 @@ width:100%;
         </uib-tab>
         <div ng-if="task.id!= null&&studentId!=null&&stageId!=1"><button class="pull-right  btn btn-success btn-sm" onclick="gradePaper()">评分</button><span class="pull-right  btn btn-danger btn-sm" ng-if="work.points!=null">最终评分<span id="totalScore">{{work.points}}</span></span></div>
     </uib-tabset>
-     
     </div>
     </div>
     <div class="modal fade" id="ResultModal" tabindex="-1" role="dialog"
@@ -102,8 +101,13 @@ width:100%;
 					<h4 class="modal-title" id="myModalLabel">温馨提示</h4>
 				</div>
 				<div class="modal-body">
-				<input type="text" name="score" id="score" style="width: 100%" ng-model="score">
+                <span>评分</span>
+				<input type="text" name="score" id="score" style="width:100%" ng-model="score">
 				</div>
+                <div class="modal-body">
+                    <span>评语</span>
+                    <textarea name="remark" id="remark" rows="5" cols="60%" ng-model="remark"></textarea>
+                </div>
 				<div class="modal-footer">
 				
 					<button type="button" id="cancel" class="btn btn-default"
