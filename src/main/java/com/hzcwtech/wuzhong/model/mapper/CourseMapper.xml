@@ -94,7 +94,7 @@
 		WHERE (1=1)
 		<if test="state != null"> AND state = #{state}</if>
 		<if test="grade != 0"> AND c.grade = #{grade}</if>
-		<if test="q != null and grade == 0"> AND (c.name LIKE #{q} ) </if>
+		<if test="q != null "> AND (c.name LIKE #{q} ) </if>
 	</select>
 
    <select id="getCourseTaskList" resultMap="CourseTask">
