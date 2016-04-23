@@ -124,4 +124,9 @@
         WHERE w.learningId = t.learningId AND w.id = wp.workId ORDER BY w.likeCount  DESC,wp.createTime DESC LIMIT 0,21
 	
 	</select>
+	<select id="getWorkByStudentId" parameterType="int" resultMap="Work">
+		SELECT w.*,t.stageId AS taskStageId
+        FROM USER u,learning lg,lesson l,course c,task t,WORK w
+        WHERE u.id = #{studentId} AND u.id = lg.studentId AND lg.lessonId = l.id AND l.courseId = c.id AND c.id = t.courseId AND t.id = w.taskId
+	</select>
 </mapper>

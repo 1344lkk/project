@@ -18,7 +18,7 @@
 
 <@console.sidebar active="lesson"/>
 
-<div class="main">
+<div class="main" ng-app="myApp" ng-controller="WorkCtrl">
 	<div class="main-head clearfix">
         <ol class="breadcrumb float-left">
             <li><i class="fa fa-cubes"></i> 授课管理</li>
@@ -48,7 +48,7 @@
 		<#list lessons as lesson>
 		<tr>
 			<td>${lesson.id}</td>
-			<td>${lesson.course.name}</td>
+			<td><a href=""  ng-click="showWorkDetail(${lesson.id},${lesson.courseId})" title="点击查看学生作业情况">${lesson.course.name}</a></td>
 			<td>${lesson.name}</td>
 			<td>${lesson.note}</td>
 			<td>
@@ -74,7 +74,36 @@
 		</#if>
 	</tbody>
 	</table>
+
+	<table id="des" class="table table-hover table-bordered" style="display: none;">
+		<caption>该课程学生作业情况</caption>
+		<thead>
+			<tr>
+				<th width="10%">姓名</th>
+				<th width="18%">前导学习</th>
+				<th width="18%">感知体验</th>
+				<th width="18%">观察反思</th>
+				<th width="18%">抽象概念</th>
+				<th width="18%">积极实验</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="item in students">
+				<td>{{item.studentName}}</td>
+				<td ng-repeat="c in item.courseTasks">
+					<span ng-repeat="task in c">{{task.name}}:
+						<i ng-if="task.workId==null" class="glyphicon glyphicon-remove" style="color:red;">未完成</i>
+					    <i ng-if="task.workId!=null && task.workpoint==null" class="glyphicon glyphicon-ok" style="color:#0099CC;">已完成</i>
+						<!--<i ng-if="task.workId!=null && task.workpoint==null && task.stageId=1" class="glyphicon glyphicon-ok" style="color:green;">已完成</i>-->
+						<i ng-if="task.workId!=null && task.workpoint!=null" class="glyphicon glyphicon-ok" style="color:green;">已评分</i><br/>
+					</span>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
 </div>
+
 
 <@console.js />
     <div class="modal" id="mymodal">
@@ -96,6 +125,11 @@
 			</div>
 		</div>
 	</div>
+
+    <script src="/lib/angular/1.4.8/angular.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="/lib/ue/ueditor.config.js"></script>
+	<script type="text/javascript" charset="utf-8" src="/lib/ue/ueditor.all.min.js"> </script>
+	<script src="/lib/ui-tree/angular-ueditor.js"></script>
 	<script type="text/javascript" src="../../lib/bootstrap/3.3.5/js/bootstrap-filestyle.min.js"></script> 
 	<script type="text/javascript">
 		function lessondel(lessonId){
@@ -105,6 +139,20 @@
 				window.location.href = "/console/lesson/delete/"+lessonId;
 			});
 		}
+		(function (){
+			var app = angular.module('myApp',[]);
+			app.controller("WorkCtrl",function($scope,$http){
+				$scope.showWorkDetail = function(lessonId,courseId){
+					$http.get("/console/workdetail/studentWork/"+lessonId+"/"+courseId).success(
+							function(response){
+								$scope.students = response;
+							});
+					//$("#workDetail").modal("show");
+					$("#des").show("500");
+				}
+			});
+
+		})();
 	</script>
 
 </body>

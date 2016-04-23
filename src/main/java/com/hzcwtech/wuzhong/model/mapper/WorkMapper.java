@@ -45,6 +45,8 @@ public interface WorkMapper {
     public List<ExcellentWork> getIndexRecentWorkList();
     
     public List<ExcellentWork> getIndexExcellentWorkList(@Param("classId")Integer classId);
+
+	public List<Work> getWorkByStudentId(@Param("studentId") Integer studentId);
 	
 	/*-------作业评论--------*/
 	

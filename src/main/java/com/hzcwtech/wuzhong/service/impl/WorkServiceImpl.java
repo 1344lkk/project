@@ -348,5 +348,8 @@ public class WorkServiceImpl implements WorkService {
 		return workMapper.getLessonName(taskId);
 	}
 
-	
+	@Override
+	public List<Work> getWorkByStudentId(Integer stuId) {
+		return workMapper.getWorkByStudentId(stuId);
+	}
 }
