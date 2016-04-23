@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzcwtech.wuzhong.model.mapper.WorkDetailMapper">
+    <!--开启WorkDetailMapper的二级缓存-->
+    <cache readOnly="true"/>
+    <resultMap id="workDetail" type="WorkDetail" autoMapping="true">
+        <id column="id" property="id"></id>
+    </resultMap>
+    <resultMap id="taskDetail" type="TaskDetail" autoMapping="true">
+        <id column="id" property="id"></id>
+    </resultMap>
+    <resultMap id="CourseTask" type="CourseTask" autoMapping="true">
+        <id property="id" column="id"></id>
+    </resultMap>
+
+    <select id="getStudentByLessonId" parameterType="int" resultMap="workDetail" useCache="false">
+        SELECT u.truename AS studentName,u.id AS studentId,lg.id AS learningId
+        FROM lesson l,USER u,student s,learning lg
+        WHERE l.id = #{lessonId} AND l.classId = s.classId AND u.id = s.userId AND lg.studentId = s.userId
+    </select>
+
+<!--    <select id="getTaskByLessonId" resultMap="taskDetail">
+        SELECT t.name AS taskName,t.stageId AS stageId,t.id AS  taskId
+        FROM task t,course c,lesson l
+        WHERE l.id = #{lessonId} AND t.stageId = #{stageId} AND t.courseId = c.id AND c.id = l.courseId
+    </select>-->
+
+    <select id="getTaskAndWorkByCourseId" parameterType="int" resultMap="CourseTask" useCache="true">
+        SELECT t.name AS name,w.id AS workId,w.points AS workpoint,t.stageId AS stageId
+        FROM (SELECT * FROM task WHERE stageId=#{stageId} AND courseId = #{courseId}) AS t
+        LEFT JOIN WORK  w ON  w.taskId = t.id AND w.learningId = #{learningId}
+    </select>
+</mapper>
