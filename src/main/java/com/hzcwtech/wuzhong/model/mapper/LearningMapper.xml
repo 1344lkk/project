@@ -40,7 +40,10 @@
 		   lessonId=#{lessonId},  stageId=#{ stageId}, studentId=#{studentId}
 		WHERE id = #{id}
 	</update>
-	
+
+	<select id="getLearingIdByStudentId" parameterType="int" resultMap="Learning">
+		select * from learning where studentId=#{studentId}
+	</select>
 	
 	
 </mapper>

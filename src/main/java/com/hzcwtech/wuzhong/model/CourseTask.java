@@ -1,8 +1,9 @@
 package com.hzcwtech.wuzhong.model;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class CourseTask {
+public class CourseTask implements Serializable{
 
 	private Integer id;
 	
@@ -25,6 +26,26 @@ public class CourseTask {
 	private User createUser;
 	
 	private Timestamp createTime;
+
+	private Integer  workId;
+
+	private Integer workpoint;
+
+	public void setWorkpoint(Integer workpoint) {
+		this.workpoint = workpoint;
+	}
+
+	public Integer getWorkpoint() {
+		return workpoint;
+	}
+
+	public void setWorkId(Integer workId) {
+		this.workId = workId;
+	}
+
+	public Integer getWorkId() {
+		return workId;
+	}
 
 	public Integer getId() {
 		return id;

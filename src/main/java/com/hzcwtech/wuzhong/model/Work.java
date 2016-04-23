@@ -34,6 +34,16 @@ public class Work {
 
 	private String remark; //评语
 
+	private Integer taskStageId;
+
+	public void setTaskStageId(Integer taskStageId) {
+		this.taskStageId = taskStageId;
+	}
+
+	public Integer getTaskStageId() {
+		return taskStageId;
+	}
+
 	public void setRemark(String remark){this.remark = remark;}
 
 	public String getRemark(){return remark;}

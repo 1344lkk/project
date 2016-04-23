@@ -43,4 +43,8 @@ public class LearningServiceImpl implements LearningService {
 		
 	}
 
+	@Override
+	public Learning getLearingIdByStudentId(int studentId) {
+		return learningMapper.getLearingByStudentId(studentId);
+	}
 }

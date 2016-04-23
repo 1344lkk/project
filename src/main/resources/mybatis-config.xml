@@ -36,7 +36,8 @@
 		<typeAlias type="com.hzcwtech.wuzhong.model.PageView" alias="PageView" />
 		<typeAlias type="com.hzcwtech.wuzhong.model.ExcellentWork" alias="ExcellentWork"/>
 		<typeAlias type="com.hzcwtech.wuzhong.model.Report" alias="Report"/>
-		
+		<typeAlias type="com.hzcwtech.wuzhong.model.WorkDetail" alias="WorkDetail"/>
+		<typeAlias type="com.hzcwtech.wuzhong.model.TaskDetail" alias="TaskDetail"/>
 	</typeAliases>
 
 
