@@ -10,6 +10,8 @@ import java.util.List;
 
 import javax.servlet.ServletOutputStream;
 
+import com.hzcwtech.wuzhong.model.*;
+import com.hzcwtech.wuzhong.model.mapper.LearningMapper;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -27,9 +29,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hzcwtech.mybatis.Pager;
-import com.hzcwtech.wuzhong.model.PageView;
-import com.hzcwtech.wuzhong.model.Student;
-import com.hzcwtech.wuzhong.model.User;
 import com.hzcwtech.wuzhong.model.mapper.StudentMapper;
 import com.hzcwtech.wuzhong.model.mapper.UserMapper;
 import com.hzcwtech.wuzhong.service.StudentService;
@@ -43,6 +42,8 @@ public class StudentServiceImpl implements StudentService {
 	private StudentMapper studentMapper;
 	@Autowired
 	private UserMapper userMapper;
+	@Autowired
+	private LearningMapper learningMapper;
 
 	@Override
 	public List<Student> getStudents() {
@@ -281,9 +282,18 @@ public class StudentServiceImpl implements StudentService {
 		user.setPassword(sha1Password);
 		user.setClearPassword(randomPassword);
 		userMapper.insertUser(user);
+		Learning learning=learningMapper.getLearningByClassId(classId);
+		if(learning !=null){
+			Learning lInsert=new Learning();
+			lInsert.setLessonId(learning.getLessonId());
+			lInsert.setStageId(learning.getStageId());
+			lInsert.setStudentId(user.getId());
+			learningMapper.insertLearning(lInsert);
+		}
 		Student student = new  Student();
 		student.setClassId(classId);
 		student.setUserId(user.getId());
+
 		studentMapper.insertStudent(student);
 		
 	}

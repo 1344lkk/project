@@ -7,6 +7,8 @@ import com.hzcwtech.wuzhong.model.Learning;
 public interface LearningMapper {
 	
 	public Learning getLearingByStudentId(@Param("studentId") int studentId);
+
+	public Learning getLearningByClassId(@Param("classId") int classId);
 	
 	public void insertLearning(Learning learning);
 	

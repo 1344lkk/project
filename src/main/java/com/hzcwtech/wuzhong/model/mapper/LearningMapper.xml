@@ -21,7 +21,15 @@
 		 WHERE studentId = #{studentId}  AND l.lessonId= le.id
 	   
 	</select>
-	
+
+	<select id="getLearningByClassId" resultMap="Learning">
+		SELECT learning.*,le.courseId AS lesson_courseId,
+		 le.name AS lesson_name,
+		 le.startTime AS lesson_startTime,
+		 le.endTime AS lesson_endTime,
+		 le.note AS lesson_note FROM learning ,lesson le WHERE learning.lessonId=le.id AND le.classId=#{classId} LIMIT 0,1
+	</select>
+
 	<insert id="insertLearning" parameterType="Learning" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO learning (lessonId, stageId, id, studentId) 
 		VALUES( #{lessonId}, #{stageId}, #{id}, #{studentId})

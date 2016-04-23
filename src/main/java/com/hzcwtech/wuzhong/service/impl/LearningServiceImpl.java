@@ -1,5 +1,6 @@
 package com.hzcwtech.wuzhong.service.impl;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,11 @@ public class LearningServiceImpl implements LearningService {
 	@Override
 	public Learning getLearingByStudentId(int studentId) {
 		return learningMapper.getLearingByStudentId(studentId);
+	}
+
+	@Override
+	public Learning getLearningByClassId(@Param("classId") int classId) {
+		return learningMapper.getLearningByClassId(classId);
 	}
 
 	@Override
