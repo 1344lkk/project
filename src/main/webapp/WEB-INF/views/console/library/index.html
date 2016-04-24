@@ -57,7 +57,8 @@ width: 100%;
           'glyphicon-chevron-right': collapsed,
           'glyphicon-chevron-down': !collapsed
         }"></span></a>
-    <a href='#/knowledgeSet/{{node.id}}' data-nodrag >{{node.title}}</a>
+    <a href='#/knowledgeSet/{{node.id}}' ng-if="node.id != 0" data-nodrag >{{node.title}}</a>
+      <a href='#' data-nodrag  ng-if="node.id == 0">{{node.title}}</a>
     <a class="pull-right btn btn-danger btn-xs" data-nodrag ng-if="node.id != 0" ng-click="removeNodes(this)"><span
         class="glyphicon glyphicon-remove"></span></a>
     <a class="pull-right btn btn-primary btn-xs" data-nodrag ng-click="newSubItem(this)" style="margin-right: 8px;"><span
