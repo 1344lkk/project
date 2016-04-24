@@ -65,9 +65,9 @@
 			<td>${lesson.createTime}</td>
 			<td>
 			    <a href="/console/lesson/paper/${lesson.id}">阅卷</a> /
-				<a href="/console/lesson/update/${lesson.id}">修改</a> /
-				<a href="#" onclick="lessondel(${lesson.id})">删除</a> /
-				<a href="/console/lesson/plan/list/${lesson.id}">计划</a>
+				<a href="/console/lesson/update/${lesson.id}">修改</a><#if lesson.state != true> /
+				<a href="#" onclick="lessondel(${lesson.id})">删除</a> </#if>
+				<!--/<a href="/console/lesson/plan/list/${lesson.id}">计划</a>-->
 			</td>
 		</tr>
 		</#list>
