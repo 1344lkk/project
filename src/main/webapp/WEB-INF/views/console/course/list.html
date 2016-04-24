@@ -93,8 +93,9 @@
 				<#else>
 				<a href="/console/course/state/${item.id}/0">禁用</a> /
 				</#if>
-				<a href="/console/course/update/${item.id}">修改</a> /
+				<a href="/console/course/update/${item.id}">修改</a><#if item.state != 1> /
 				<a href="#" onclick="clickDel(${item.id})">删除</a>
+			</#if>
 			</td>
 		</tr>
 		</#list>
@@ -142,16 +143,6 @@
 
 		var grade =	$("#grade").val();
 		var q = $("#q").val();
-//		$.ajax({
-//			type: "get",
-//			data: "",
-//			url: "/console/course/search?" + "grade=" + grade + "&" + "q=" + q,
-//			success: function (result) {
-//				if (result != null) {
-//
-//				}
-//			}
-//		})
 		location.href="/console/course/search?" + "grade=" + grade + "&" + "q=" + q;
 	}
 
