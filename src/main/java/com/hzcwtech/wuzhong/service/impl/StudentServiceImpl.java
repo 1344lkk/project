@@ -160,6 +160,7 @@ public class StudentServiceImpl implements StudentService {
 
 	@Override
 	public void exportStudentListToExcel(String className,List<Student> students, ServletOutputStream outputStream) {
+		String sex=null;
 		XSSFWorkbook wb = new XSSFWorkbook();
 		XSSFSheet sheet = wb.createSheet(className);
 		ExportUtil exportUtil = new ExportUtil(wb, sheet);
@@ -197,7 +198,13 @@ public class StudentServiceImpl implements StudentService {
 						cell.setCellValue(student.getUser().getTruename());
 						break;
 					case 3:
-						cell.setCellValue(student.getUser().getSex());
+						if(student.getUser().getSex()==0){
+							sex="男";
+						}
+						if(student.getUser().getSex()==1){
+							sex="女";
+						}
+						cell.setCellValue(sex);
 						break;
 					case 4:
 						cell.setCellValue(new Date());
