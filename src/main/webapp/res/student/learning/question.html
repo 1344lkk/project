@@ -1,5 +1,8 @@
 <div ng-controller="QuestionCtrl" ng-if="questions != null">
-   <span ng-if="score">考试已得分数{{score}}</span>
+   <span ng-if="score">考试已得分数{{score}}
+   <span ng-if="score>=60">已经通过考试</span>
+   <span ng-if="score<60">未通过考试,请重新考试</span>
+   </span>
  
 	<form id="answer_form"  method="POST" ng-if="!score||(score<60&&stageId==1)">
 	
