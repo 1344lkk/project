@@ -208,23 +208,29 @@ public class StudentController {
 	}
 
 	@RequestMapping(value = "/create/{classId}", method = RequestMethod.GET)
-	public String create(@ModelAttribute("student") Student student, @PathVariable("classId") Integer classId) {
+	public String create(Model model,@ModelAttribute("student") Student student, @PathVariable("classId") Integer classId,@RequestParam(required = false) String erro) {
+
+//		if(erro!=null){
+//			model.addAttribute("erro","用户名重复");
+//		}
 		student.setClassId(classId);
 		return CREATE_VIEW;
 	}
 
 	@RequestMapping(value = "/create/{classId}", method = RequestMethod.POST)
-	public String create(Model model, @ModelAttribute("user") User user,@PathVariable("classId") int classId) {
+	public String create(Model model,  @Valid @ModelAttribute("student") Student student,@PathVariable("classId") int classId,Errors errors) {
 		
 		try {
-			user.setCreateUserId(GrantedUser.getCurrent().getId());
+
+			student.getUser().setCreateUserId(GrantedUser.getCurrent().getId());
 			Date date  = new Date();
 			Timestamp timer = new Timestamp(date.getTime());
-			user.setCreateTime(timer);
-			studentService.addStudent(user,classId);
+			student.getUser().setCreateTime(timer);
+			studentService.addStudent(student.getUser(),classId);
 		} catch (Exception e) {
-			
-			e.printStackTrace();
+			errors.rejectValue("user.username", "username.duplicate", "用户名重复");
+			return CREATE_VIEW;
+
 		}
 
 		return "redirect:" + LIST_VIEW+"/"+classId;

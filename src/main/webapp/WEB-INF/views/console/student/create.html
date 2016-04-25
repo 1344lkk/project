@@ -28,7 +28,7 @@
             <#if student.userId ??>
             <li class="active">修改学生</li>
             <#else>
-            <li class="active">新建学生</li>
+            <li class="active">新建学生${erro!''}</li>
             </#if>
         </ol>
     </div>
@@ -40,7 +40,7 @@
 		<div class="form-group">
 		    <label for="name" class="col-sm-2 control-label">用户名</label>
 		    <div class="col-sm-10">
-		        <input id="username" name="username" value="${(student.user.username)!}" placeholder="必填" type="text" class="form-control main-form-input" required>
+		        <input id="username" name="user.username" value="${(student.user.username)!}" placeholder="必填" type="text" class="form-control main-form-input" required>
 		        <#if student??><@spring.bind "student.user.username" /><@spring.showErrors /></#if>
 		    </div>
 		</div>
@@ -57,21 +57,21 @@
 		<div class="form-group">
 		    <label for="code" class="col-sm-2 control-label">真实姓名</label>
 		    <div class="col-sm-10">
-		        <input id="truename" name="truename" value="${(student.user.truename)!}" placeholder="必填" type="text" class="form-control main-form-input" required autofocus >
+		        <input id="truename" name="user.truename" value="${(student.user.truename)!}" placeholder="必填" type="text" class="form-control main-form-input" required autofocus >
 		        <#if student??><@spring.bind "student.user.truename" /><@spring.showErrors /></#if>
 		    </div>
 		</div>
 		<div class="form-group">
 		    <label for="code" class="col-sm-2 control-label">昵称</label>
 		    <div class="col-sm-10">
-		        <input id="nickname" name="nickname" value="${(student.user.nickname)!}" placeholder="必填" type="text" class="form-control main-form-input" required autofocus >
+		        <input id="nickname" name="user.nickname" value="${(student.user.nickname)!}" placeholder="必填" type="text" class="form-control main-form-input" required autofocus >
 		        <#if student??><@spring.bind "student.user.nickname" /><@spring.showErrors /></#if>
 		    </div>
 		</div>
 		<div class="form-group">
 		    <label for="code" class="col-sm-2 control-label">性别</label>
 		    <div class="col-sm-10">
-                          		  <select class="form-control main-form-input" id="sex" name="sex" required>
+                          		  <select class="form-control main-form-input" id="sex" name="user.sex" required>
                           		  <#if student.user.sex ??>
                           		  <#if student.user.sex != 0>
              							<option value="1"  selected="selected">女</option>
@@ -91,7 +91,7 @@
 		<div class="form-group">
 		    <label for="code" class="col-sm-2 control-label">生日</label>
 		    <div class="col-sm-10">
-		        <input id="birthday" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" name="birthday" value="${(student.user.birthday)!}" placeholder="必填" type="text" class="form-control main-form-input " required autofocus >
+		        <input id="birthday" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" name="user.birthday" value="${(student.user.birthday)!}" placeholder="必填" type="text" class="form-control main-form-input " required autofocus >
 		        <#if student??><@spring.bind "student.user.birthday" /><@spring.showErrors /></#if>
 		    </div>
 		</div>
