@@ -107,7 +107,7 @@
 					<#else>
 					<td>男</td>
 					</#if>
-			<td>${item.user.birthday!''}</td>
+			<td>${item.user.birthday?substring(0,10)!''}</td>
 			<#if className ??>
 			<#else>
 			<td>${item.clazz.name!''}</td>			
