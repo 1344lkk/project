@@ -93,9 +93,11 @@
 				<#else>
 				<a href="/console/course/state/${item.id}/0">禁用</a> /
 				</#if>
-				<a href="/console/course/update/${item.id}">修改</a><#if item.state != 1> /
+				<a href="/console/course/update/${item.id}">修改</a>
+				<#if !item.open>
+					/
 				<a href="#" onclick="clickDel(${item.id})">删除</a>
-			</#if>
+				</#if>
 			</td>
 		</tr>
 		</#list>

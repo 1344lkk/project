@@ -37,7 +37,9 @@ public class Course {
 	private String note;
 	
 	private Integer createUserId;
-	
+
+	private  Boolean open;
+
 	private User createUser;
 	
 	private Timestamp createTime;
@@ -134,6 +136,13 @@ public class Course {
 	public void setCreateTime(Timestamp createTime) {
 		this.createTime = createTime;
 	}
-	
-	
+
+	public Boolean getOpen() {
+
+		return open;
+	}
+
+	public void setOpen(Boolean open) {
+		this.open = open;
+	}
 }

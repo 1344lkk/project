@@ -69,12 +69,12 @@
 	</select>
 	
 	<select id="searchCourseList" resultMap="Course">
-		SELECT 
-			c.id, c.categoryId, c.state, c.version, c.grade, c.name, c.note, c.createUserId, c.createTime,
-			u.id as creator_id,
-			u.username as creator_username,
-			u.truename as creator_truename,
-			u.nickname as creator_nickname
+		SELECT
+		c.id, if(c.id IN (select courseId from lesson), true,false)as open,c.categoryId, c.state, c.version, c.grade, c.name, c.note, c.createUserId, c.createTime,
+		u.id as creator_id,
+		u.username as creator_username,
+		u.truename as creator_truename,
+		u.nickname as creator_nickname
 		FROM course c
 		INNER JOIN user u ON c.createUserId = u.id
 		WHERE (1=1)
