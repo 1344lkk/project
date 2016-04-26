@@ -84,7 +84,7 @@
 
 	<select id="searchCourseListBySort" resultMap="Course">
 		SELECT
-		c.id, c.categoryId, c.state, c.version, c.grade, c.name, c.note, c.createUserId, c.createTime,
+		c.id, c.categoryId, c.state, if(c.id IN (select courseId from lesson), true,false)as open, c.version, c.grade, c.name, c.note, c.createUserId, c.createTime,
 		u.id as creator_id,
 		u.username as creator_username,
 		u.truename as creator_truename,
