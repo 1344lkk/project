@@ -82,7 +82,7 @@
             <div class="col-sm-10">
                 <select class="form-control main-form-input" id="role" name="role">
                 <#list roles as role>
-                  
+
                     <option value="${role.id}"  <#if user.role??><#if role.id == user.role>selected</#if></#if>>${role.name}</option>
                     
                   </#list> 
