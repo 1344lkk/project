@@ -1,0 +1,25 @@
+<!DOCTYPE html><#import "/lib/common.html" as common>
+    <html lang="en-US">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>提示页面</title>
+        <@common.css />
+        <link rel="stylesheet" type="text/css" href="/res/common/error.css">
+    </head>
+    <body>
+    <div id="wrapper">
+        <div id="main">
+            <header id="header">
+                <h1><span class="sub">Server Busy</span></h1>
+            </header>
+            <div id="content">
+                <h2>服务器繁忙，请稍后访问</h2>
+                <p style="font-size: 14px;">当您看到这个页面,表示当前服务器繁忙,您需要稍后再进行访问</p>
+                <div class="utilities">
+                    <a class="btn btn-primary" href="" onclick="history.go(-1);return true;">返回</a>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </html>
