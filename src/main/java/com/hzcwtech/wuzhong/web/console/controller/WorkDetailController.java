@@ -29,7 +29,6 @@ public class WorkDetailController {
     @Autowired
     private LearningService learningService;
 
-
     @ResponseBody
     @RequestMapping("/studentWork/{lessonId}/{courseId}")
     public List<WorkDetail> getStudentWork(Model model, @PathVariable("lessonId") Integer lessonId,@PathVariable("courseId")Integer courseId){
