@@ -57,14 +57,14 @@ public class CustomHandlerInterceptor extends HandlerInterceptorAdapter {
 			ModelAndView modelAndView) throws Exception {
 		
 		if (modelAndView != null) {
-			InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("ipConfig.properties");
-			Properties p = new Properties();
-			try{
-				p.load(inputStream);
-				modelAndView.addObject("ip",p.getProperty("ip"));
-			} catch (IOException e1){
-				e1.printStackTrace();
-			}
+//			InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("ipConfig.properties");
+//			Properties p = new Properties();
+//			try{
+//				//p.load(inputStream);
+//				//modelAndView.addObject("ip",p.getProperty("ip"));
+//			} catch (IOException e1){
+//				e1.printStackTrace();
+//			}
 
 			GrantedUser user = GrantedUser.getCurrent();
 			if (user != null) {
