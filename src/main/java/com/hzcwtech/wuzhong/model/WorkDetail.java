@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/4/19.
  */
-public class WorkDetail{
+public class WorkDetail implements Serializable{
     private Integer id;
     private Integer learningId;
     private Integer studentId;   //学生的id

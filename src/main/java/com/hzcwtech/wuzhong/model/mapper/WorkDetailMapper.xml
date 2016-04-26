@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hzcwtech.wuzhong.model.mapper.WorkDetailMapper">
     <!--开启WorkDetailMapper的二级缓存-->
-    <cache readOnly="true"/>
+    <cache flushInterval="60000"/>
     <resultMap id="workDetail" type="WorkDetail" autoMapping="true">
         <id column="id" property="id"></id>
     </resultMap>
@@ -13,7 +13,7 @@
         <id property="id" column="id"></id>
     </resultMap>
 
-    <select id="getStudentByLessonId" parameterType="int" resultMap="workDetail" useCache="false">
+    <select id="getStudentByLessonId" parameterType="int" resultMap="workDetail" useCache="true">
         SELECT u.truename AS studentName,u.id AS studentId,lg.id AS learningId
         FROM lesson l,USER u,student s,learning lg
         WHERE l.id = #{lessonId} AND l.classId = s.classId AND u.id = s.userId AND lg.studentId = s.userId
