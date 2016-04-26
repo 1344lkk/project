@@ -48,7 +48,9 @@
 		<#list lessons as lesson>
 		<tr>
 			<td>${lesson.id}</td>
-			<td><a href=""  ng-click="showWorkDetail(${lesson.id},${lesson.courseId})" title="点击查看学生作业情况">${lesson.course.name}</a></td>
+			<td>
+				<a href="" ng-click="showWorkDetail(${lesson.id},${lesson.courseId})" title="点击查看学生作业情况">${lesson.course.name}</a>
+			</td>
 			<td>${lesson.name}</td>
 			<td>${lesson.note}</td>
 			<td>
@@ -93,9 +95,8 @@
 				<td ng-repeat="c in item.courseTasks">
 					<span ng-repeat="task in c">{{task.name}}:
 						<i ng-if="task.workId==null" class="glyphicon glyphicon-remove" style="color:red;">未完成</i>
-					    <i ng-if="task.workId!=null && task.workpoint==null" class="glyphicon glyphicon-ok" style="color:#0099CC;">已完成</i>
-						<!--<i ng-if="task.workId!=null && task.workpoint==null && task.stageId=1" class="glyphicon glyphicon-ok" style="color:green;">已完成</i>-->
-						<i ng-if="task.workId!=null && task.workpoint!=null" class="glyphicon glyphicon-ok" style="color:green;">已评分</i><br/>
+					    <span><i ng-show="task.stageId=1" ng-if="task.workId!=null && task.workpoint==null" class="glyphicon glyphicon-ok" style="color:#0099CC;">已完成 未阅卷</i></span>
+						<i ng-if="task.workId!=null && task.workpoint!=null" class="glyphicon glyphicon-ok" style="color:green;">已评分 已阅卷</i><br/>
 					</span>
 				</td>
 			</tr>

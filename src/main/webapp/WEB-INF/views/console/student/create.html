@@ -24,7 +24,7 @@
 <div class="main">
 	<div class="main-head clearfix">
         <ol class="breadcrumb float-left">
-            <li><i class="fa fa-cubes"></i> <a href="/console/student/list">学生管理</a></li>
+            <li><i class="fa fa-cubes"></i> <a href="/console/student/list/${student.classId}">学生管理</a></li>
             <#if student.userId ??>
             <li class="active">修改学生</li>
             <#else>
@@ -44,9 +44,9 @@
 		        <#if student??><@spring.bind "student.user.username" /><@spring.showErrors /></#if>
 		    </div>
 		</div>
-		<input type="hidden" value="${(student.user.id)!}" name="id" />
+		<input type="hidden" value="${(student.user.id)!}" name="user.id" />
 		
-		<input type="hidden" value="${(grantedUser.id)!}" name="createUserId" id="dd"/>
+		<input type="hidden" value="${(grantedUser.id)!}" name="user.createUserId" id="dd"/>
 		<!-- <div class="form-group">
 		    <label for="note" class="col-sm-2 control-label">登录密码</label>
 		    <div class="col-sm-10">

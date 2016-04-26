@@ -29,7 +29,7 @@
 <div class="main">
 	<div class="main-head clearfix">
         <ol class="breadcrumb float-left">
-            <li><i class="fa fa-cubes"></i> <a href="/console/clazz/list">班级管理</a></li>
+            <li><i class="fa fa-cubes"></i> <a href="/console/class/getlist/${(clazz.schoolId)}/${(clazz.schoolName)}">班级管理</a></li>
             <#if clazz.id ??>
             <li class="active">修改班级</li>
             <#else>
@@ -59,7 +59,16 @@
 		<div class="form-group">
 		    <label for="code" class="col-sm-2 control-label">年级</label>
 		    <div class="col-sm-10">
-		        <input id="grade" name="grade" value="${(clazz.grade)!}" placeholder="必填" type="text" class="form-control main-form-input checkInt" required autofocus>
+		        <!--<input id="grade" name="grade" value="${(clazz.grade)!}" placeholder="必填" type="text" class="form-control main-form-input checkInt" required autofocus>-->
+				<select name="grade" value="${(clazz.grade)!}" class="form-control" id="grade" style="width: 295px;float:left;margin-left:0px;margin-bottom:15px;">
+					<option value="0">请选择</option>
+					<option value="1">一年级</option>
+					<option value="2">二年级</option>
+					<option value="3">三年级</option>
+					<option value="4">四年级</option>
+					<option value="5">五年级</option>
+					<option value="6">六年级</option>
+				</select>
 		        <#if clazz??><@spring.bind "clazz.grade" /><@spring.showErrors /></#if>
 		    </div>
 		</div>
@@ -128,6 +137,11 @@ jQuery(function($) {
 	}, "请输入正确数字");
 });
 
+	$(function(){
+
+		$("#grade").val(${(clazz.grade)!''});
+
+	});
 	
 	function classSubmit(){
 		

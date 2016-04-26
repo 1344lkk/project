@@ -75,7 +75,9 @@ public class ACLUserController {
 			 user.setPassword(DigestUtils.sha1Hex(user.getPassword()));
 			 userService.insertUser(user);
 		} catch (Exception e) {
-			logger.info(e.getMessage());
+			model.addAttribute("roles", authService.getRoleList());
+			logger.warn("用户名 " + user.getUsername());
+			errors.rejectValue("username", "user.username.duplicate", "用户名已被使用");
 			return VIEW_CREATE;
 		}
 	
@@ -99,7 +101,9 @@ public class ACLUserController {
 			 user.setPassword(DigestUtils.sha1Hex(user.getPassword()));
 			userService.updateUser(user);
 		} catch (DuplicateKeyException e) {
-			logger.info(e.getMessage());
+			model.addAttribute("roles", authService.getRoleList());
+			logger.warn("用户名 " + user.getUsername());
+			errors.rejectValue("username", "user.username.duplicate", "用户名已被使用");
 			return VIEW_UPDATE;
 		}
 		return "redirect:" + VIEW_LIST;
