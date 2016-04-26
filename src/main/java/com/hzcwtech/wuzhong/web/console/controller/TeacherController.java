@@ -124,9 +124,8 @@ public class TeacherController {
 			teacherService.updateTeacher(teacher);
 			
 		} catch (Exception e) {
-			logger.warn("执行失败：" + e.getMessage());
-			model.addAttribute("errorMessage", "执行出错");
-			return UPDATE_VIEW;
+			errors.rejectValue("user.username", "username.duplicate", "用户名重复");
+			return CREATE_VIEW;
 		}
 		return "redirect:" + LIST_VIEW;
 		// return CREATE_VIEW;
@@ -158,10 +157,7 @@ public class TeacherController {
 			teacher.getUser().setPassword(DigestUtils.sha1Hex(teacher.getUser().getPassword()));
 			teacherService.insertTeacher(teacher);
 		} catch (Exception e) {
-			logger.warn("资源主键冲突 " + e.getMessage());
-			model.addAttribute("errorMessage", "执行出错");
-			// errors.rejectValue("code", "acl.resource.code.duplicate",
-			// "资源主键冲突");
+			errors.rejectValue("user.username", "username.duplicate", "用户名重复");
 			return CREATE_VIEW;
 		}
 

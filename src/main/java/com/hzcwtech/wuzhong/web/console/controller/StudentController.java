@@ -181,18 +181,18 @@ public class StudentController {
 	}
 
 	@RequestMapping(value = "/update/{userId}/{classId}", method = RequestMethod.POST)
-	public String update(Model model,@PathVariable("classId") Integer classId, @Valid @ModelAttribute("user") User user, Errors errors) {
+	public String update(Model model,@PathVariable("classId") Integer classId, @Valid @ModelAttribute("student") Student student, Errors errors) {
 		if (errors.hasErrors()) {
 			model.addAttribute("errorMessage", "数据不符合规格");
 			return UPDATE_VIEW;
 		}
 
 		try {
-			userService.updateUser(user);
+			student.getUser().setCreateUserId(GrantedUser.getCurrent().getId());
+			userService.updateUser(student.getUser());
 			
 		} catch (Exception e) {
-			logger.warn("执行失败：" + e.getMessage());
-			model.addAttribute("errorMessage", "执行出错");
+			errors.rejectValue("user.username", "username.duplicate", "用户名重复");
 			return UPDATE_VIEW;
 		}
 		return "redirect:" + LIST_VIEW+"/"+classId;
