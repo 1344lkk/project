@@ -55,7 +55,7 @@
             <#if (work.pthotos?size >0)>
             <div class="panel panel-note">
             	 <div class="panel-body" style="text-align:center" >
-                 <span  style= "color:#ff5800"  >${work.lessonName}&nbsp->&nbsp${work.workstage}&nbsp->&nbsp${work.workTaskName}</span>
+                 <span  style= "color:#ff5800">${work.lessonName!''}&nbsp->&nbsp${work.workstage!''}&nbsp->&nbsp${work.workTaskName!''}</span>
                  </div>
             	<#list work.pthotos as pthoto>
                 <div class="panel-body">
