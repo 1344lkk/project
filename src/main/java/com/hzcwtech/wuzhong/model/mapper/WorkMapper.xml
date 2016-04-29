@@ -129,4 +129,10 @@
         FROM USER u,learning lg,lesson l,course c,task t,WORK w
         WHERE u.id = #{studentId} AND u.id = lg.studentId AND lg.lessonId = l.id AND l.courseId = c.id AND c.id = t.courseId AND t.id = w.taskId
 	</select>
+
+	<select id="getCourseStageTaskByTaskId"  resultType="Work">
+		SELECT c.name AS lessonName,cs.name AS workstage,t.name AS workTaskName
+        FROM task t,course c,course_stage cs
+		WHERE t.courseId = c.id AND t.stageId = cs.id AND t.id = #{taskId}
+	</select>
 </mapper>

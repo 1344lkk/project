@@ -107,4 +107,7 @@ public interface WorkMapper {
 	/*-------------获取课程名称------------*/
 	@Select("select lesson.name From lesson,task,work where work.id=#{taskId} and work.taskId=task.id and task.courseId=lesson.courseId")
 	public String  getLessonName(int taskId);
+
+	/*-------获取当前学生成果的阶段，课程名，任务名------------*/
+	public Work getCourseStageTaskByTaskId(@Param("taskId") int taskId);
 }

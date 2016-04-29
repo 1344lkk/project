@@ -346,9 +346,10 @@ public class StudentIndexController {
 			work.setWorkComments(workComments);
 			work.setPthotos(workService.getImges(work.getId()));
 			work.setCount(workService.getCommentCount(work.getId()));
-			work.setWorkTaskName(workService.getWorkTaskName(work.getId()));
-			work.setWorkstage(workService.getWorkStage(work.getId()));
-			work.setLessonName(workService.getLessonName(work.getId()));
+			Work w = workService.getCourseStageTaskByTaskId(work.getTaskId());
+ 			work.setWorkTaskName(w.getWorkTaskName());
+			work.setWorkstage(w.getWorkstage());
+			work.setLessonName(w.getLessonName());
 		}
 		boolean ifMastor = compare(userId);
 		model.addAttribute("compare",ifMastor);
